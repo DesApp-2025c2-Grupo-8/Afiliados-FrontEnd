@@ -1,0 +1,139 @@
+.header {
+    background-color: red;
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.navegacion-principal {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.navegacion-principal .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 12px;
+    padding-left: 18px;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.navegacion-principal .nav-links li .link {
+    text-decoration: none;
+    color: black;
+}
+
+.navegacion-principal .nav-menus {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+
+.navegacion-principal .logo {
+    height: 50px;
+}
+
+.burger-menu-btn {
+    display: none;
+}
+
+/* @media (max-width: 1060px) {
+    .navegacion-principal .nav-links {
+        gap: 10px; 
+        padding-left: 10px;
+    }
+
+    .navegacion-principal .nav-links li .link {
+        font-size: 0.8rem; 
+    }
+} */
+
+.burger-menu{
+    /* display: none; */
+    width: 100%;
+    overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease-in-out;
+  background-color: #fff;
+
+    /* background-color: red; */
+}
+
+.burger-menu-btn{
+    background-color: #457B9D;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    transition: all 0.3s ease;
+    margin-right: 14px;
+}
+
+.burger-menu-btn:active{
+    background-color: #335f7a;
+}   
+
+.btn-icon{
+    padding: 10px 12px;
+    font-size: 20px;
+}
+
+
+
+.burger-menu .nav-links{
+    flex-direction: column;
+    align-items: flex-start;
+    /* gap: 10px;
+    padding: 20px 0px; */
+    padding: 18px 18px 0px 18px;
+    gap: 0px;
+}
+
+.burger-menu .nav-links li{
+    width: 100%; 
+    padding: 8px 0;
+    border-top: 1px solid grey;
+}
+
+.burger-menu .nav-links li .link{
+    width: 100%;
+    display: block;
+}
+
+.burger-menu .nav-links li:hover{
+    background-color: rgba(128, 128, 128, 0.349);
+}
+
+.burger-menu.show{
+    display: block;
+    max-height: 500px;
+}
+
+
+@media (max-width: 768px) {
+
+    .header .nav-menus{
+        display: none;
+    }
+
+
+    .burger-menu-btn {
+        display: block;
+    }
+
+    .navegacion-principal{
+        flex-wrap: wrap;
+    }
+
+}

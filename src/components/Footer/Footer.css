@@ -1,10 +1,12 @@
-.footer2{
-    background-color: #f1f1f1;
+.footer{
+    background-color: #ffffff;
     text-align: center;
-    position: fixed;
+    /* position: fixed;
     left: 0; 
-    bottom: 0;
+    bottom: 0; */
     width: 100%;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.226);
+
 }
 
 .container-top{
@@ -55,16 +57,15 @@
     align-items: flex-start;
 }
 
-
-p{
+.item-footer .contacto{
     margin: 10px 0px;
 }
 
-h5{
+.titulo-footer{
     margin: 10px 0px;
 }
 
-li{
+.item-footer{
     margin: 3px 0px;
     list-style: none;
 }
@@ -83,7 +84,7 @@ li{
         border-bottom: 1px solid gray;
         padding: 5px 0px;
     }
-    li{
+    .item-footer{
         margin: 0px;
     
     }
@@ -91,7 +92,7 @@ li{
     .div-links ul{
         align-items: center;
     }
-    p{
+    .item-footer .contacto{
         margin:0px
     }
     .div-contacto{
