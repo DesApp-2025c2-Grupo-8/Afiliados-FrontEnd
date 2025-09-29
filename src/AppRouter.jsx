@@ -6,6 +6,9 @@ import { grey } from "@mui/material/colors";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./Screens/Home/Home";
+import ConsultarRecetas from "./Screens/ConsultarRecetas/ConsultarRecetas";
+
+import NotFound from "./Screens/NotFound/NotFound";
 
 export function AppRouter() {
   return (
@@ -14,8 +17,11 @@ export function AppRouter() {
       <main className="main">
         <Routes>
           {/* <Route path='/'/> */}
-          <Route path='/' Component={Home}/>
+          <Route path='/' exact={true} Component={Home}/>
+          <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
           
+          {/* El de 404 debe siempre estar a lo último, si agregan páginas haganlo por encima de esta. */}
+          <Route path="/*" Component={NotFound}></Route>
         </Routes>
       </main>
       <Footer/>
