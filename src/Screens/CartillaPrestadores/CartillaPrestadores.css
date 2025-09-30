@@ -1,0 +1,19 @@
+.containerResultadosPrestadores{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background-color: red;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    gap: 1rem;
+    margin: 5rem;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .containerResultadosPrestadores {
+    margin: 1rem;
+    padding: 0.5rem;
+    justify-content: center;
+  }
+}

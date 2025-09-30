@@ -24,7 +24,7 @@ const RUTAS = [
         nombre: 'Reintegros'
     },
     {
-        ruta: '/WIP',
+        ruta: '/cartilla-prestadores',
         nombre: 'Cartilla prestadores'
     },
     {
