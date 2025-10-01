@@ -1,19 +1,20 @@
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './CardReceta.css'
 
 const CardReceta = ({receta}) => {
   return (
-    <Card className='shadow' border="info" style={{ width: '450px', maxWidth: '500px', margin: '1rem auto' }}>
-      <Card.Header style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+    <Card className='card-box'>
+      <Card.Header className='card-header'>
         Orden N° {receta.orden}
       </Card.Header>
       <Card.Body>
-        <Card.Title><strong>Integrante: </strong>{receta.integrante}</Card.Title>
-        <Card.Text><strong>Fecha de carga: </strong>{receta.fechaDeCarga}</Card.Text>
-        <Card.Text><strong>Medicamento: </strong>{receta.medicamento}</Card.Text>
-        <Card.Text><strong>Cantidad: </strong>{receta.cantidad}</Card.Text>
-        <Card.Text><strong>Presentación: </strong>{receta.presentacion}</Card.Text>
-        <Card.Text><strong>Observaciones: </strong>{receta.observaciones}</Card.Text>
+        <Card.Text className='card-texto'><strong>Integrante: </strong>{receta.integrante}</Card.Text>
+        <Card.Text className='card-texto'><strong>Fecha de carga: </strong>{receta.fechaDeCarga}</Card.Text>
+        <Card.Text className='card-texto'><strong>Medicamento: </strong>{receta.medicamento}</Card.Text>
+        <Card.Text className='card-texto'><strong>Cantidad: </strong>{receta.cantidad}</Card.Text>
+        <Card.Text className='card-texto'><strong>Presentación: </strong>{receta.presentacion}</Card.Text>
+        <Card.Text className='card-texto'><strong>Observaciones: </strong>{receta.observaciones}</Card.Text>
       </Card.Body>
     </Card>
   );
