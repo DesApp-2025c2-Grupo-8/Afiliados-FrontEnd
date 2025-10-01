@@ -16,7 +16,7 @@ const Login = () => {
       <div className="login-box">
         <h2>Iniciar Sesión</h2>
 
-        <form>
+        <form method="GET" action="/">
           <label htmlFor="tipoDoc">Tipo Documento</label>
           <select id="tipoDoc" name="tipoDoc">
             <option value="">Seleccione</option>
@@ -28,6 +28,7 @@ const Login = () => {
           <label htmlFor="nroDoc">Nro. Documento</label>
           <input
             type="number"
+            min="0"
             id="nroDoc"
             name="nroDoc"
             placeholder="99999999"
