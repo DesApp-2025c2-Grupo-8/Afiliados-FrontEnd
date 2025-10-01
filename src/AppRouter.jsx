@@ -7,7 +7,7 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./Screens/Home/Home";
 import Login from "./Screens/Login/Login"
-
+import FormRecetas from "./Screens/FormRecetas/FormRecetas";
 import ConsultarRecetas from "./Screens/ConsultarRecetas/ConsultarRecetas";
 import CartillaPrestadores from "./Screens/CartillaPrestadores/CartillaPrestadores"
 
@@ -22,6 +22,7 @@ export function AppRouter() {
           {/* <Route path='/'/> */}
           <Route path='/' exact={true} Component={Home}/>
           <Route path="/login" Component={Login}/>
+          <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
           <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
           
