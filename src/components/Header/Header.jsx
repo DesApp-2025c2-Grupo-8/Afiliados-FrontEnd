@@ -6,6 +6,37 @@ import { AiOutlineClose } from 'react-icons/ai';
 
 import logo from '@assets/images/Titulo-Logo.svg';
 
+const RUTAS = [
+    {
+        ruta: '/WIP',
+        nombre: 'Turnos'
+    },
+    {
+        ruta: '/consultar-recetas',
+        nombre: 'Recetas'
+    },
+    {
+        ruta: '/WIP',
+        nombre: 'Autorizaciones'
+    },
+    {
+        ruta: '/WIP',
+        nombre: 'Reintegros'
+    },
+    {
+        ruta: '/WIP',
+        nombre: 'Cartilla prestadores'
+    },
+    {
+        ruta: '/WIP',
+        nombre: 'Contacto'
+    },
+    {
+        ruta: '/WIP',
+        nombre: 'Perfil'
+    }
+];
+
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -32,13 +63,9 @@ const Header = () => {
                 </Link>
                 <div className='nav-menus'>
                     <ul className="nav-links nav-main">
-                        <li><Link to="/" className='link'>Turnos</Link></li>
-                        <li><Link to="/" className='link'>Recetas</Link></li>
-                        <li><Link to="/" className='link'>Autorizaciones</Link></li>
-                        <li><Link to="/" className='link'>Reintegros</Link></li>
-                        <li><Link to="/" className='link'>Cartilla prestadores</Link></li>
-                        <li><Link to="/" className='link'>Contacto</Link></li>
-                        <li><Link to="/" className='link'>Perfil</Link></li>
+                        {RUTAS.map( (unaRuta, idx) => (
+                            <li><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                        ) )}
                     </ul>
                 </div>
 
@@ -47,13 +74,9 @@ const Header = () => {
                 </button>
                 <div className={`burger-menu ${menuOpen ? "show" : ""}`}>
                     <ul className="nav-links">
-                        <li><Link to="/" className='link'>Turnos</Link></li>
-                        <li><Link to="/" className='link'>Recetas</Link></li>
-                        <li><Link to="/" className='link'>Autorizaciones</Link></li>
-                        <li><Link to="/" className='link'>Reintegros</Link></li>
-                        <li><Link to="/" className='link'>Cartilla prestadores</Link></li>
-                        <li><Link to="/" className='link'>Contacto</Link></li>
-                        <li><Link to="/" className='link'>Perfil</Link></li>
+                        {RUTAS.map( (unaRuta, idx) => (
+                            <li><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                        ) )}
                     </ul>
                 </div>
 
