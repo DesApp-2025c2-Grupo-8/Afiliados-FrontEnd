@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 // import Header from '../../components/Header/Header';
 // import Footer from '../../components/Footer/Footer';
 
 const Home = () => {
+    useEffect( () => {
+            document.title = 'Medicina Integral'
+        }, [])
+
     return (
         <>
             <h1 className='titulo-principal'>Estamos en la home!</h1>
