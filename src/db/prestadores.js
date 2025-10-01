@@ -12,7 +12,7 @@ const prestadores = [
       nombre: 'Juan Gomez',
       direccion: 'Dr. Jose Torchiari N 200',
       telefono: '011-1234-5678',
-      especialidad: 'Diabetologia',
+      especialidad: 'Diabetología',
       tipoDePrestador: 'Profesional'
    },
    {
@@ -20,7 +20,7 @@ const prestadores = [
       nombre: 'Sanatorio de La Trinidad',
       direccion: 'Cervinio 4200',
       telefono: '46900047',
-      especialidad: 'Cardiologia',
+      especialidad: 'Cardiología',
       tipoDePrestador: 'Centro Medico'
    },
    {
@@ -28,7 +28,7 @@ const prestadores = [
       nombre: 'Agustina Mendez',
       direccion: 'Avellaneda 3298',
       telefono: '1137904512',
-      especialidad: 'Cardiologia',
+      especialidad: 'Cardiología',
       tipoDePrestador: 'Profesional'
    }
 ]
