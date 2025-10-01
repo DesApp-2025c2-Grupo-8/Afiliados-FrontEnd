@@ -1,4 +1,7 @@
 .card-box {
+  overflow: hidden;
+  border: none;
+  border-radius: 12px;
   width: 450px;
   max-width: 500px; 
   margin: 1rem auto; 
