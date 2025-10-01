@@ -8,6 +8,10 @@ import Header from "./components/Header/Header";
 import Home from "./Screens/Home/Home";
 import Login from "./Screens/Login/Login"
 
+import ConsultarRecetas from "./Screens/ConsultarRecetas/ConsultarRecetas";
+
+import NotFound from "./Screens/NotFound/NotFound";
+
 export function AppRouter() {
   return (
     <>
@@ -15,9 +19,12 @@ export function AppRouter() {
       <main className="main">
         <Routes>
           {/* <Route path='/'/> */}
-          <Route path='/' Component={Home}/>
+          <Route path='/' exact={true} Component={Home}/>
           <Route path="/login" Component={Login}/>
+          <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
           
+          {/* El de 404 debe siempre estar a lo último, si agregan páginas haganlo por encima de esta. */}
+          <Route path="/*" Component={NotFound}></Route>
         </Routes>
       </main>
       <Footer/>
