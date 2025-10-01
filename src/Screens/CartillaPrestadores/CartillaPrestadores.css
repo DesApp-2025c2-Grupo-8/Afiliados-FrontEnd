@@ -3,7 +3,6 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
   gap: 1rem;
   margin: 5rem;
   padding: 1rem;
@@ -26,6 +25,7 @@
   background-image: url("@assets/images/fondoPrestadores.png");
   background-size: cover;
   background-position: center;
+  padding: 100px 0px;
 }
 
 @media (max-width: 768px) {
