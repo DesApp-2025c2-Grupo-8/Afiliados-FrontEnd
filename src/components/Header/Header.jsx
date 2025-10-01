@@ -24,7 +24,7 @@ const RUTAS = [
         nombre: 'Reintegros'
     },
     {
-        ruta: '/WIP',
+        ruta: '/cartilla-prestadores',
         nombre: 'Cartilla prestadores'
     },
     {
@@ -64,7 +64,7 @@ const Header = () => {
                 <div className='nav-menus'>
                     <ul className="nav-links nav-main">
                         {RUTAS.map( (unaRuta, idx) => (
-                            <li><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                            <li key={idx}><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
                         ) )}
                     </ul>
                 </div>
@@ -75,7 +75,7 @@ const Header = () => {
                 <div className={`burger-menu ${menuOpen ? "show" : ""}`}>
                     <ul className="nav-links">
                         {RUTAS.map( (unaRuta, idx) => (
-                            <li><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                            <li key={idx}><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
                         ) )}
                     </ul>
                 </div>
