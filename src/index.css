@@ -27,7 +27,7 @@ body {
   min-height: 100vh;
 }
 .main{
-  padding-top: 100px;
+  background-color: #EBEBEB;
 }
 #root{
   min-height: 100vh;
