@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { FaSearch } from "react-icons/fa";
 import './FormPrestadores.css'
+import prestadores from '../../db/prestadores.js'
 
 
-const FormPrestadores = () => {
+const FormPrestadores = (props) => {
+
     return (
         <>
-            <Form className="formPrestadores">
+            <Form onSubmit={(e) => props.buscarPrestadores(e)} className="formPrestadores" >
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
                         <Form.Label>Buscar por nombre</Form.Label>
@@ -19,9 +21,10 @@ const FormPrestadores = () => {
 
                     <Form.Group as={Col} controlId="formGridState">
                         <Form.Label>Especialidad<span >*</span></Form.Label>
-                        <Form.Select defaultValue={"Seleccione una especialidad"}>
-                            <option className="options"></option>
-                            <option className="options"></option>
+                        <Form.Select onChange={(e) => props.especialidad(e.target.value)} defaultValue="" >
+                            <option className="options" value={"Cardiologia"}>Cardiologia</option>
+                            <option className="options" value={"Diabetologia"}>Diabetologia</option>
+                            <option className="options" value={"Psicologia"}>Psicologia</option>
                         </Form.Select>
                     </Form.Group>
                 </Row>
@@ -45,7 +48,7 @@ const FormPrestadores = () => {
 
                 <Button variant="primary" type="submit">
                     Buscar
-                    <FaSearch style={{margin: '4px'}} />
+                    <FaSearch style={{ margin: '4px' }} />
                 </Button>
             </Form>
 
