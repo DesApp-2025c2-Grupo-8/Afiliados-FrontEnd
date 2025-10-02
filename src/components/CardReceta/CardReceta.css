@@ -22,3 +22,16 @@
     font-size: 1.3rem;
     
 }
+
+.botonPDF {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #457B9D;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    padding: 10px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
