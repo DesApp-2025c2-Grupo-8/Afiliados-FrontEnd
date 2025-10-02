@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import prestadores from '../../db/prestadores.js'
 import CardPrestadores from '../../components/CardPrestadores/CardPrestadores';
 import FormPrestadores from '../../components/FormPrestadores/FormPrestadores.jsx'
 import './CartillaPrestadores.css'
 
 const cartillaPrestadores = () => {
+    useEffect( () => {
+            document.title = 'Cartilla de Prestadores - Medicina Integral'
+    }, []);
+
     const [especialidad, setEspecialidad] = useState('')
     const [resultado, setResultado] = useState(prestadores)
 
