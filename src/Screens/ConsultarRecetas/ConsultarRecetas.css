@@ -29,15 +29,19 @@
     font-weight: 700;
 }
 
-.botonTachoContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+.botonCargarReceta:hover{
+    color: #000000;
+}
+
+.botonLimpiarFiltrosContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }
 
 
-.botonTacho {
+.botonLimpiarFiltros {
     margin-top: 10px;
     display: flex;
     align-items: center;
@@ -48,6 +52,20 @@
     border-radius: 12px;
     border: none;
     padding: 0.5rem;
+}
+
+.botonCargarReceta:active,
+.botonLimpiarFiltros:active {
+    transform: scale(0.97);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.botonCargarReceta:active {
+    background-color: #e0e0e0;
+}
+
+.botonLimpiarFiltros:active {
+    background-color: #808080;
 }
 
 .filtroContainer {

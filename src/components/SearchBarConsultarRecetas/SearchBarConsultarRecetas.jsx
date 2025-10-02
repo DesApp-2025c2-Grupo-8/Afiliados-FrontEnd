@@ -16,7 +16,7 @@ const SearchBarConsultarRecetas = (props) => {
       placeholder="Ingrese un medicamento..."
       onChange={(e) => props.filtrarPorMedicamento(e.target.value)}
     />
-    <FaSearch className="icono" />
+    <FaSearch className="icono-busqueda" />
   </div>
 </form>
 

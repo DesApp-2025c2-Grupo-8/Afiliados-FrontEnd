@@ -5,7 +5,7 @@ import CardReceta from '../../components/CardReceta/CardReceta';
 import './ConsultarRecetas.css'
 import SearchBarConsultarRecetas from '../../components/SearchBarConsultarRecetas/SearchBarConsultarRecetas';
 import FiltrosConsultarRecetas from '../../components/FiltrosConsultarRecetas/FiltrosConsultarRecetas';
-import { FaTrash } from 'react-icons/fa';
+import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
 const integrantesOpciones = [...new Set(recetas.map(r => r.integrante))];
@@ -83,13 +83,14 @@ const ConsultarRecetas = () => {
                 </section>
                 <div className='box'>
                     <section className='filtroContainer'>
-                        <h2>Filtrar por:</h2>
-                        <div className='botonTachoContainer'>
-                            <button className='botonTacho' onClick={limpiarFiltros}><FaTrash style={{marginRight: '10px'}}/>Limpiar filtros</button>
+                        <h2>Filtrar recetas por:</h2>
+                        <hr />
+                        <div className='botonLimpiarFiltrosContainer'>
+                            <button className='botonLimpiarFiltros' onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
                         <FiltrosConsultarRecetas
                             label={'Integrante'}
-                            default={'un integrante'}
+                            default={'Seleccione un integrante...'}
                             opciones={integrantesOpciones}
                             valorActual={filtroIntegrante}
                             filtrarAlSeleccionar={filtrarPorIntegrante}
@@ -97,11 +98,20 @@ const ConsultarRecetas = () => {
                         />
                         <FiltrosConsultarRecetas
                             label={'Presentación'}
-                            default={'una presentación'}
+                            default={'Seleccione una presentación...'}
                             opciones={presentacionesOpciones}
                             valorActual={filtroPresentacion}
                             filtrarAlSeleccionar={filtrarPorPresentacion}
                             borrarFiltro={borrarFiltroPresentacion}
+                        />
+                        <hr />
+                        <FiltrosConsultarRecetas
+                            label={'Período'}
+                            default={'TODO'}
+                            opciones={['Último año', 'Últimos 6 meses', 'Últimos 3 meses', 'Último mes', 'Última semana']}
+                            valorActual={''}
+                            filtrarAlSeleccionar={''}
+                            borrarFiltro={''}
                         />
                     </section>
                     <section className='recetasContainer'>
