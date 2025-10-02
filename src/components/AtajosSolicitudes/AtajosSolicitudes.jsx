@@ -73,30 +73,30 @@ const AtajosSolicitudes = () => {
         <div className='container-estado-periodo'>
           <div className='seleccion-estado'>
             <button
-              className='btn-seleccion-estado activo'
+              className={'btn-seleccion-estado ' + (solicitudSeleccionada == "autorizacion" ? "activo" : " ")}
               onClick={() => setSolicitudSeleccionada("autorizacion")}
             >
               Autorizaciones
             </button>
             <button
-              className='btn-seleccion-estado'
+              className={'btn-seleccion-estado ' + (solicitudSeleccionada === "reintegro" ? "activo" : " ")}
               onClick={() => setSolicitudSeleccionada("reintegro")}
             >
               Reintegros
             </button>
             <button
-              className='btn-seleccion-estado'
+              className={'btn-seleccion-estado ' + (solicitudSeleccionada === "receta" ? "activo" : " ")}
               onClick={() => setSolicitudSeleccionada("receta")}
             >
               Recetas
             </button>
           </div>
           <div className='periodo-resultado'>
-            <p>Período:</p>
+            <p className='titulo-periodo'>Período:</p>
             <div className='periodo-botones'>
-              <button className='activo' onClick={() => setPeriodoSeleccionado("ultimaSemana")}>Últimos 7 días</button>
-              <button className='' onClick={() => setPeriodoSeleccionado("ultimoMes",)}>Último mes</button>
-              <button className='' onClick={() => setPeriodoSeleccionado("ultimoAño")}>Último año</button>
+              <button className={(periodoSeleccionado === "ultimaSemana" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimaSemana")}>Últimos 7 días</button>
+              <button className={(periodoSeleccionado === "ultimoMes" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimoMes",)}>Último mes</button>
+              <button className={(periodoSeleccionado === "ultimoAño" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimoAño")}>Último año</button>
             </div>
             <div className='periodo-estados'>
               {estadoSolicitud.map((item, idx) =>
