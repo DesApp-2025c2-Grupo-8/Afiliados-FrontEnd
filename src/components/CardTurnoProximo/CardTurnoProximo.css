@@ -1,0 +1,30 @@
+.proximo-turno{
+    /* background-color: red; */
+    border-bottom: 2px solid grey;
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.proximo-turno .icono-turno{
+    width: 48px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.proximo-turno .datos-turno{
+    padding: 10px;
+}
+
+.proximo-turno .datos-turno h3, .proximo-turno .datos-turno p{
+    margin: 0px;
+}
+
+.proximo-turno .datos-turno h3{
+    font-size: 22px;
+}
+
+.proximo-turno .datos-turno p{
+    font-size: 20px;
+}

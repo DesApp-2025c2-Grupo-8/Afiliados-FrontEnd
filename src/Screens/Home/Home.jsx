@@ -1,26 +1,48 @@
 import React, {useEffect} from 'react';
-// import Header from '../../components/Header/Header';
-// import Footer from '../../components/Footer/Footer';
+import ResumenDashboard from '../../components/ResumenDashboard/ResumenDashboard';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
+import { AiOutlineClockCircle } from 'react-icons/ai';
+import { AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+
+import "./Home.css"
+import AtajosSolicitudes from '../../components/AtajosSolicitudes/AtajosSolicitudes';
+import Turnos from '../../components/Turnos/Turnos';
 
 const Home = () => {
     useEffect( () => {
             document.title = 'Medicina Integral'
         }, [])
+    const cardsResumen = [
+        {
+            titulo: "Pendientes de procesamiento",
+            cantidad: 1,
+            estado: "pendiente",
+            icono: "<AiOutlineClockCircle/>"
+        },
+        {
+            titulo: "En observación",
+            cantidad: 0,
+            estado: "observacion"
+        },
+        {
+            titulo: "Rechazadas",
+            cantidad: 2,
+            estado: "rechazada"
+        },
+        {
+            titulo: "Aceptadas",
+            cantidad: 5,
+            estado: "aceptada"
+        },
+    ]
 
     return (
-        <>
-            <h1 className='titulo-principal'>Estamos en la home!</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta a atque debitis, culpa fugit fuga. Architecto nostrum ea qui natus neque, at a. Autem consequuntur voluptatibus minima, rem animi iure!</p>
-        </>
+        <div className='dashboard-container'>
+            <ResumenDashboard cardsResumen={cardsResumen}/>
+            <AtajosSolicitudes/>
+            <Turnos/>
+        </div>
     );
 }
 
