@@ -33,3 +33,19 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.aceptada{
+  background-color: #24979B;
+}
+
+.rechazada{
+  background-color: #E64F4F;
+}
+
+.observacion{
+  background-color: #457B9D;
+}
+
+.pendiente{
+  background-color: #F5AD28;
+}
