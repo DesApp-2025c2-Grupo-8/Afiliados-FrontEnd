@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Form, Col, Row, Modal, Button } from "react-bootstrap"
 import FormGenerico from "../../components/plantilla/Form"
 import './FormRecetas.css'
@@ -6,6 +6,10 @@ import { useNavigate, Link } from "react-router-dom"
 import logo from "@assets/images/Titulo-Logo.svg"
 
 const FormRecetas = () => {
+    useEffect( () => {
+            document.title = 'Cargar Receta - Medicina Integral'
+    }, []);
+    
     const [data, setData] = useState({
         integrante: "",
         medicamento: "",
