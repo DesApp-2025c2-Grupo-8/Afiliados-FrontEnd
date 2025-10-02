@@ -1,6 +1,7 @@
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CardReceta.css'
+import { FiDownload } from 'react-icons/fi';
 
 const CardReceta = ({receta}) => {
   return (
@@ -15,6 +16,7 @@ const CardReceta = ({receta}) => {
         <Card.Text className='card-texto'><strong>Cantidad: </strong>{receta.cantidad}</Card.Text>
         <Card.Text className='card-texto'><strong>Presentación: </strong>{receta.presentacion}</Card.Text>
         <Card.Text className='card-texto'><strong>Observaciones: </strong>{receta.observaciones}</Card.Text>
+        <p className='botonPDF'><FiDownload style={{marginRight: '10px'}}/>Descargar</p>
       </Card.Body>
     </Card>
   );

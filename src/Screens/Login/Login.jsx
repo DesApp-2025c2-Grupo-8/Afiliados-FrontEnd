@@ -1,7 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './Login.css';
 
 const Login = () => {
+  useEffect(() => {
+    document.title = 'Iniciar sesión - Medicina Integral'
+  }, []);
+
   return (
     <>
       <div className="login-container">
