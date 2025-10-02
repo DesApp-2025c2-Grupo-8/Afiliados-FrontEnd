@@ -1,0 +1,28 @@
+.estado-solicitud {
+    display: flex;
+    margin-bottom: 16px;
+    /* background-color: violet; */
+    width: 100%;
+}
+
+.container-cantidad-estado-solicitud{
+    /* background-color: blue; */
+    text-align: center;
+    width: 50%;
+}
+.estado-solicitud .titulo-estado-solicitud{
+    width: 50%;
+    /* background-color: grey; */
+}
+
+.estado-solicitud p{
+    padding: 0;
+    margin: 0;
+}
+
+.estado-solicitud .container-cantidad-estado-solicitud .linea{
+    width: 40%;
+    margin: auto;
+    height: 6px;
+    border-radius: 4px;
+}

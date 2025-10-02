@@ -1,0 +1,121 @@
+.atajos-solicitudes{
+    width: 60%;
+    padding: 20px 0px;
+}
+
+.atajos-accion{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.atajos-accion .titulo-atajos-accion{
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.atajos-accion .btn-accion{
+    border-radius: 12px;
+    font-size: 22px;
+    padding: 8px 16px;
+    margin: 0;
+    border: none;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    color: black;
+    font-weight: normal;
+}
+
+.solicitudes-estado{
+    margin-top: 40px;
+}
+
+.solicitudes-estado h2{
+    margin-bottom: 30px;
+}
+
+.container-estado-periodo{
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+
+}
+
+.seleccion-estado{
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+}
+.seleccion-estado .btn-seleccion-estado{
+    width: 33%;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: #E6E6E6;
+    color: #757575;
+}
+
+
+
+.periodo-resultado{
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.periodo-resultado p{
+    width: 100%;
+    font-size: 20px;
+}
+
+.periodo-resultado .periodo-botones{
+    width: 33%;
+}
+
+.periodo-resultado .periodo-botones button{
+    border: none;
+    background-color: #E6E6E6;
+    color: #757575;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    text-align: left;
+}
+.periodo-estados{
+    width: 66%;
+}
+
+.periodo-resultado .periodo-botones .activo, .seleccion-estado .btn-seleccion-estado.activo{
+    background-color: #24979B;
+    color: white;
+}
+
+@media (max-width: 1200px) {
+    .atajos-accion .btn-accion{
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+
+}
+
+
+@media (max-width: 900px) {
+    .atajos-solicitudes{
+    width: 90%;
+    margin: auto;
+
+}
+}
