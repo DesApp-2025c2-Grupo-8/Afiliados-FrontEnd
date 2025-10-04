@@ -1,0 +1,46 @@
+.card-resumen {
+    width: 100%;
+    min-width: 200px;
+    max-width: 400px;
+    color: white;
+    border-radius: 12px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+
+}
+
+.card-resumen .titulo-card-resumen {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    height: 80px;
+}
+
+.card-resumen .titulo-card-resumen span {
+    padding: 0;
+    margin: 0;
+    line-height: 26px;
+    display: inline;
+    word-break: break-word;
+}
+
+.card-resumen .titulo-card-resumen .icono {
+    min-width: 40px;
+}
+
+.card-resumen .cantidad-card-resumen {
+    font-size: 60px;
+    text-align: center;
+}
+
+@media (max-width: 1200px) {
+    .card-resumen {
+        width: 50%;
+        min-width: 500px;
+        max-width: 500px;
+        color: white;
+        border-radius: 12px;
+        padding: 20px 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    }
+}
