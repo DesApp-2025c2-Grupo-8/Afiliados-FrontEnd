@@ -77,6 +77,11 @@
     width: 400px;
 }
 
+.filtroContainer h2,
+.filtroContainer h3 {
+    text-align: center;
+}
+
 .recetasContainer {
     background-color: #f5f5f5;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);

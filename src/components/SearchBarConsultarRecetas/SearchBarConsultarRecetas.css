@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+  border-radius: 12px;
 }
 
 .search-barra {
@@ -10,15 +13,20 @@
   align-items: center;
 }
 
+.boton-limpiar {
+  border: none;
+  background-color: #ffffff;
+}
+
 .search-barra input {
   padding: 8px 32px 8px 8px;
   width: 300px;
-  border-radius: 12px;
+  /* border-radius: 12px; */
+  border: none;
 }
 
 .icono-busqueda {
   position: absolute;
   right: 10px;
-  color: #888;
   pointer-events: none;
 }
