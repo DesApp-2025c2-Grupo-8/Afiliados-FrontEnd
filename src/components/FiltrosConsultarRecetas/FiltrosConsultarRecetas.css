@@ -1,0 +1,21 @@
+.selectYBotonContainer {
+    display: flex;
+    width: 350px;
+}
+
+.botonLimpiar {
+    background-color: #E64F4F;
+    border: 'none' !important;
+    border-color: transparent !important;
+    margin-left: 10px;
+}
+
+.botonLimpiar:hover {
+    background-color: #E64F4F;
+}
+
+.botonLimpiar:active {
+    transform: scale(0.96);
+    background-color: #c13c3c !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}

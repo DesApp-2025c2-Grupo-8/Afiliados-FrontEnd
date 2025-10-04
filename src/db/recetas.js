@@ -1,7 +1,16 @@
 const recetas = [
   {
+    orden: 1553510,
+    fechaDeCarga: '2015-05-03',
+    integrante: 'Kyle Crane',
+    medicamento: 'Antizina',
+    cantidad: 1,
+    presentacion: 'Inyectable',
+    observaciones: 'Usar solo en crisis'
+  },
+  {
     orden: 1556506,
-    fechaDeCarga: '27/12/2024',
+    fechaDeCarga: '2023-12-27',
     integrante: 'Lionel Messi',
     medicamento: 'Paracetamol',
     cantidad: 6,
@@ -10,7 +19,7 @@ const recetas = [
   },
   {
     orden: 1556507,
-    fechaDeCarga: '15/01/2025',
+    fechaDeCarga: '2024-01-15',
     integrante: 'Papá Noel',
     medicamento: 'Ibuprofeno',
     cantidad: 12,
@@ -19,7 +28,7 @@ const recetas = [
   },
   {
     orden: 1556508,
-    fechaDeCarga: '03/05/2025',
+    fechaDeCarga: '2025-03-03',
     integrante: 'Samuel de Luque',
     medicamento: 'Paracetamol',
     cantidad: 3,
@@ -28,7 +37,7 @@ const recetas = [
   },
   {
     orden: 1556509,
-    fechaDeCarga: '28/09/2025',
+    fechaDeCarga: '2025-05-28',
     integrante: 'Pepe Argento',
     medicamento: 'Ibuprofeno',
     cantidad: 24,
@@ -37,7 +46,7 @@ const recetas = [
   },
   {
     orden: 1556510,
-    fechaDeCarga: '02/10/2025',
+    fechaDeCarga: '2025-05-30',
     integrante: 'Pepe Argento',
     medicamento: 'Amoxicilina',
     cantidad: 10,
@@ -46,7 +55,7 @@ const recetas = [
   },
   {
     orden: 1556511,
-    fechaDeCarga: '05/10/2025',
+    fechaDeCarga: '2025-07-05',
     integrante: 'Homero Simpson',
     medicamento: 'Omeprazol',
     cantidad: 20,
@@ -55,7 +64,7 @@ const recetas = [
   },
   {
     orden: 1556512,
-    fechaDeCarga: '07/10/2025',
+    fechaDeCarga: '2025-07-07',
     integrante: 'Homero Simpson',
     medicamento: 'Diclofenac',
     cantidad: 15,
@@ -64,7 +73,7 @@ const recetas = [
   },
   {
     orden: 1556513,
-    fechaDeCarga: '10/10/2025',
+    fechaDeCarga: '2025-07-10',
     integrante: 'Lionel Messi',
     medicamento: 'Ibuprofeno',
     cantidad: 8,
@@ -73,7 +82,7 @@ const recetas = [
   },
   {
     orden: 1556514,
-    fechaDeCarga: '12/10/2025',
+    fechaDeCarga: '2025-07-12',
     integrante: 'Pepe Argento',
     medicamento: 'Paracetamol',
     cantidad: 6,
@@ -82,7 +91,7 @@ const recetas = [
   },
   {
     orden: 1556515,
-    fechaDeCarga: '15/10/2025',
+    fechaDeCarga: '2025-07-15',
     integrante: 'Samuel de Luque',
     medicamento: 'Loratadina',
     cantidad: 10,
@@ -91,7 +100,7 @@ const recetas = [
   },
   {
     orden: 1556516,
-    fechaDeCarga: '18/10/2025',
+    fechaDeCarga: '2025-07-18',
     integrante: 'Tony Stark',
     medicamento: 'Vitamina C',
     cantidad: 30,
@@ -99,17 +108,8 @@ const recetas = [
     observaciones: ''
   },
   {
-    orden: 1556517,
-    fechaDeCarga: '20/10/2025',
-    integrante: 'Kyle Crane',
-    medicamento: 'Antizina',
-    cantidad: 1,
-    presentacion: 'Inyectable',
-    observaciones: 'Usar solo en crisis'
-  },
-  {
     orden: 1556518,
-    fechaDeCarga: '22/10/2025',
+    fechaDeCarga: '2025-07-20',
     integrante: 'Lionel Messi',
     medicamento: 'Ibuprofeno',
     cantidad: 10,
@@ -118,7 +118,7 @@ const recetas = [
   },
   {
     orden: 1556519,
-    fechaDeCarga: '23/10/2025',
+    fechaDeCarga: '2025-07-23',
     integrante: 'Lionel Messi',
     medicamento: 'Amoxicilina',
     cantidad: 5,
@@ -127,7 +127,7 @@ const recetas = [
   },
   {
     orden: 1556520,
-    fechaDeCarga: '24/10/2025',
+    fechaDeCarga: '2025-08-01',
     integrante: 'Lionel Messi',
     medicamento: 'Diclofenac',
     cantidad: 8,
@@ -136,7 +136,7 @@ const recetas = [
   },
   {
     orden: 1556521,
-    fechaDeCarga: '25/10/2025',
+    fechaDeCarga: '2025-08-05',
     integrante: 'Lionel Messi',
     medicamento: 'Omeprazol',
     cantidad: 12,
@@ -145,7 +145,7 @@ const recetas = [
   },
   {
     orden: 1556522,
-    fechaDeCarga: '26/10/2025',
+    fechaDeCarga: '2025-08-10',
     integrante: 'Lionel Messi',
     medicamento: 'Vitamina C',
     cantidad: 20,
@@ -154,7 +154,7 @@ const recetas = [
   },
   {
     orden: 1556523,
-    fechaDeCarga: '27/10/2025',
+    fechaDeCarga: '2025-08-12',
     integrante: 'Pepe Argento',
     medicamento: 'Ibuprofeno',
     cantidad: 6,
@@ -163,7 +163,7 @@ const recetas = [
   },
   {
     orden: 1556524,
-    fechaDeCarga: '28/10/2025',
+    fechaDeCarga: '2025-08-15',
     integrante: 'Samuel de Luque',
     medicamento: 'Amoxicilina',
     cantidad: 4,
@@ -172,7 +172,7 @@ const recetas = [
   },
   {
     orden: 1556525,
-    fechaDeCarga: '29/10/2025',
+    fechaDeCarga: '2025-08-15',
     integrante: 'Homero Simpson',
     medicamento: 'Omeprazol',
     cantidad: 10,
@@ -181,7 +181,7 @@ const recetas = [
   },
   {
     orden: 1556526,
-    fechaDeCarga: '30/10/2025',
+    fechaDeCarga: '2025-08-20',
     integrante: 'Samuel de Luque',
     medicamento: 'Paracetamol',
     cantidad: 5,
@@ -190,7 +190,7 @@ const recetas = [
   },
   {
     orden: 1556527,
-    fechaDeCarga: '31/10/2025',
+    fechaDeCarga: '2025-08-22',
     integrante: 'Lionel Messi',
     medicamento: 'Ibuprofeno',
     cantidad: 6,
@@ -199,7 +199,7 @@ const recetas = [
   },
   {
     orden: 1556528,
-    fechaDeCarga: '01/11/2025',
+    fechaDeCarga: '2025-08-24',
     integrante: 'Lionel Messi',
     medicamento: 'Amoxicilina',
     cantidad: 7,
@@ -208,7 +208,7 @@ const recetas = [
   },
   {
     orden: 1556529,
-    fechaDeCarga: '02/11/2025',
+    fechaDeCarga: '2025-08-28',
     integrante: 'Pepe Argento',
     medicamento: 'Diclofenac',
     cantidad: 9,
@@ -217,7 +217,7 @@ const recetas = [
   },
   {
     orden: 1556530,
-    fechaDeCarga: '03/11/2025',
+    fechaDeCarga: '2025-08-30',
     integrante: 'Pepe Argento',
     medicamento: 'Loratadina',
     cantidad: 6,
@@ -226,16 +226,16 @@ const recetas = [
   },
   {
     orden: 1556531,
-    fechaDeCarga: '04/11/2025',
+    fechaDeCarga: '2025-09-04',
     integrante: 'Pepe Argento',
-    medicamento: 'Antizina',
+    medicamento: 'Insulina',
     cantidad: 1,
     presentacion: 'Inyectable',
-    observaciones: 'Solo en caso extremo'
+    observaciones: ''
   },
   {
     orden: 1556532,
-    fechaDeCarga: '05/11/2025',
+    fechaDeCarga: '2025-09-15',
     integrante: 'Papá Noel',
     medicamento: 'Vitamina C',
     cantidad: 15,
@@ -244,7 +244,7 @@ const recetas = [
   },
   {
     orden: 1556533,
-    fechaDeCarga: '06/11/2025',
+    fechaDeCarga: '2025-09-25',
     integrante: 'Papá Noel',
     medicamento: 'Omeprazol',
     cantidad: 10,
@@ -253,7 +253,7 @@ const recetas = [
   },
   {
     orden: 1556534,
-    fechaDeCarga: '07/11/2025',
+    fechaDeCarga: '2025-10-04',
     integrante: 'Pepe Argento',
     medicamento: 'Amoxicilina',
     cantidad: 5,
@@ -262,7 +262,7 @@ const recetas = [
   },
   {
     orden: 1556535,
-    fechaDeCarga: '08/11/2025',
+    fechaDeCarga: '2025-10-04',
     integrante: 'Pepe Argento',
     medicamento: 'Paracetamol',
     cantidad: 10,
