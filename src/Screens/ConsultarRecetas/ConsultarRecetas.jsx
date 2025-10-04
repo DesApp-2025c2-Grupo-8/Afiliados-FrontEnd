@@ -10,6 +10,7 @@ import { BsClipboard2Plus } from 'react-icons/bs';
 
 const integrantesOpciones = [...new Set(recetas.map(r => r.integrante))];
 const presentacionesOpciones = [...new Set(recetas.map(r => r.presentacion))];
+const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const ConsultarRecetas = () => {
     useEffect(() => {
@@ -21,48 +22,109 @@ const ConsultarRecetas = () => {
     const [filtroMedicamento, setFiltroMedicamento] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPresentacion, setFiltroPresentacion] = useState('');
+    const [filtroPeriodo, setFiltroPeriodo] = useState(''); //INICIAR en TODO?
 
     const filtrarPorMedicamento = (unMedicamento) => {
         setFiltroMedicamento(unMedicamento);
-        aplicarFiltros(unMedicamento, filtroIntegrante, filtroPresentacion);
+        aplicarFiltros(unMedicamento, filtroIntegrante, filtroPresentacion, filtroPeriodo);
     };
 
     const filtrarPorIntegrante = (unIntegrante) => {
         setFiltroIntegrante(unIntegrante);
-        aplicarFiltros(filtroMedicamento, unIntegrante, filtroPresentacion);
+        aplicarFiltros(filtroMedicamento, unIntegrante, filtroPresentacion, filtroPeriodo);
     };
 
     const filtrarPorPresentacion = (unaPresentacion) => {
         setFiltroPresentacion(unaPresentacion);
-        aplicarFiltros(filtroMedicamento, filtroIntegrante, unaPresentacion);
+        aplicarFiltros(filtroMedicamento, filtroIntegrante, unaPresentacion, filtroPeriodo);
     };
 
-    const aplicarFiltros = (unMedicamento, unIntegrante, unaPresentacion) => {
+    const filtrarPorPeriodo = (unPeriodo) => {
+        setFiltroPeriodo(unPeriodo);
+        aplicarFiltros(filtroMedicamento, filtroIntegrante, filtroPresentacion, unPeriodo);
+    }
+
+    const aplicarFiltros = (unMedicamento, unIntegrante, unaPresentacion, unPeriodo) => {
         let listaRecetasAFiltrar = [...listaRecetas];
         
         if (unMedicamento) {
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase()));
-        }
+        };
 
         if (unIntegrante) {
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.integrante === unIntegrante);
-        }
+        };
 
         if (unaPresentacion) {
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.presentacion === unaPresentacion);
-        }
+        };
+
+        if (unPeriodo) {
+            // obtenerFechaDelPeriodoSeleccionado(unPeriodo);
+            listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.fechaDeCarga >= obtenerFechaDelPeriodoSeleccionado(unPeriodo));
+            console.log('Cantidad de elem filtrados en el periodo seleccionado: ', listaRecetasAFiltrar.length);
+        };
 
         setListaRecetasFiltradas(listaRecetasAFiltrar);
     };
 
+    const obtenerFechaDelPeriodoSeleccionado = (unPeriodo) => {
+        //Los datos con la BD fake vienen como String, en la BD me imagino que como Date, si es asi tengo que cambiar la logica en el retorno y en aplicar filtros
+        //{console.log(new Date());}                        // Sat Oct 04 2025 13:21:35 GMT-0300 (hora estándar de Argentina)
+        //{console.log(new Date().toLocaleDateString());}   // 4/10/2025
+        // {console.log(new Date().toISOString());}         // 2025-10-04T16:45:02.876Z => ESTE
+        // {console.log('2025/10/04' >= '2015/05/03');}
+        // {console.log('2025/10/04' >= '2024/12/27');}
+        const fechaActual = new Date();
+        let fechaPeriodoFiltro;
+
+        //['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'] => 'TODO'
+
+        //Discutir esto:
+            //Por el momento esas son las opciones, si llegamos a considerar agregar más 
+            //despues cuando hagamos la conexión con la BD implementar los meses como parametrizados? para evitar crear 500 casos
+            //Si ese es el caso deberia cambiar la logica y recibir como paramtro Año, Mes, Semana, Dias? y cantidad
+
+        switch (unPeriodo) {
+            case 'Último año':
+                fechaPeriodoFiltro = new Date(fechaActual.setFullYear(fechaActual.getFullYear()-1));
+                break;
+            case 'Últimos seis meses':
+                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-6));
+                break;
+            case 'Últimos tres meses':
+                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-3));
+                break;
+            case 'Último mes':
+                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-1));
+                break;
+            case 'Últimas dos semanas':
+                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate()-14));
+                break;
+            case 'Última semana':
+                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate()-7));
+                break;
+            default:
+                fechaPeriodoFiltro = fechaActual;
+        }
+        
+        // console.log(fechaPeriodoFiltro.toISOString());
+        return fechaPeriodoFiltro.toISOString().slice(0,10);
+    };
+
     const borrarFiltroIntegrante = () => {
         setFiltroIntegrante('');
-        aplicarFiltros(filtroMedicamento, '', filtroPresentacion);
+        aplicarFiltros(filtroMedicamento, '', filtroPresentacion, filtroPeriodo);
     };
 
     const borrarFiltroPresentacion = () => {
         setFiltroPresentacion('');
-        aplicarFiltros(filtroMedicamento, filtroIntegrante, '');
+        aplicarFiltros(filtroMedicamento, filtroIntegrante, '', filtroPeriodo);
+    };
+
+    const borrarFiltroPeriodo = () => {
+        setFiltroPeriodo(''); //TODO?
+        aplicarFiltros(filtroMedicamento, filtroIntegrante, filtroPresentacion, '') //TODO?
     };
 
     const limpiarFiltros = () => {
@@ -70,6 +132,7 @@ const ConsultarRecetas = () => {
         setFiltroMedicamento('');
         setFiltroIntegrante('');
         setFiltroPresentacion('');
+        setFiltroPeriodo(''); //TODO?
     };
 
     return (
@@ -88,37 +151,40 @@ const ConsultarRecetas = () => {
                         <div className='botonLimpiarFiltrosContainer'>
                             <button className='botonLimpiarFiltros' onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
-                        <FiltrosConsultarRecetas
+                        <FiltrosConsultarRecetas //INTEGRANTE
                             label={'Integrante'}
                             default={'Seleccione un integrante...'}
+                            defaultDesactivado={true}
                             opciones={integrantesOpciones}
                             valorActual={filtroIntegrante}
                             filtrarAlSeleccionar={filtrarPorIntegrante}
                             borrarFiltro={borrarFiltroIntegrante}
                         />
-                        <FiltrosConsultarRecetas
+                        <FiltrosConsultarRecetas //PRESENTACION
                             label={'Presentación'}
                             default={'Seleccione una presentación...'}
+                            defaultDesactivado={true}
                             opciones={presentacionesOpciones}
                             valorActual={filtroPresentacion}
                             filtrarAlSeleccionar={filtrarPorPresentacion}
                             borrarFiltro={borrarFiltroPresentacion}
                         />
                         <hr />
-                        <FiltrosConsultarRecetas
+                        <FiltrosConsultarRecetas //PERIODO
                             label={'Período'}
                             default={'TODO'}
-                            opciones={['Último año', 'Últimos 6 meses', 'Últimos 3 meses', 'Último mes', 'Última semana']}
-                            valorActual={''}
-                            filtrarAlSeleccionar={''}
-                            borrarFiltro={''}
+                            defaultDesactivado={false}
+                            opciones={periodosOpciones}
+                            valorActual={filtroPeriodo}
+                            filtrarAlSeleccionar={filtrarPorPeriodo}
+                            borrarFiltro={borrarFiltroPeriodo}
                         />
                     </section>
                     <section className='recetasContainer'>
                         {listaRecetasFiltradas.length === 0 ?
                             <h2>No existen recetas del medicamento ingresado</h2> :
-                            (listaRecetasFiltradas.map((unaReceta, idx) => (
-                                <CardReceta key={unaReceta.orden + idx} receta={unaReceta}></CardReceta>
+                            (listaRecetasFiltradas.map((unaReceta) => (
+                                <CardReceta key={unaReceta.orden} receta={unaReceta}></CardReceta> //Borre idx porque renderiza duplicados (Nro orden es único)
                             )))}
                     </section>
                 </div>
