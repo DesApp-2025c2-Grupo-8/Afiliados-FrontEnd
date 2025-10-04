@@ -8,8 +8,9 @@ import FiltrosConsultarRecetas from '../../components/FiltrosConsultarRecetas/Fi
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
-const integrantesOpciones = [...new Set(recetas.map(r => r.integrante))];
-const presentacionesOpciones = [...new Set(recetas.map(r => r.presentacion))];
+// Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
+const integrantesOpcionesIniciales = [...new Set(recetas.map(r => r.integrante))];
+const presentacionesOpcionesIniciales = [...new Set(recetas.map(r => r.presentacion))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const ConsultarRecetas = () => {
@@ -22,7 +23,10 @@ const ConsultarRecetas = () => {
     const [filtroMedicamento, setFiltroMedicamento] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPresentacion, setFiltroPresentacion] = useState('');
-    const [filtroPeriodo, setFiltroPeriodo] = useState(''); //INICIAR en TODO?
+    const [filtroPeriodo, setFiltroPeriodo] = useState('');
+
+    const [integrantesOpciones, setIntegrantesOpciones] = useState(integrantesOpcionesIniciales);
+    const [presentacionesOpciones, setPresentacionesOpciones] = useState(presentacionesOpcionesIniciales);
 
     const filtrarPorMedicamento = (unMedicamento) => {
         setFiltroMedicamento(unMedicamento);
@@ -60,12 +64,25 @@ const ConsultarRecetas = () => {
         };
 
         if (unPeriodo) {
-            // obtenerFechaDelPeriodoSeleccionado(unPeriodo);
-            listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.fechaDeCarga >= obtenerFechaDelPeriodoSeleccionado(unPeriodo));
-            console.log('Cantidad de elem filtrados en el periodo seleccionado: ', listaRecetasAFiltrar.length);
+            const fechaDelPeriodoSeleccionado =  obtenerFechaDelPeriodoSeleccionado(unPeriodo);
+            listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.fechaDeCarga >= fechaDelPeriodoSeleccionado);
+            // console.log('Cantidad de elem filtrados en el periodo seleccionado: ', listaRecetasAFiltrar.length);
         };
 
         setListaRecetasFiltradas(listaRecetasAFiltrar);
+
+        const opcionesIntegrante = listaRecetas.filter(r =>
+            (!unMedicamento || r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase())) &&
+            (!unaPresentacion || r.presentacion === unaPresentacion)
+        ).map(r => r.integrante);
+
+        const opcionesPresentacion = listaRecetas.filter(r =>
+            (!unMedicamento || r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase())) &&
+            (!unIntegrante || r.integrante === unIntegrante)
+        ).map(r => r.presentacion);
+
+        setIntegrantesOpciones([...new Set(opcionesIntegrante)]);
+        setPresentacionesOpciones([...new Set(opcionesPresentacion)]);
     };
 
     const obtenerFechaDelPeriodoSeleccionado = (unPeriodo) => {
@@ -112,19 +129,26 @@ const ConsultarRecetas = () => {
         return fechaPeriodoFiltro.toISOString().slice(0,10);
     };
 
-    const borrarFiltroIntegrante = () => {
+    const limpiarFiltroMedicamento = () => {
+        setFiltroMedicamento('');
+        aplicarFiltros('', filtroIntegrante, filtroPresentacion, filtroPeriodo);
+    };
+
+    const limpiarFiltroIntegrante = () => {
         setFiltroIntegrante('');
+        setIntegrantesOpciones(integrantesOpcionesIniciales);
         aplicarFiltros(filtroMedicamento, '', filtroPresentacion, filtroPeriodo);
     };
 
-    const borrarFiltroPresentacion = () => {
+    const limpiarFiltroPresentacion = () => {
         setFiltroPresentacion('');
+        setPresentacionesOpciones(presentacionesOpcionesIniciales);
         aplicarFiltros(filtroMedicamento, filtroIntegrante, '', filtroPeriodo);
     };
 
-    const borrarFiltroPeriodo = () => {
-        setFiltroPeriodo(''); //TODO?
-        aplicarFiltros(filtroMedicamento, filtroIntegrante, filtroPresentacion, '') //TODO?
+    const limpiarFiltroPeriodo = () => {
+        setFiltroPeriodo('');
+        aplicarFiltros(filtroMedicamento, filtroIntegrante, filtroPresentacion, '');
     };
 
     const limpiarFiltros = () => {
@@ -132,7 +156,9 @@ const ConsultarRecetas = () => {
         setFiltroMedicamento('');
         setFiltroIntegrante('');
         setFiltroPresentacion('');
-        setFiltroPeriodo(''); //TODO?
+        setFiltroPeriodo('');
+        setIntegrantesOpciones(integrantesOpcionesIniciales);
+        setPresentacionesOpciones(presentacionesOpcionesIniciales);
     };
 
     return (
@@ -141,7 +167,11 @@ const ConsultarRecetas = () => {
                 {/* <button onClick={() => console.log(listaRecetas)}>Ver recetas por consola</button> */}
                 <section className='botonesContainer'>
                     <h1>Consultar Recetas</h1>
-                    <SearchBarConsultarRecetas filtrarPorMedicamento={filtrarPorMedicamento}></SearchBarConsultarRecetas>
+                    <SearchBarConsultarRecetas // MEDICAMENTO
+                        filtrarPorMedicamento={filtrarPorMedicamento}
+                        limpiarFiltros={limpiarFiltroMedicamento}
+                        valorInput={filtroMedicamento}
+                    />
                     <Link className='botonCargarReceta' to={'/cargar-receta'}><BsClipboard2Plus style={{marginRight: '10px'}}/>Cargar Receta</Link>
                 </section>
                 <div className='box'>
@@ -158,7 +188,7 @@ const ConsultarRecetas = () => {
                             opciones={integrantesOpciones}
                             valorActual={filtroIntegrante}
                             filtrarAlSeleccionar={filtrarPorIntegrante}
-                            borrarFiltro={borrarFiltroIntegrante}
+                            borrarFiltro={limpiarFiltroIntegrante}
                         />
                         <FiltrosConsultarRecetas //PRESENTACION
                             label={'Presentación'}
@@ -167,7 +197,7 @@ const ConsultarRecetas = () => {
                             opciones={presentacionesOpciones}
                             valorActual={filtroPresentacion}
                             filtrarAlSeleccionar={filtrarPorPresentacion}
-                            borrarFiltro={borrarFiltroPresentacion}
+                            borrarFiltro={limpiarFiltroPresentacion}
                         />
                         <hr />
                         <FiltrosConsultarRecetas //PERIODO
@@ -177,12 +207,14 @@ const ConsultarRecetas = () => {
                             opciones={periodosOpciones}
                             valorActual={filtroPeriodo}
                             filtrarAlSeleccionar={filtrarPorPeriodo}
-                            borrarFiltro={borrarFiltroPeriodo}
+                            borrarFiltro={limpiarFiltroPeriodo}
                         />
+                        <hr />
+                        <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
                     </section>
                     <section className='recetasContainer'>
                         {listaRecetasFiltradas.length === 0 ?
-                            <h2>No existen recetas del medicamento ingresado</h2> :
+                            <h2>No existen recetas con los filtros ingresados</h2> :
                             (listaRecetasFiltradas.map((unaReceta) => (
                                 <CardReceta key={unaReceta.orden} receta={unaReceta}></CardReceta> //Borre idx porque renderiza duplicados (Nro orden es único)
                             )))}
