@@ -8,14 +8,14 @@ const FiltrosConsultarRecetas = (props) => {
 
     return (
         <>
-            {console.log(props)}
+            {/* {console.log(props)} */}
             <Form>
 
                 <Form.Group as={Col}>
                     <Form.Label>{props.label}</Form.Label>
                     <div className="selectYBotonContainer">
                         <Form.Select value={props.valorActual} onChange={e => props.filtrarAlSeleccionar(e.target.value)}>
-                            <option value="" disabled>{props.default}</option>
+                            <option value="" disabled={props.defaultDesactivado}>{props.default}</option>
                             {props.opciones.map((opcion, idx) => (<option key={idx} value={opcion}>{opcion}</option>))}
                         </Form.Select>
                         <Button
