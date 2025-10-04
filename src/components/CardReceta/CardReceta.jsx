@@ -16,7 +16,9 @@ const CardReceta = ({receta}) => {
         <Card.Text className='card-texto'><strong>Cantidad: </strong>{receta.cantidad}</Card.Text>
         <Card.Text className='card-texto'><strong>Presentación: </strong>{receta.presentacion}</Card.Text>
         <Card.Text className='card-texto'><strong>Observaciones: </strong>{receta.observaciones}</Card.Text>
-        <p className='botonPDF'><FiDownload style={{marginRight: '10px'}}/>Descargar</p>
+        <div className='boton-box'>
+          <p className='botonPDF'><FiDownload style={{marginRight: '10px'}}/>Descargar</p>
+        </div>
       </Card.Body>
     </Card>
   );
