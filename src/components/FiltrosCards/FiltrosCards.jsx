@@ -2,9 +2,9 @@ import React from "react";
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import './FiltrosConsultarRecetas.css'
+import './FiltrosCards.css'
 
-const FiltrosConsultarRecetas = (props) => {
+const FiltrosCards = (props) => {
     
     return (
         <Form>
@@ -28,4 +28,4 @@ const FiltrosConsultarRecetas = (props) => {
     )
 }
 
-export default FiltrosConsultarRecetas;
+export default FiltrosCards;
