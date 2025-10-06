@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import recetas from '../../db/recetas';
-import CardReceta from '../../components/CardReceta/CardReceta';
+import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import './ConsultarRecetas.css'
 import SearchBarConsultarRecetas from '../../components/SearchBarConsultarRecetas/SearchBarConsultarRecetas';
-import FiltrosConsultarRecetas from '../../components/FiltrosConsultarRecetas/FiltrosConsultarRecetas';
+import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
@@ -12,6 +12,24 @@ import { BsClipboard2Plus } from 'react-icons/bs';
 const integrantesOpcionesIniciales = [...new Set(recetas.map(r => r.integrante))];
 const presentacionesOpcionesIniciales = [...new Set(recetas.map(r => r.presentacion))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
+
+const cardData = {
+    // Color: Clase para el color del header de la Card, en idex.css
+    color: 'observacion', 
+    // camposCard: va toda la informacion que queremos mostrar en la tarjeta, espera un nombre y un valor se mustran por campo o fila de la card
+    camposCard: [ 
+        // Campo: es el nombre en negrita de la fila
+        // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
+        { campo: 'Integrante', propiedad: 'integrante' },
+        { campo: 'Fecha de carga', propiedad: 'fechaDeCarga' },
+        { campo: 'Medicamento', propiedad: 'medicamento' },
+        { campo: 'Cantidad', propiedad: 'cantidad' },
+        { campo: 'Presentación', propiedad: 'presentacion' },
+        { campo: 'Observaciones', propiedad: 'observaciones' }
+    ],
+    //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
+    tieneBotonDescarga: true 
+};
 
 const ConsultarRecetas = () => {
     useEffect(() => {
@@ -181,29 +199,28 @@ const ConsultarRecetas = () => {
                         <div className='botonLimpiarFiltrosContainer'>
                             <button className='botonLimpiarFiltros' onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
-                        <FiltrosConsultarRecetas //INTEGRANTE
+                        <FiltrosCards //INTEGRANTE
                             label={'Integrante'}
                             default={'Seleccione un integrante...'}
-                            defaultDesactivado={true}
+                            defaultDesactivado
                             opciones={integrantesOpciones}
                             valorActual={filtroIntegrante}
                             filtrarAlSeleccionar={filtrarPorIntegrante}
                             borrarFiltro={limpiarFiltroIntegrante}
                         />
-                        <FiltrosConsultarRecetas //PRESENTACION
+                        <FiltrosCards //PRESENTACION
                             label={'Presentación'}
                             default={'Seleccione una presentación...'}
-                            defaultDesactivado={true}
+                            defaultDesactivado
                             opciones={presentacionesOpciones}
                             valorActual={filtroPresentacion}
                             filtrarAlSeleccionar={filtrarPorPresentacion}
                             borrarFiltro={limpiarFiltroPresentacion}
                         />
                         <hr />
-                        <FiltrosConsultarRecetas //PERIODO
+                        <FiltrosCards //PERIODO
                             label={'Período'}
                             default={'TODO'}
-                            defaultDesactivado={false}
                             opciones={periodosOpciones}
                             valorActual={filtroPeriodo}
                             filtrarAlSeleccionar={filtrarPorPeriodo}
@@ -216,7 +233,15 @@ const ConsultarRecetas = () => {
                         {listaRecetasFiltradas.length === 0 ?
                             <h2>No existen recetas con los filtros ingresados</h2> :
                             (listaRecetasFiltradas.map((unaReceta) => (
-                                <CardReceta key={unaReceta.orden} receta={unaReceta}></CardReceta> //Borre idx porque renderiza duplicados (Nro orden es único)
+
+                                <CardDinamica
+                                    {...cardData}
+
+                                    //Estos son los que hay que modificar segun la data a mostrar  
+                                    key={unaReceta.orden}                   //La key del componente (debe ser un valor único!!)
+                                    data={unaReceta}                        //Elemento actual en la iteración del map
+                                    header={'N° Orden ' + unaReceta.orden}  //El título de la card  
+                                />
                             )))}
                     </section>
                 </div>
