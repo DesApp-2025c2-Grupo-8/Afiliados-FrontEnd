@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import recetas from '../../db/recetas';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
-import './ConsultarRecetas.css'
+import styles from './ConsultarRecetas.module.css'
 import SearchBarConsultarRecetas from '../../components/SearchBarConsultarRecetas/SearchBarConsultarRecetas';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
+const recetasOrdenInverso = [...recetas].reverse(); //Para ordenar las recetas de más actuales a más antiguas
 // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
 const integrantesOpcionesIniciales = [...new Set(recetas.map(r => r.integrante))];
 const presentacionesOpcionesIniciales = [...new Set(recetas.map(r => r.presentacion))];
@@ -36,8 +37,8 @@ const ConsultarRecetas = () => {
         document.title = 'Consulta de Recetas - Medicina Integral'
     }, []);
 
-    const [listaRecetas] = useState(recetas);
-    const [listaRecetasFiltradas, setListaRecetasFiltradas] = useState(recetas);
+    const [listaRecetas] = useState(recetasOrdenInverso);
+    const [listaRecetasFiltradas, setListaRecetasFiltradas] = useState(recetasOrdenInverso);
     const [filtroMedicamento, setFiltroMedicamento] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPresentacion, setFiltroPresentacion] = useState('');
@@ -181,23 +182,23 @@ const ConsultarRecetas = () => {
 
     return (
         <>
-            <div className='consultaRecetasContainer'>
+            <div className={styles.consultaRecetasContainer}>
                 {/* <button onClick={() => console.log(listaRecetas)}>Ver recetas por consola</button> */}
-                <section className='botonesContainer'>
+                <section className={styles.botonesContainer}>
                     <h1>Consultar Recetas</h1>
                     <SearchBarConsultarRecetas // MEDICAMENTO
                         filtrarPorMedicamento={filtrarPorMedicamento}
                         limpiarFiltros={limpiarFiltroMedicamento}
                         valorInput={filtroMedicamento}
                     />
-                    <Link className='botonCargarReceta' to={'/cargar-receta'}><BsClipboard2Plus style={{marginRight: '10px'}}/>Cargar Receta</Link>
+                    <Link className={styles.botonCargarReceta} to={'/cargar-receta'}><BsClipboard2Plus style={{marginRight: '10px'}}/>Cargar Receta</Link>
                 </section>
-                <div className='box'>
-                    <section className='filtroContainer'>
+                <div className={styles.box}>
+                    <section className={styles.filtroContainer}>
                         <h2>Filtrar recetas por:</h2>
                         <hr />
-                        <div className='botonLimpiarFiltrosContainer'>
-                            <button className='botonLimpiarFiltros' onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
+                        <div className={styles.botonLimpiarFiltrosContainer}>
+                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
                         <FiltrosCards //INTEGRANTE
                             label={'Integrante'}
@@ -229,7 +230,7 @@ const ConsultarRecetas = () => {
                         <hr />
                         <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
                     </section>
-                    <section className='recetasContainer'>
+                    <section className={styles.recetasContainer}>
                         {listaRecetasFiltradas.length === 0 ?
                             <h2>No existen recetas con los filtros ingresados</h2> :
                             (listaRecetasFiltradas.map((unaReceta) => (
