@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import recetas from '../../db/recetas';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import styles from './ConsultarRecetas.module.css'
-import SearchBarConsultarRecetas from '../../components/SearchBarConsultarRecetas/SearchBarConsultarRecetas';
+import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
@@ -186,9 +186,10 @@ const ConsultarRecetas = () => {
                 {/* <button onClick={() => console.log(listaRecetas)}>Ver recetas por consola</button> */}
                 <section className={styles.botonesContainer}>
                     <h1>Consultar Recetas</h1>
-                    <SearchBarConsultarRecetas // MEDICAMENTO
-                        filtrarPorMedicamento={filtrarPorMedicamento}
+                    <SearchBarCards // MEDICAMENTO
+                        filtro={filtrarPorMedicamento}
                         limpiarFiltros={limpiarFiltroMedicamento}
+                        placeholder={"Ingrese un medicamento..."}
                         valorInput={filtroMedicamento}
                     />
                     <Link className={styles.botonCargarReceta} to={'/cargar-receta'}><BsClipboard2Plus style={{marginRight: '10px'}}/>Cargar Receta</Link>
