@@ -180,7 +180,37 @@ const ConsultarRecetas = () => {
         setPresentacionesOpciones(presentacionesOpcionesIniciales);
     };
 
-    return (
+    const filtrosConfig = [
+        {
+            label: 'Integrante',
+            default: 'Seleccione un integrante...',
+            defaultDesactivado: true,
+            opciones: integrantesOpciones,
+            valorActual: filtroIntegrante,
+            filtrarAlSeleccionar: filtrarPorIntegrante,
+            borrarFiltro: limpiarFiltroIntegrante,
+        },
+        {
+            label: 'Presentación',
+            default: 'Seleccione una presentación...',
+            defaultDesactivado: true,
+            opciones: presentacionesOpciones,
+            valorActual: filtroPresentacion,
+            filtrarAlSeleccionar: filtrarPorPresentacion,
+            borrarFiltro: limpiarFiltroPresentacion,
+        },
+        {
+            label: 'Período',
+            default: 'TODO',
+            defaultDesactivado: false,
+            opciones: periodosOpciones,
+            valorActual: filtroPeriodo,
+            filtrarAlSeleccionar: filtrarPorPeriodo,
+            borrarFiltro: limpiarFiltroPeriodo,
+        }
+    ];
+
+    return (   
         <>
             <div className={styles.consultaRecetasContainer}>
                 {/* <button onClick={() => console.log(listaRecetas)}>Ver recetas por consola</button> */}
@@ -201,33 +231,9 @@ const ConsultarRecetas = () => {
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
-                        <FiltrosCards //INTEGRANTE
-                            label={'Integrante'}
-                            default={'Seleccione un integrante...'}
-                            defaultDesactivado
-                            opciones={integrantesOpciones}
-                            valorActual={filtroIntegrante}
-                            filtrarAlSeleccionar={filtrarPorIntegrante}
-                            borrarFiltro={limpiarFiltroIntegrante}
-                        />
-                        <FiltrosCards //PRESENTACION
-                            label={'Presentación'}
-                            default={'Seleccione una presentación...'}
-                            defaultDesactivado
-                            opciones={presentacionesOpciones}
-                            valorActual={filtroPresentacion}
-                            filtrarAlSeleccionar={filtrarPorPresentacion}
-                            borrarFiltro={limpiarFiltroPresentacion}
-                        />
-                        <hr />
-                        <FiltrosCards //PERIODO
-                            label={'Período'}
-                            default={'TODO'}
-                            opciones={periodosOpciones}
-                            valorActual={filtroPeriodo}
-                            filtrarAlSeleccionar={filtrarPorPeriodo}
-                            borrarFiltro={limpiarFiltroPeriodo}
-                        />
+                        {filtrosConfig.map(unFiltro => (
+                            <FiltrosCards {...unFiltro} key={unFiltro.label}/>
+                        ))}
                         <hr />
                         <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
                     </section>
@@ -235,7 +241,6 @@ const ConsultarRecetas = () => {
                         {listaRecetasFiltradas.length === 0 ?
                             <h2>No existen recetas con los filtros ingresados</h2> :
                             (listaRecetasFiltradas.map((unaReceta) => (
-
                                 <CardDinamica
                                     {...cardData}
 
