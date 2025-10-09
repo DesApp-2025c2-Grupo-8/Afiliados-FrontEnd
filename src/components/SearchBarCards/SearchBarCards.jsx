@@ -1,9 +1,9 @@
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { MdCancel } from 'react-icons/md';
-import styles from './SearchBarConsultarRecetas.module.css'
+import styles from './SearchBarCards.module.css'
 
-const SearchBarConsultarRecetas = (props) => {
+const SearchBarCards = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -12,12 +12,12 @@ const SearchBarConsultarRecetas = (props) => {
   return (
     <form onSubmit={handleSubmit} className={styles.searchForm}>
       <div className={styles.searchBarra}>
-        <button className={styles.botonLimpiar} onClick={props.limpiarFiltros}><MdCancel/></button>
+        <button type='button' className={styles.botonLimpiar} onClick={props.limpiarFiltros}><MdCancel/></button>
         <input
           type="text"
-          placeholder="Ingrese un medicamento..."
+          placeholder={props.placeholder}
           value={props.valorInput}
-          onChange={(e) => props.filtrarPorMedicamento(e.target.value)}
+          onChange={(e) => props.filtro(e.target.value)}
         />
         <FaSearch className={styles.iconoBusqueda} />
       </div>
@@ -25,4 +25,4 @@ const SearchBarConsultarRecetas = (props) => {
   );
 }
 
-export default SearchBarConsultarRecetas;
+export default SearchBarCards;
