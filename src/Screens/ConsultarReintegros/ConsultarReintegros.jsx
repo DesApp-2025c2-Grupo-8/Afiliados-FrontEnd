@@ -24,6 +24,8 @@ const cardData = {
         { campo: 'Nro', propiedad: 'id' },
         { campo: 'Fecha de carga', propiedad: 'fechaDeCarga' },
         { campo: 'Integrante', propiedad: 'integrante' },
+        { campo: 'Médico/a', propiedad: 'medico' },
+        { campo: 'Lugar de atención', propiedad: 'lugarDeAtencion' },
         { campo: 'Monto', propiedad: 'monto'}
     ],
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
@@ -37,7 +39,7 @@ const ConsultarReintegros = () => {
 
     const [listaReintegros] = useState(reintegrosOrdenInverso);
     const [listaReintegrosFiltrados, setlistaReintegrosFiltrados] = useState(reintegrosOrdenInverso);
-    const [filtroEstado, setfiltroEstado] = useState('');
+    const [filtroEstado, setFiltroEstado] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
@@ -45,7 +47,7 @@ const ConsultarReintegros = () => {
     const [integrantesOpciones, setIntegrantesOpciones] = useState(integrantesOpcionesIniciales);
 
     const filtrarPorEstado = (unEstado) => {
-        setfiltroEstado(unEstado);
+        setFiltroEstado(unEstado);
         aplicarFiltros(unEstado, filtroIntegrante, filtroPeriodo);
     };
 
@@ -135,7 +137,8 @@ const ConsultarReintegros = () => {
     };
 
     const limpiarFiltroEstado = () => {
-        setfiltroEstado('');
+        setFiltroEstado('');
+        setEstadosOpciones(estadosOpcionesIniciales);
         aplicarFiltros('', filtroIntegrante, filtroPeriodo);
     };
 
@@ -152,9 +155,10 @@ const ConsultarReintegros = () => {
 
     const limpiarFiltros = () => {
         setlistaReintegrosFiltrados(listaReintegros);
-        limpiarFiltroEstado('');
+        setFiltroEstado('');
         setFiltroIntegrante('');
         setFiltroPeriodo('');
+        setEstadosOpciones(estadosOpcionesIniciales);
         setIntegrantesOpciones(integrantesOpcionesIniciales);
     };
 
@@ -210,7 +214,7 @@ const ConsultarReintegros = () => {
                 <section className={styles.botonesContainer}>
                     <h1>Consultar Reintegros</h1>
                     
-                    <Link className={styles.botonCargarReceta} to={'/cargar-reintegro'}><MdAttachMoney style={{marginRight: '10px'}}/>Cargar Reintegro</Link>
+                    <Link className={styles.botonCargarReceta} to={'/cargar-reintegro'}><MdAttachMoney style={{marginRight: '10px'}}/>Solicitar Reintegro</Link>
                 </section>
                 <div className={styles.box}>
                     <section className={styles.filtroContainer}>
