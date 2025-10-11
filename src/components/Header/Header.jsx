@@ -16,7 +16,7 @@ const RUTAS = [
         nombre: 'Recetas'
     },
     {
-        ruta: '/WIP',
+        ruta: '/consultar-autorizaciones',
         nombre: 'Autorizaciones'
     },
     {
