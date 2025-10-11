@@ -26,12 +26,17 @@ export function AppRouter() {
           <Route path='/' exact={true} Component={Home}/>
           <Route path="/login" Component={Login}/>
           <Route path="/registro" Component={Registro}/>
+          {/* <Route path='/solicitar-turno' Component={}/> */}
+          {/* <Route path='/consultar-turnos' Component={}/> */}
           <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
-          <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
+          {/* <Route path='/cargar-autorizacion' Component={}/> */}
           <Route path='/consultar-autorizaciones' Component={ConsultarAutorizaciones}/>
+          {/* <Route path='/solicitar-reintegro' Component={}/> */}
           <Route path='/consultar-reintegros' Component={ConsultarReintegros}/>
-
+          <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
+          {/* <Route path='/contacto' Component={}/> */}
+          {/* <Route path='/perfil' Component={}/> */}
           
           {/* El de 404 debe siempre estar a lo último, si agregan páginas haganlo por encima de esta. */}
           <Route path="/*" Component={NotFound}></Route>
