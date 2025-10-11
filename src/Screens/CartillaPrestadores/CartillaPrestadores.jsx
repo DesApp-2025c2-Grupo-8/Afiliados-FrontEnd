@@ -3,7 +3,7 @@ import prestadores from '../../db/prestadores.js'
 import CardPrestadores from '../../components/CardPrestadores/CardPrestadores';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import FormPrestadores from '../../components/FormPrestadores/FormPrestadores.jsx'
-import './CartillaPrestadores.css'
+import styles from './CartillaPrestadores.module.css'
 
 const cardData = {
     // Color: Clase para el color del header de la Card, en idex.css
@@ -43,14 +43,14 @@ const cartillaPrestadores = () => {
 
     return (
         <>
-            <div className='containerCartillaPrestadores'>
-                <h1 className='tituloPrestadores'>Cartilla de Prestadores</h1>
+            <div className={styles.containerCartillaPrestadores}>
+                <h1 className={styles.tituloPrestadores}>Cartilla de Prestadores</h1>
                 <section className='conteinerFormPrestadores'>
                     <FormPrestadores prestadores={prestadores} onBuscar={manejarResultadoBusqueda} buscarPrestadores={buscarPrestadores} especialidad={cambiarEspecialidad} />
                 </section>
 
-                <section className='containerResultadosPrestadores'>
-                    <h2>Resultados de Búsqueda</h2>
+                <section className={styles.containerResultadosPrestadores}>
+                    <h2 className={styles.tituloResultadosPrestadores}>Resultados de Búsqueda</h2>
                     {resultado.length > 0 ? (resultado.map((prestador, idx) => (
                         // <CardPrestadores key={prestador.id + idx} prestador={prestador} />
                         <CardDinamica
