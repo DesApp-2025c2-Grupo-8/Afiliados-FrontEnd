@@ -12,6 +12,7 @@ import ConsultarRecetas from "./Screens/ConsultarRecetas/ConsultarRecetas";
 import CartillaPrestadores from "./Screens/CartillaPrestadores/CartillaPrestadores"
 
 import NotFound from "./Screens/NotFound/NotFound";
+import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
 
 export function AppRouter() {
   return (
@@ -24,6 +25,7 @@ export function AppRouter() {
           <Route path="/login" Component={Login}/>
           <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
+          <Route path='/consultar-turnos' Component={ConsultarTurnos}/>
           <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
           
           {/* El de 404 debe siempre estar a lo último, si agregan páginas haganlo por encima de esta. */}

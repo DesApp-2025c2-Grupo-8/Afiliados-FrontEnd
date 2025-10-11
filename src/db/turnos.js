@@ -1,33 +1,57 @@
 const turnos = [
   {
-    fecha: "2025-10-02",
+    id: 1,
+    integrante: "Santiago",
+    fecha: "2024-10-02",
     hora: "08:30",
     prestador: "Dr. Juan Pérez",
-    tipoConsulta: "Clínico"
+    tipoConsulta: "Clínico",
+    lugar: "Hospital 1"
   },
   {
+    id: 2,
+    integrante: "Julieta",
     fecha: "2025-10-02",
     hora: "09:00",
     prestador: "Dra. María González",
-    tipoConsulta: "Alergista"
+    tipoConsulta: "Alergista",
+    lugar: "Hospital 1"
   },
   {
-    fecha: "2025-10-04",
+    id:3,
+    integrante: "Ignacio",
+    fecha: "2025-12-04",
     hora: "09:30",
     prestador: "Dr. Carlos López",
-    tipoConsulta: "Dermatólogo"
+    tipoConsulta: "Dermatólogo",
+    lugar: "Hospital 1"
   },
   {
-    fecha: "2025-10-07",
+    id:4,
+    integrante: "Valentín",
+    fecha: "2024-10-07",
     hora: "10:00",
     prestador: "Dra. Laura Fernández",
-    tipoConsulta: "Pediatra"
+    tipoConsulta: "Pediatra",
+    lugar: "Hospital 2"
   },
   {
+    id:5,
+    integrante: "Tomás",
     fecha: "2025-10-08",
     hora: "10:30",
     prestador: "Dr. Andrés Martínez",
-    tipoConsulta: "Cardiólogo"
+    tipoConsulta: "Cardiólogo",
+    lugar: "Hospital 2"
+  },
+  {
+    id:6,
+    integrante: "Julieta TM",
+    fecha: "2025-11-08",
+    hora: "10:30",
+    prestador: "Dr. Andrés Martínez",
+    tipoConsulta: "Cardiólogo",
+    lugar: "Hospital 2"
   },
   
 ];
