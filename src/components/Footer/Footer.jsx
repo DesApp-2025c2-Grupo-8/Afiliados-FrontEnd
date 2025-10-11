@@ -4,6 +4,37 @@ import './Footer.css';
 
 import logo from '@assets/images/Titulo-Logo.svg';
 
+const RUTAS = [
+    {
+        ruta: '/consultar-turnos',
+        nombre: 'Turnos'
+    },
+    {
+        ruta: '/consultar-recetas',
+        nombre: 'Recetas'
+    },
+    {
+        ruta: '/consultar-autorizaciones',
+        nombre: 'Autorizaciones'
+    },
+    {
+        ruta: '/consultar-reintegros',
+        nombre: 'Reintegros'
+    },
+    {
+        ruta: '/cartilla-prestadores',
+        nombre: 'Cartilla prestadores'
+    },
+    {
+        ruta: '/contacto',
+        nombre: 'Contacto'
+    },
+    {
+        ruta: '/perfil',
+        nombre: 'Perfil'
+    }
+];
+
 const Footer = () => {
     return (
         <footer className='footer'>
@@ -14,13 +45,9 @@ const Footer = () => {
                 <div className='div-links'>
                     <h5 className='titulo-footer'>Links</h5>
                     <ul  className='ul-nav-footer'>
-                        <li className='item-footer'><Link to="/cartilla">Cartilla Prestadores</Link></li>
-                        <li className='item-footer'><Link to="/autorizaciones">Autorizaciones</Link></li>
-                        <li className='item-footer'><Link to="/reintegros">Reintegros</Link></li>
-                        <li className='item-footer'><Link to="/perfil">Perfil</Link></li>
-                        <li className='item-footer'><Link to="/turnos">Turnos</Link></li>
-                        <li className='item-footer'><Link to="/recetas">Recetas</Link></li>
-                        <li className='item-footer'><Link to="/contacto">Contacto</Link></li>
+                        {RUTAS.map( (unaRuta, idx) => (
+                            <li key={idx} className='item-footer'><Link key={idx} to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                        ) )}
                     </ul>
                 </div>
                 <div className='div-contacto'>
