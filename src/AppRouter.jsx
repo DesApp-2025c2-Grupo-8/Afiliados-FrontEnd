@@ -6,12 +6,13 @@ import { grey } from "@mui/material/colors";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./Screens/Home/Home";
-import Login from "./Screens/Login/Login"
+import Login from "./Screens/Login/Login";
+import Registro from './Screens/Registrarse/Registrate';
 import FormRecetas from "./Screens/FormRecetas/FormRecetas";
 import ConsultarRecetas from "./Screens/ConsultarRecetas/ConsultarRecetas";
-import CartillaPrestadores from "./Screens/CartillaPrestadores/CartillaPrestadores"
+import CartillaPrestadores from "./Screens/CartillaPrestadores/CartillaPrestadores";
 import ConsultarAutorizaciones from "./Screens/ConsultarAutorizaciones/ConsultarAutorizaciones";
-import ConsultarReintegros from "./Screens/ConsultarReintegros/ConsultarReintegros"
+import ConsultarReintegros from "./Screens/ConsultarReintegros/ConsultarReintegros";
 
 import NotFound from "./Screens/NotFound/NotFound";
 
@@ -24,6 +25,7 @@ export function AppRouter() {
           {/* <Route path='/'/> */}
           <Route path='/' exact={true} Component={Home}/>
           <Route path="/login" Component={Login}/>
+          <Route path="/registro" Component={Registro}/>
           <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
           <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>

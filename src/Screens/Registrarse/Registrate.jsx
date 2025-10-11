@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import './Registro.css';
+import './Registrate.css';
 
 const Registro = () => {
   useEffect(() => {
