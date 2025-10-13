@@ -8,7 +8,7 @@ import logo from '@assets/images/Titulo-Logo.svg';
 
 const RUTAS = [
     {
-        ruta: '/WIP',
+        ruta: '/consultar-turnos',
         nombre: 'Turnos'
     },
     {
@@ -16,11 +16,11 @@ const RUTAS = [
         nombre: 'Recetas'
     },
     {
-        ruta: '/WIP',
+        ruta: '/consultar-autorizaciones',
         nombre: 'Autorizaciones'
     },
     {
-        ruta: '/WIP',
+        ruta: '/consultar-reintegros',
         nombre: 'Reintegros'
     },
     {
@@ -28,11 +28,11 @@ const RUTAS = [
         nombre: 'Cartilla prestadores'
     },
     {
-        ruta: '/WIP',
+        ruta: '/contacto',
         nombre: 'Contacto'
     },
     {
-        ruta: '/WIP',
+        ruta: '/perfil',
         nombre: 'Perfil'
     }
 ];
