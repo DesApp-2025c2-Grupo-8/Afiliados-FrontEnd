@@ -15,6 +15,7 @@ import ConsultarAutorizaciones from "./Screens/ConsultarAutorizaciones/Consultar
 import ConsultarReintegros from "./Screens/ConsultarReintegros/ConsultarReintegros";
 
 import NotFound from "./Screens/NotFound/NotFound";
+import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
 
 export function AppRouter() {
   return (
@@ -27,9 +28,9 @@ export function AppRouter() {
           <Route path="/login" Component={Login}/>
           <Route path="/registro" Component={Registro}/>
           {/* <Route path='/solicitar-turno' Component={}/> */}
-          {/* <Route path='/consultar-turnos' Component={}/> */}
           <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
+          <Route path='/consultar-turnos' Component={ConsultarTurnos}/>
           {/* <Route path='/cargar-autorizacion' Component={}/> */}
           <Route path='/consultar-autorizaciones' Component={ConsultarAutorizaciones}/>
           {/* <Route path='/solicitar-reintegro' Component={}/> */}
