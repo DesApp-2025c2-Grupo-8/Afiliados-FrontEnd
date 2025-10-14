@@ -1,64 +1,36 @@
-/* Contenedor */
 .login-container {
-  position: relative;
   width: 100%;
-  padding: 150px 0px;
+  padding: 150px 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   background-color: #EBEBEB;
-  background-image: url("@assets/images/imagenFondoLogin.png");
+  background-image: url("../../assets/images/imagenFondoLogin.png");
   background-size: cover;
   background-position: center;
 }
 
-
-
-/* Imagen de fondo */
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  opacity: 0.3;
-}
-
-
 .login-box {
-  background-color: #FFFFFF;
+  background-color: #fff;
   padding: 2rem;
   border-radius: 15px;
-  width: 80%;
   max-width: 400px;
+  width: 100%;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-/* Título "Iniciar Sesión" */
 .login-box h2 {
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
   color: #333;
 }
 
-/* Formulario en columna */
 form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
-/* Etiquetas de los campos */
-label {
-  text-align: left;
-  font-size: 0.9rem;
-  color: #333;
-  margin-bottom: -0.5rem;
-}
-
 
 select,
 input {
@@ -69,37 +41,30 @@ input {
   outline: none;
 }
 
-
 select:focus,
 input:focus {
   border-color: #24979B;
 }
 
-/* Botón principal */
-.btn-ingresar {
+.btn-info {
   background-color: #24979B;
-  color: #fff;
   border: none;
-  padding: 0.9rem;
-  border-radius: 8px;
   font-size: 1rem;
+  border-radius: 8px;
+  padding: 0.9rem;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
-
-.btn-ingresar:hover {
+.btn-info:hover {
   background-color: #1d7c80;
 }
 
-/* "¿No tenés cuenta?" */
 .register-section {
   margin-top: 1.5rem;
   font-size: 0.9rem;
   color: #333;
 }
 
-/* "Registrarse" */
 .register-section a {
   margin-left: 5px;
   color: #24979B;
@@ -107,12 +72,10 @@ input:focus {
   text-decoration: none;
 }
 
-
 .register-section a:hover {
   text-decoration: underline;
 }
 
-/* responsive */
 @media (max-width: 480px) {
   .login-box {
     padding: 1.5rem;
