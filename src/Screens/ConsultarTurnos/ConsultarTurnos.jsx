@@ -8,7 +8,7 @@ import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
-
+const turnosOrdenInverso = [...turnos].reverse(); //Para ordenar turnos de más actuales a más antiguos
 const periodosOpciones = [
     'Último año',
     'Últimos seis meses',
@@ -28,7 +28,8 @@ const cardData = {
         { campo: 'Especialidad', propiedad: 'tipoConsulta' },
         //{ campo: 'Profesional', propiedad: 'profesional' },
         { campo: 'Lugar', propiedad: 'lugar' }
-    ]
+    ],
+    tieneContenidoExtra: true
 };
 
 
@@ -40,8 +41,8 @@ const ConsultarTurnos = () => {
     
 
     
-    const [listaTurnos, setListaTurnos] = useState(turnos);
-    const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState(turnos);
+    const [listaTurnos] = useState(turnosOrdenInverso);
+    const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState(turnosOrdenInverso);
 
     const [filtroVigentes, setFiltroVigentes] = useState(false);
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
@@ -177,24 +178,22 @@ const ConsultarTurnos = () => {
                         {listaTurnosFiltrados.length === 0 ?
                             <h2>No existen turnos con los filtros ingresados</h2> :
                             (listaTurnosFiltrados.map((unTurno) => (
-                                <div key={unTurno.id} className={styles.card}>
                                     <CardDinamica
-                                    {...cardData}
-                                    data={unTurno}
-                                    header={'Nro. Turno: ' + unTurno.id}
-                                />
-                                    <div className={styles.botonCardContainer}>
-                                        <button
-                                            className={styles.botonAbrirModal}
-                                            onClick={() => {
-                                            setTurnoSeleccionado(unTurno);
-                                            setMostrarModal(true);
-                                            }}
-                                        >
-                                        Cancelar Turno
-                                        </button>
-                                    </div>
-                                </div>
+                                        {...cardData}
+                                        data={unTurno}
+                                        header={'Nro. Turno: ' + unTurno.id}
+                                        tieneContenidoExtra={
+                                            <button
+                                                className={styles.botonAbrirModal}
+                                                onClick={() => {
+                                                setTurnoSeleccionado(unTurno);
+                                                setMostrarModal(true);
+                                                }}
+                                            >
+                                            Cancelar Turno
+                                            </button>
+                                        }
+                                    />
                             )))
                         }
                     </section>

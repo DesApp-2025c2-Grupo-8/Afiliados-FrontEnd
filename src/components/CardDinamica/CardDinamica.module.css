@@ -41,3 +41,8 @@
   width: 150px;
   margin: 0px;
 }
+
+.tieneContenidoExtra {
+  margin-top: 16px;
+  text-align: center;
+}

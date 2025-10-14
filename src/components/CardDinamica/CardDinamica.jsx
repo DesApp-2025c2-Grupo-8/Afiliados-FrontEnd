@@ -4,7 +4,7 @@ import styles from './CardDinamica.module.css';
 import { FiDownload } from 'react-icons/fi';
 
 const CardDinamica = (props) => {
-  const { data, header, color, camposCard, tieneBotonDescarga } = props;
+  const { data, header, color, camposCard, tieneBotonDescarga, tieneContenidoExtra } = props;
 
   return (
     <Card className={styles.cardBox}>
@@ -23,6 +23,12 @@ const CardDinamica = (props) => {
         {tieneBotonDescarga && (
           <div className={styles.botonBox}>
             <p className={styles.botonPDF}><FiDownload style={{ marginRight: '10px' }} />Descargar</p>
+          </div>
+        )}
+
+        {tieneContenidoExtra && (
+          <div className={styles.tieneContenidoExtra}>
+            {tieneContenidoExtra}
           </div>
         )}
       </Card.Body>
