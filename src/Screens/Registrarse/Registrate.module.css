@@ -1,5 +1,5 @@
-.registro-container {
-  position: relative;
+.registroContainer {
+  /* position: relative; */
   width: 100%;
   padding: 150px 0;
   display: flex;
@@ -11,21 +11,33 @@
   background-position: center;
 }
 
-.registro-box {
+.justifyContentCenter{
+  width: 70%;
+  min-width: 600px;
+  max-width: 1200px;
+}
+
+.colCenter{
+  width: 100%;
+}
+
+
+.registroBox {
   background-color: #ffffff;
   padding: 2rem;
+  min-width: 100%;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.registro-box h2 {
+.registroBox h2 {
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
   color: #333;
 }
 
-.btn-registrar {
+.btnRegistrar {
   background-color: #24979b !important;
   color: #fff !important;
   border: none;
@@ -34,33 +46,33 @@
   transition: background 0.3s;
 }
 
-.btn-registrar:hover {
+.btnRegistrar:hover {
   background-color: #1d7c80 !important;
 }
 
-.login-section {
+.loginSection {
   margin-top: 1.5rem;
   font-size: 0.9rem;
   color: #333;
 }
 
-.login-section a {
+.loginSection a {
   margin-left: 5px;
   color: #24979b;
   font-weight: bold;
   text-decoration: none;
 }
 
-.login-section a:hover {
+.loginSection a:hover {
   text-decoration: underline;
 }
 
 @media (max-width: 480px) {
-  .registro-box {
+  .registroBox {
     padding: 1.5rem;
   }
 
-  .registro-box h2 {
+  .registroBox h2 {
     font-size: 1.5rem;
   }
 }
