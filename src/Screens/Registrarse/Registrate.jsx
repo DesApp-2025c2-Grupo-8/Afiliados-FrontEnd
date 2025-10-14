@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import styles from "./Registro.module.css"; 
+import styles from "./Registrate.module.css"; 
 
 const Registro = () => {
   useEffect(() => {
@@ -14,11 +14,11 @@ const Registro = () => {
   };
 
   return (
-    <div className={styles["registro-container"]}>
-      <Container>
-        <Row className="justify-content-center">
-          <Col xs={12} md={8} lg={6}>
-            <div className={styles["registro-box"]}>
+    <div className={styles.registroContainer}>
+      {/* <Container> */}
+        <Row className={styles.justifyContentCenter}>
+          <Col  className={styles.colCenter}>
+            <div className={styles.registroBox}>
               <h2>Registrate</h2>
 
               <Form onSubmit={handleSubmit}>
@@ -103,20 +103,20 @@ const Registro = () => {
                 <Button
                   variant="info"
                   type="submit"
-                  className={`${styles["btn-registrar"]} w-100 mt-3`}
+                  className={`${styles.btnRegistrar} w-100 mt-3`}
                 >
                   Registrar
                 </Button>
               </Form>
 
-              <div className={styles["login-section"]}>
+              <div className={styles.loginSection}>
                 <span>¿Ya tenés cuenta?</span>
                 <Link to="/login">Iniciar Sesión</Link>
               </div>
             </div>
           </Col>
         </Row>
-      </Container>
+      {/* </Container> */}
     </div>
   );
 };
