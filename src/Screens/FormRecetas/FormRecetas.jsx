@@ -6,42 +6,60 @@ import { useNavigate, Link } from "react-router-dom"
 import logo from "@assets/images/Titulo-Logo.svg"
 
 const FormRecetas = () => {
-    useEffect( () => {
-            document.title = 'Cargar Receta - Medicina Integral'
+    useEffect(() => {
+        document.title = 'Cargar Receta - Medicina Integral'
     }, []);
-    
+
     const [data, setData] = useState({
+        fechaDeCarga: new Date().toISOString().slice(0, 10),
         integrante: "",
         medicamento: "",
-        cantidad: "",
+        cantidad: 0,
         presentacion: "",
         observaciones: ""
     })
 
     const [modalConfirmar, setModalConfirmar] = useState(false)
     const [modalCancelar, setModalCancelar] = useState(false)
+    const [nroOrden, setNroOrden] = useState(null)
 
     const navigate = useNavigate()
 
     const handleChange = (event) => {
-        const { nombre, valor } = event.target
+        const { name, value } = event.target
         setData(
             campos => ({
                 ...campos,
-                [nombre]: valor
+                [name]: value
             })
         )
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log('Datos enviados', data) //fetch cuando haya back.
-
     }
 
-    const confirmar = (event) => {
+    const confirmar = async (event) => {
         event.preventDefault()
-        setModalConfirmar(true)
+        try {
+            const dataToSend = {
+                ...data,
+                cantidad: parseInt(data.cantidad)
+            };
+            const response = await fetch('http://localhost:3000/recetas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            });
+            const result = await response.json();
+            setNroOrden(result.numeroOrden);
+            console.log("Resultado:", result);
+            setModalConfirmar(true)
+        } catch (error) {
+            console.log("Error:", error);
+        }
     }
 
     const cancelar = () => {
@@ -50,20 +68,20 @@ const FormRecetas = () => {
 
     const handleCancelar = () => {
         setModalCancelar(false)
-        navigate("/")
+        navigate("/consultar-recetas")
     }
 
     const handleConfirmar = () => {
         setModalConfirmar(false)
-        navigate("/") //poner la página de recetas
+        navigate("/consultar-recetas")
     }
 
-    return(
+    return (
         <div className="fondo">
             <div className="header-logo">
-                    <Link to="/">
-                        <img src={logo} alt="Logo" className="logo" />
-                    </Link>
+                <Link to="/">
+                    <img src={logo} alt="Logo" className="logo" />
+                </Link>
             </div>
             <div className="container">
                 <div className="card">
@@ -77,8 +95,8 @@ const FormRecetas = () => {
                                 onChange={handleChange}
                             >
                                 <option value="">Seleccione el nombre del integrante</option>
-                                <option value="">Integrante 1</option>
-                                <option value="">Integrante 2</option>
+                                <option value="Integrante 1">Integrante 1</option>
+                                <option value="Integrante 2">Integrante 2</option>
                             </Form.Select>
                         </Form.Group>
 
@@ -91,8 +109,8 @@ const FormRecetas = () => {
                                     onChange={handleChange}
                                 >
                                     <option value="">Seleccione un medicamento</option>
-                                    <option value="">Ibuprofeno</option>
-                                    <option value="">Paracetamol</option>
+                                    <option value="Ibuprofeno">Ibuprofeno</option>
+                                    <option value="Paracetamol">Paracetamol</option>
                                 </Form.Select>
                             </Form.Group>
                             <Form.Group as={Col} md={4} controlId="cantidad">
@@ -114,8 +132,8 @@ const FormRecetas = () => {
                                 onChange={handleChange}
                             >
                                 <option value="">Seleccione una opción de la lista</option>
-                                <option value="">Comprimidos</option>
-                                <option value="">Gotas</option>
+                                <option value="Comprimidos">Comprimidos</option>
+                                <option value="Gotas">Gotas</option>
                             </Form.Select>
                         </Form.Group>
 
@@ -132,10 +150,10 @@ const FormRecetas = () => {
                 <Modal className="modal" show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
                     <Modal.Body>
                         La receta ha sido cargada correctamente. <br />
-                        Nro.Orden:
+                        Nro.Orden: {nroOrden}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={handleConfirmar} style={{backgroundColor: '#24979B', border: 'none'}}>Aceptar</Button>
+                        <Button onClick={handleConfirmar} style={{ backgroundColor: '#24979B', border: 'none' }}>Aceptar</Button>
                     </Modal.Footer>
                 </Modal>
 
@@ -144,8 +162,8 @@ const FormRecetas = () => {
                         ¿Estas seguro que deseas cancelar la carga de la receta?
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => setModalCancelar(false)} style={{backgroundColor: '#24979B', border:'none'}}>Volver</Button>
-                        <Button onClick={handleCancelar} style={{backgroundColor: '#E64F4F', border:'none'}}>Continuar</Button>
+                        <Button onClick={() => setModalCancelar(false)} style={{ backgroundColor: '#24979B', border: 'none' }}>Volver</Button>
+                        <Button onClick={handleCancelar} style={{ backgroundColor: '#E64F4F', border: 'none' }}>Continuar</Button>
 
                     </Modal.Footer>
                 </Modal>
