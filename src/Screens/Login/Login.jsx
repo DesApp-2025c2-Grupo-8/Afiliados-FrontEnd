@@ -13,11 +13,10 @@ const Login = () => {
   };
 
   return (
-    <div className={styles["login-container"]}>
-      <Container>
-        <Row className="justify-content-center">
-          <Col xs={12} md={8} lg={5}>
-            <div className={styles["login-box"]}>
+    <div className={styles.loginContainer}>
+        <Row className={styles.justifyContentCenter}>
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <div className={styles.loginBox}>
               <h2>Iniciar Sesión</h2>
 
               <Form onSubmit={handleSubmit}>
@@ -52,20 +51,19 @@ const Login = () => {
                 <Button
                   variant="info"
                   type="submit"
-                  className="w-100 mt-3"
+                  className={`${styles.btnIngresar} w-100 mt-3`}
                 >
                   Ingresar
                 </Button>
               </Form>
 
-              <div className={styles["register-section"]}>
+              <div className={styles.registerSection}>
                 <span>¿No tenés cuenta?</span>
                 <Link to="/registro">Registrarse</Link>
               </div>
             </div>
           </Col>
         </Row>
-      </Container>
     </div>
   );
 };
