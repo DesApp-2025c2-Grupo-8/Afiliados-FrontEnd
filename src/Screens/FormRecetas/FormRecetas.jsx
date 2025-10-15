@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Form, Col, Row, Modal, Button } from "react-bootstrap"
 import FormGenerico from "../../components/plantilla/Form"
-import './FormRecetas.css'
+import styles from './FormRecetas.module.css'
 import { useNavigate, Link } from "react-router-dom"
 import logo from "@assets/images/Titulo-Logo.svg"
 
@@ -77,15 +77,11 @@ const FormRecetas = () => {
     }
 
     return (
-        <div className="fondo">
-            <div className="header-logo">
-                <Link to="/">
-                    <img src={logo} alt="Logo" className="logo" />
-                </Link>
-            </div>
-            <div className="container">
-                <div className="card">
-                    <h4 className="titulo">Carga de Receta</h4>
+        <div className={styles.fondo}>
+            
+            <div className={styles.container}>
+                <div className={styles.card}>
+                    <h4 className={styles.titulo}>Carga de Receta</h4>
                     <FormGenerico handleSubmit={handleSubmit} confirmar={confirmar} cancelar={cancelar}>
                         <Form.Group>
                             <Form.Label>Integrante</Form.Label>
@@ -147,7 +143,7 @@ const FormRecetas = () => {
                         </Form.Group>
                     </FormGenerico>
                 </div>
-                <Modal className="modal" show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
+                <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
                     <Modal.Body>
                         La receta ha sido cargada correctamente. <br />
                         Nro.Orden: {nroOrden}
@@ -157,7 +153,7 @@ const FormRecetas = () => {
                     </Modal.Footer>
                 </Modal>
 
-                <Modal className="modal" show={modalCancelar} onHide={() => setModalCancelar(false)} centered>
+                <Modal className={styles.modal} show={modalCancelar} onHide={() => setModalCancelar(false)} centered>
                     <Modal.Body>
                         ¿Estas seguro que deseas cancelar la carga de la receta?
                     </Modal.Body>
