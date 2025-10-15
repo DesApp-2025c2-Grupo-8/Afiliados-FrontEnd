@@ -12,9 +12,10 @@ const FormRecetas = () => {
 
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString().slice(0, 10),
+        numeroAfiliado: 123456701, // Este valor debería ser dinámico según el usuario logueado
         integrante: "",
         medicamento: "",
-        cantidad: 0,
+        cantidad: "",
         presentacion: "",
         observaciones: ""
     })
@@ -22,6 +23,7 @@ const FormRecetas = () => {
     const [modalConfirmar, setModalConfirmar] = useState(false)
     const [modalCancelar, setModalCancelar] = useState(false)
     const [nroOrden, setNroOrden] = useState(null)
+    const [errores, setErrores] = useState([])
 
     const navigate = useNavigate()
 
@@ -29,7 +31,7 @@ const FormRecetas = () => {
         const { name, value } = event.target
         setData(
             campos => ({
-                ...campos,
+                ...campos, // mantiene los valores anteriores de data, ejemplo: numeroAfiliado
                 [name]: value
             })
         )
@@ -56,7 +58,7 @@ const FormRecetas = () => {
             const result = await response.json();
             setNroOrden(result.numeroOrden);
             console.log("Resultado:", result);
-            setModalConfirmar(true)
+            result.error ? setErrores(result.message) : setModalConfirmar(true);
         } catch (error) {
             console.log("Error:", error);
         }
@@ -89,11 +91,13 @@ const FormRecetas = () => {
                                 name="integrante"
                                 value={data.integrante}
                                 onChange={handleChange}
+                                required
                             >
                                 <option value="">Seleccione el nombre del integrante</option>
                                 <option value="Integrante 1">Integrante 1</option>
                                 <option value="Integrante 2">Integrante 2</option>
                             </Form.Select>
+                            <span>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                         </Form.Group>
 
                         <Row className="mb-3">
@@ -103,11 +107,13 @@ const FormRecetas = () => {
                                     name="medicamento"
                                     value={data.medicamento}
                                     onChange={handleChange}
+                                    required
                                 >
                                     <option value="">Seleccione un medicamento</option>
                                     <option value="Ibuprofeno">Ibuprofeno</option>
                                     <option value="Paracetamol">Paracetamol</option>
                                 </Form.Select>
+                                <span>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
                             </Form.Group>
                             <Form.Group as={Col} md={4} controlId="cantidad">
                                 <Form.Label>Cantidad</Form.Label>
@@ -116,7 +122,9 @@ const FormRecetas = () => {
                                     type="number"
                                     min="0"
                                     onChange={handleChange}
+                                    required
                                 />
+                                <span>{errores.includes("cantidad should not be empty") ? "Ingrese una cantidad" : ""}</span>
                             </Form.Group>
                         </Row>
 
@@ -126,11 +134,13 @@ const FormRecetas = () => {
                                 name="presentacion"
                                 value={data.presentacion}
                                 onChange={handleChange}
+                                required
                             >
                                 <option value="">Seleccione una opción de la lista</option>
                                 <option value="Comprimidos">Comprimidos</option>
                                 <option value="Gotas">Gotas</option>
                             </Form.Select>
+                            <span>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span>
                         </Form.Group>
 
                         <Form.Group>
