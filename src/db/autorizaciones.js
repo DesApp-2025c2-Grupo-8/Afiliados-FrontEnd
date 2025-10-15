@@ -1,7 +1,7 @@
 const autorizaciones = [
     {
         nroAutorizacion: 1,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Santiago Solari',
         medico: 'Dr. Juan Perez',
         fechaPrevista: '2010-07-15',
@@ -9,7 +9,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 30,
-        estado: 'observacion',
+        estado: 'Observación',
         integrante: 'Lucía Fernández',
         medico: 'Dr. Pablo Torres',
         fechaPrevista: '2010-10-02',
@@ -17,7 +17,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 29,
-        estado: 'pendiente',
+        estado: 'Pendiente',
         integrante: 'Valentina Castro',
         medico: 'Dr. Gustavo López',
         fechaPrevista: '2011-08-30',
@@ -25,7 +25,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 28,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Matías López',
         medico: 'Dra. Carla Gómez',
         fechaPrevista: '2012-04-07',
@@ -33,7 +33,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 27,
-        estado: 'rechazada',
+        estado: 'Rechazada',
         integrante: 'Lucía Fernández',
         medico: 'Dr. Pablo Torres',
         fechaPrevista: '2013-11-13',
@@ -41,7 +41,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 26,
-        estado: 'observacion',
+        estado: 'Observación',
         integrante: 'Valentina Castro',
         medico: 'Dr. Gustavo López',
         fechaPrevista: '2014-02-28',
@@ -49,7 +49,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 2,
-        estado: 'rechazada',
+        estado: 'Rechazada',
         integrante: 'Santiago Solari',
         medico: 'Dr. Juan Perez',
         fechaPrevista: '2015-07-15',
@@ -57,7 +57,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 25,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Matías López',
         medico: 'Dra. Carla Gómez',
         fechaPrevista: '2015-07-19',
@@ -65,7 +65,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 24,
-        estado: 'pendiente',
+        estado: 'Pendiente',
         integrante: 'Lucía Fernández',
         medico: 'Dr. Pablo Torres',
         fechaPrevista: '2016-05-09',
@@ -73,7 +73,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 14,
-        estado: 'rechazada',
+        estado: 'Rechazada',
         integrante: 'Federico Álvarez',
         medico: 'Dr. Ramiro Campos',
         fechaPrevista: '2017-06-19',
@@ -81,7 +81,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 23,
-        estado: 'rechazada',
+        estado: 'Rechazada',
         integrante: 'Valentina Castro',
         medico: 'Dr. Gustavo López',
         fechaPrevista: '2017-09-18',
@@ -89,7 +89,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 22,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Matías López',
         medico: 'Dr. Pablo Torres',
         fechaPrevista: '2018-03-25',
@@ -97,7 +97,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 10,
-        estado: 'rechazada',
+        estado: 'Rechazada',
         integrante: 'Martín García',
         medico: 'Dr. Esteban Rojas',
         fechaPrevista: '2018-08-25',
@@ -105,7 +105,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 9,
-        estado: 'observacion',
+        estado: 'Observación',
         integrante: 'Camila Romero',
         medico: 'Dra. Laura Méndez',
         fechaPrevista: '2019-12-14',
@@ -113,7 +113,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 21,
-        estado: 'observacion',
+        estado: 'Observación',
         integrante: 'Lucía Fernández',
         medico: 'Dra. Carla Gómez',
         fechaPrevista: '2019-12-20',
@@ -121,7 +121,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 11,
-        estado: 'pendiente',
+        estado: 'Pendiente',
         integrante: 'Sofía Morales',
         medico: 'Dra. Paula Benítez',
         fechaPrevista: '2020-01-17',
@@ -129,7 +129,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 3,
-        estado: 'pendiente',
+        estado: 'Pendiente',
         integrante: 'Santiago Solari',
         medico: 'Dr. Juan Perez',
         fechaPrevista: '2020-07-15',
@@ -137,7 +137,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 20,
-        estado: 'pendiente',
+        estado: 'Pendiente',
         integrante: 'Valentina Castro',
         medico: 'Dr. Gustavo López',
         fechaPrevista: '2020-10-05',
@@ -145,7 +145,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 8,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Julián Herrera',
         medico: 'Dr. Pablo Torres',
         fechaPrevista: '2021-05-08',
@@ -153,7 +153,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 19,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Matías López',
         medico: 'Dra. Carla Gómez',
         fechaPrevista: '2021-06-11',
@@ -161,7 +161,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 18,
-        estado: 'rechazada',
+        estado: 'Rechazada',
         integrante: 'Lucía Fernández',
         medico: 'Dr. Pablo Torres',
         fechaPrevista: '2022-02-15',
@@ -169,7 +169,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 7,
-        estado: 'rechazada',
+        estado: 'Rechazada',
         integrante: 'Valentina Castro',
         medico: 'Dra. Mariana Silva',
         fechaPrevista: '2022-09-30',
@@ -177,7 +177,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 6,
-        estado: 'pendiente',
+        estado: 'Pendiente',
         integrante: 'Matías López',
         medico: 'Dr. Ricardo Domínguez',
         fechaPrevista: '2023-03-12',
@@ -185,7 +185,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 17,
-        estado: 'observacion',
+        estado: 'Observación',
         integrante: 'Valentina Castro',
         medico: 'Dr. Gustavo López',
         fechaPrevista: '2023-04-10',
@@ -193,7 +193,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 13,
-        estado: 'observacion',
+        estado: 'Observación',
         integrante: 'Carla Ruiz',
         medico: 'Dra. Jimena Duarte',
         fechaPrevista: '2023-10-10',
@@ -201,7 +201,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 12,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Tomás Vega',
         medico: 'Dr. Gustavo López',
         fechaPrevista: '2024-02-28',
@@ -209,7 +209,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 16,
-        estado: 'pendiente',
+        estado: 'Pendiente',
         integrante: 'Matías López',
         medico: 'Dra. Carla Gómez',
         fechaPrevista: '2024-08-22',
@@ -217,7 +217,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 5,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Lucía Fernández',
         medico: 'Dra. Carla Gómez',
         fechaPrevista: '2024-11-20',
@@ -225,7 +225,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 4,
-        estado: 'observacion',
+        estado: 'Observación',
         integrante: 'Santiago Solari',
         medico: 'Dr. Juan Perez',
         fechaPrevista: '2025-07-15',
@@ -233,7 +233,7 @@ const autorizaciones = [
     },
     {
         nroAutorizacion: 15,
-        estado: 'aceptada',
+        estado: 'Aceptada',
         integrante: 'Lucía Fernández',
         medico: 'Dr. Pablo Torres',
         fechaPrevista: '2025-09-01',
