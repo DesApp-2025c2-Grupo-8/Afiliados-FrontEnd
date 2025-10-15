@@ -8,6 +8,9 @@ import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
+const turnosOrdenInverso = [...turnos].reverse(); //Para ordenar turnos de más actuales a más antiguos
+const turnosOrdenados = [...turnos].sort((turno1,turno2) => turno2.fechaDeCarga.localeCompare(turno1.fechaDeCarga)) //ordena y compara las fechas.
+
 
 const periodosOpciones = [
     'Último año',
@@ -28,7 +31,8 @@ const cardData = {
         { campo: 'Especialidad', propiedad: 'tipoConsulta' },
         //{ campo: 'Profesional', propiedad: 'profesional' },
         { campo: 'Lugar', propiedad: 'lugar' }
-    ]
+    ],
+    tieneContenidoExtra: true
 };
 
 
@@ -40,8 +44,8 @@ const ConsultarTurnos = () => {
     
 
     
-    const [listaTurnos, setListaTurnos] = useState(turnos);
-    const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState(turnos);
+    const [listaTurnos] = useState(turnosOrdenados);
+    const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState(turnosOrdenInverso);
 
     const [filtroVigentes, setFiltroVigentes] = useState(false);
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
@@ -54,7 +58,26 @@ const ConsultarTurnos = () => {
 
     useEffect(() => {
         aplicarFiltros(filtroVigentes, filtroPeriodo, filtroBusqueda);
-    }, [turnosCancelados, filtroVigentes, filtroPeriodo, filtroBusqueda]);
+    }, [listaTurnos, turnosCancelados, filtroVigentes, filtroPeriodo, filtroBusqueda]);
+
+
+    const esTurnoVigente = (turno) => {
+        if(turnosCancelados.includes(turno.id)){
+            return false
+        }
+
+        const hoy = new Date().toISOString().slice(0,10);
+        const horaHoy = new Date().toTimeString().slice(0,5);
+
+        if(turno.fecha > hoy){
+            return true;
+        }else if(turno.fecha === hoy){
+            return turno.hora >= horaHoy
+        }
+
+        return false; 
+
+    }
 
 
     const aplicarFiltros = (vigentes, periodo, busqueda) => {
@@ -177,24 +200,23 @@ const ConsultarTurnos = () => {
                         {listaTurnosFiltrados.length === 0 ?
                             <h2>No existen turnos con los filtros ingresados</h2> :
                             (listaTurnosFiltrados.map((unTurno) => (
-                                <div key={unTurno.id} className={styles.card}>
                                     <CardDinamica
-                                    {...cardData}
-                                    data={unTurno}
-                                    header={'Nro. Turno: ' + unTurno.id}
-                                />
-                                    <div className={styles.botonCardContainer}>
-                                        <button
-                                            className={styles.botonAbrirModal}
-                                            onClick={() => {
-                                            setTurnoSeleccionado(unTurno);
-                                            setMostrarModal(true);
-                                            }}
-                                        >
-                                        Cancelar Turno
-                                        </button>
-                                    </div>
-                                </div>
+                                        {...cardData}
+                                        data={unTurno}
+                                        header={'Nº Turno: ' + unTurno.id}
+                                        tieneContenidoExtra={
+                                            esTurnoVigente(unTurno) ? (
+                                            <button
+                                                className={styles.botonAbrirModal}
+                                                onClick={() => {
+                                                setTurnoSeleccionado(unTurno);
+                                                setMostrarModal(true);
+                                                }}
+                                            >
+                                            Cancelar Turno
+                                            </button> ) :null
+                                        }
+                                    />
                             )))
                         }
                     </section>
