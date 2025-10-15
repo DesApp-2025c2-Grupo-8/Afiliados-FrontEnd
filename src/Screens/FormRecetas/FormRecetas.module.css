@@ -1,35 +1,20 @@
 .fondo {
-    background-image: url('../../assets/images/fondo-FormRecetas.png');
+    min-height: 90vh;
+    padding-top: 100px;
+    width: 100%;
+    background-image: url("@assets/images/fondo-FormRecetas.png");
     background-size: cover;
     background-position: center;
-    height: 100vh;
-    width: 100vw;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    position: absolute;
-
-    top:0;
-    left: 0;
-}
-
-.fondo::before {
-    content: "";
-    position: absolute;
-    top:0; left: 0; right: 0; bottom: 0;
-    background-color: #ebebebb5;
-    
 }
 
 .container {
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
-    max-width: 600px;
-    width: 90%;
-    z-index: 2;
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    min-height: 80vh;       
+    padding-bottom: 2rem;
 }
+
 
 .card {
     background-color: #FFFFFF;
@@ -40,10 +25,7 @@
     margin:auto;
 }
 
-.header-logo {
-    margin-bottom: 5rem;
-    text-align: center;
-}
+
 
 .titulo {
     font-size: 1.9rem;
@@ -72,8 +54,6 @@ button {
     margin: 3rem;
     font-weight: bold;
 }
-
-
 
 .modal {
     font-size: 1.2rem;
