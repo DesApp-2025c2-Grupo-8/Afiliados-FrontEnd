@@ -33,7 +33,7 @@ const cardData = {
 };
 
 //CAMBIAR ACA PARA BUSCAR POR OTRO INTEGRANTE
-const NUMERO_AFILIADO = 663459901;
+const NUMERO_AFILIADO = 6634599;
 
 const ConsultarRecetas = () => {
     useEffect(() => {

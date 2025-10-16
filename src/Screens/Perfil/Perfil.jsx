@@ -14,7 +14,7 @@ const Perfil = () => {
         { campo: 'Email', propiedad: 'email' },
     ]
 
-    const [nroAfiliado, setNroAfiliado] = useState(938557201);
+    const [nroAfiliado, setNroAfiliado] = useState(663459901);
     const usuario = usuarios.find(u => u.numeroAfiliado === nroAfiliado);
     const grupoFamiliar = usuarios.filter(usuario =>
                                 usuario.numeroAfiliado.toString().startsWith(nroAfiliado.toString().slice(0, 7))
