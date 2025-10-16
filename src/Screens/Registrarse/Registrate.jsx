@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Registrate.module.css"; 
 
 const Registro = () => {
+
+  const navigate = useNavigate()
+
   useEffect(() => {
     document.title = "Registrarse - Medicina Integral";
   }, []);
@@ -103,6 +106,7 @@ const Registro = () => {
                 <Button
                   variant="info"
                   type="submit"
+                  onClick={() => navigate("/login")}
                   className={`${styles.btnRegistrar} w-100 mt-3`}
                 >
                   Registrar
