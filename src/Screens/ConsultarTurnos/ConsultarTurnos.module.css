@@ -131,7 +131,7 @@
 }
 
 .botonAbrirModal {
-    background-color: #f44336;
+    background-color: #E64F4F;
     color: white;
     border: none;
     padding: 0.3rem 0.7rem; 
@@ -141,7 +141,7 @@
     font-weight: 700;
 }
 .botonAbrirModal:hover {
-    background-color: #d32f2f; 
+    background-color: rgb(185, 86, 86); 
 }
 
 .botonAbrirModal:active {
