@@ -1,56 +1,70 @@
-import React, {useEffect} from "react";
-import './Login.css';
+import React, { useEffect } from "react";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import styles from "./Login.module.css";
 
 const Login = () => {
   useEffect(() => {
-    document.title = 'Iniciar sesión - Medicina Integral'
+    document.title = "Iniciar sesión - Medicina Integral";
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <>
-      <div className="login-container">
-        {/* formulario */}
-        <div className="login-box">
-          <h2>Iniciar Sesión</h2>
+    <div className={styles.loginContainer}>
+        <Row className={styles.justifyContentCenter}>
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <div className={styles.loginBox}>
+              <h2>Iniciar Sesión</h2>
 
-          <form method="GET" action="/">
-            <label htmlFor="tipoDoc">Tipo Documento</label>
-            <select id="tipoDoc" name="tipoDoc">
-              <option value="">Seleccione</option>
-              <option value="dni">DNI</option>
-              <option value="pasaporte">Pasaporte</option>
-              <option value="lc">Libreta Cívica</option>
-            </select>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="tipoDoc">
+                  <Form.Label>Tipo Documento</Form.Label>
+                  <Form.Select required>
+                    <option value="">Seleccione</option>
+                    <option value="dni">DNI</option>
+                    <option value="pasaporte">Pasaporte</option>
+                    <option value="lc">Libreta Cívica</option>
+                  </Form.Select>
+                </Form.Group>
 
-            <label htmlFor="nroDoc">Nro. Documento</label>
-            <input
-              type="number"
-              min="0"
-              id="nroDoc"
-              name="nroDoc"
-              placeholder="99999999"
-            />
+                <Form.Group controlId="nroDoc">
+                  <Form.Label>Nro. Documento</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="99999999"
+                    required
+                  />
+                </Form.Group>
 
-            <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Ingrese su contraseña"
-            />
+                <Form.Group controlId="password">
+                  <Form.Label>Contraseña</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Ingrese su contraseña"
+                    required
+                  />
+                </Form.Group>
 
-            <button type="submit" className="btn-ingresar">
-              Ingresar
-            </button>
-          </form>
+                <Button
+                  variant="info"
+                  type="submit"
+                  className={`${styles.btnIngresar} w-100 mt-3`}
+                >
+                  Ingresar
+                </Button>
+              </Form>
 
-          <div className="register-section">
-            <span>¿No tenés cuenta?</span>
-            <a href="/registro">Registrarse</a>
-          </div>
-        </div>
-      </div>
-    </>
+              <div className={styles.registerSection}>
+                <span>¿No tenés cuenta?</span>
+                <Link to="/registro">Registrarse</Link>
+              </div>
+            </div>
+          </Col>
+        </Row>
+    </div>
   );
 };
 
