@@ -33,7 +33,7 @@ const cardData = {
 };
 
 //CAMBIAR ACA PARA BUSCAR POR OTRO INTEGRANTE
-const NUMERO_AFILIADO = 663459901;
+const NUMERO_AFILIADO = 663459902;
 
 const ConsultarRecetas = () => {
     useEffect(() => {
@@ -251,9 +251,12 @@ const ConsultarRecetas = () => {
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
-                        {filtrosConfig.map(unFiltro => (
-                            <FiltrosCards {...unFiltro} key={unFiltro.label}/>
-                        ))}
+                        {filtrosConfig
+                            .filter(filtro => filtro.opciones.length > 1)
+                            .map(unFiltro => (
+                                <FiltrosCards {...unFiltro} key={unFiltro.label}/>
+                            ))
+                        }
                         <hr />
                         <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
                     </section>
