@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import recetas from '../../db/recetas';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import styles from './ConsultarRecetas.module.css'
 import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
@@ -8,10 +7,6 @@ import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
-// const recetasOrdenInverso = [...recetas].reverse(); //Para ordenar las recetas de más actuales a más antiguas
-// // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
-// const integrantesOpcionesIniciales = [...new Set(recetas.map(r => r.integrante))];
-// const presentacionesOpcionesIniciales = [...new Set(recetas.map(r => r.presentacion))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -33,13 +28,14 @@ const cardData = {
 };
 
 //CAMBIAR ACA PARA BUSCAR POR OTRO INTEGRANTE
-const NUMERO_AFILIADO = 663459902;
+const NUMERO_AFILIADO = 663459901;
+
 
 const ConsultarRecetas = () => {
     useEffect(() => {
         document.title = 'Consulta de Recetas - Medicina Integral'
 
-        fetch('http://localhost:3000/recetas/' + NUMERO_AFILIADO.toString())
+        fetch('http://localhost:3000/recetas/' + NUMERO_AFILIADO)
             .then(response => response.json())
             .then(data => {
                 const recetasOrdenadas = [...data].reverse();
