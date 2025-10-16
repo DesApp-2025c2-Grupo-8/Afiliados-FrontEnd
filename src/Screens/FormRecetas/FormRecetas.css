@@ -21,6 +21,10 @@
     
 }
 
+.oblgatorio{
+    color: #E64F4F;
+}
+
 .container {
     position: absolute;
     top:50%;
