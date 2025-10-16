@@ -26,6 +26,13 @@
     display: flex;
 }
 
+.botonLimpiarFiltrosContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
 .botonesContainer {
     display: flex;
     justify-content: space-between;

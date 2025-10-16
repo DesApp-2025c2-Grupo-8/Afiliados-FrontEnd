@@ -17,10 +17,10 @@ const estadosOpcionesIniciales = [...new Set(autorizaciones.map(autorizacion => 
 const cardData = {
 
     camposCard: [
-        { campo: 'Nro. Autorizacion', propiedad: 'nroAutorizacion' },
+        { campo: 'Nro. Autorización', propiedad: 'nroAutorizacion' },
         { campo: 'Integrante', propiedad: 'integrante' },
-        { campo: 'Medico', propiedad: 'medico' },
-        { campo: 'Fecha prevista', propiedad: 'fechaPrevista' },
+        { campo: 'Médico', propiedad: 'medico' },
+        { campo: 'Fecha Prevista', propiedad: 'fechaPrevista' },
         { campo: 'Lugar', propiedad: 'lugar' }
 
     ]
@@ -206,12 +206,30 @@ const ConsultarAutorizaciones = () => {
         }
     ]
 
+    const colorSegunEstado = (unEstado) => {
+        let resultado = '';
+        switch (unEstado){
+            case 'Aceptada':
+                resultado = 'aceptada';
+                break;
+            case 'Rechazada':
+                resultado = 'rechazada';
+                break;
+            case 'En Observación':
+                resultado = "observacion"
+                break;
+            default:
+                resultado = 'pendiente'
+        }
+        return resultado;
+    };
+
     return (
         <>
             <div className={styles.containerConsultarAutorizaciones}>
                 <section className={styles.botonesContainer}>
                     <h1>Consultar Autorizaciones</h1>
-                    <Link className={styles.botonCargarReceta} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} />Cargar Autorizacion</Link>
+                    <Link className={styles.botonCargarReceta} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} />Cargar Autorización</Link>
                 </section>
 
                 <div className={styles.box}>
@@ -233,11 +251,11 @@ const ConsultarAutorizaciones = () => {
                         {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion, idx) => (
                             <CardDinamica
                                 {...cardData}
-                                color={autorizacion.estado}
+                                color={colorSegunEstado(autorizacion.estado)}
 
                                 key={autorizacion.nroAutorizacion}
                                 data={autorizacion}
-                                header={autorizacion.estado}
+                                header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
                             />
                         ))) : (
                             <p>No se encontraron autorizaciones</p>

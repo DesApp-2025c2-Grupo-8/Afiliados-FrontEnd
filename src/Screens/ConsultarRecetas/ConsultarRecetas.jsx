@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import recetas from '../../db/recetas';
+// import recetas from '../../db/recetas';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import styles from './ConsultarRecetas.module.css'
 import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
@@ -8,10 +8,10 @@ import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
-const recetasOrdenInverso = [...recetas].reverse(); //Para ordenar las recetas de más actuales a más antiguas
-// Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
-const integrantesOpcionesIniciales = [...new Set(recetas.map(r => r.integrante))];
-const presentacionesOpcionesIniciales = [...new Set(recetas.map(r => r.presentacion))];
+// const recetasOrdenInverso = [...recetas].reverse(); //Para ordenar las recetas de más actuales a más antiguas
+// // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
+// const integrantesOpcionesIniciales = [...new Set(recetas.map(r => r.integrante))];
+// const presentacionesOpcionesIniciales = [...new Set(recetas.map(r => r.presentacion))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -35,17 +35,34 @@ const cardData = {
 const ConsultarRecetas = () => {
     useEffect(() => {
         document.title = 'Consulta de Recetas - Medicina Integral'
+
+        fetch('http://localhost:3000/recetas')
+            .then(response => response.json())
+            .then(data => {
+                const recetasOrdenadas = [...data].reverse();
+                const recetasFechasCortadas = recetasOrdenadas.map(receta => ({
+                    ...receta,
+                    fechaDeCarga: receta.fechaDeCarga.slice(0,10)
+                }))
+                setListaRecetas(recetasFechasCortadas);
+                setListaRecetasFiltradas(recetasFechasCortadas);
+                setIntegrantesOpciones([...new Set(data.map(r => r.integrante))]);
+                setPresentacionesOpciones([...new Set(data.map(r => r.presentacion))]);
+                console.log(recetasFechasCortadas);
+                
+            })
+            .catch(error => console.log(error))
     }, []);
 
-    const [listaRecetas] = useState(recetasOrdenInverso);
-    const [listaRecetasFiltradas, setListaRecetasFiltradas] = useState(recetasOrdenInverso);
+    const [listaRecetas, setListaRecetas] = useState([]);
+    const [listaRecetasFiltradas, setListaRecetasFiltradas] = useState([]);
     const [filtroMedicamento, setFiltroMedicamento] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPresentacion, setFiltroPresentacion] = useState('');
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
-    const [integrantesOpciones, setIntegrantesOpciones] = useState(integrantesOpcionesIniciales);
-    const [presentacionesOpciones, setPresentacionesOpciones] = useState(presentacionesOpcionesIniciales);
+    const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
+    const [presentacionesOpciones, setPresentacionesOpciones] = useState([]);
 
     const filtrarPorMedicamento = (unMedicamento) => {
         setFiltroMedicamento(unMedicamento);
@@ -155,13 +172,13 @@ const ConsultarRecetas = () => {
 
     const limpiarFiltroIntegrante = () => {
         setFiltroIntegrante('');
-        setIntegrantesOpciones(integrantesOpcionesIniciales);
+        setIntegrantesOpciones([...new Set(listaRecetas.map(r => r.integrante))]);
         aplicarFiltros(filtroMedicamento, '', filtroPresentacion, filtroPeriodo);
     };
 
     const limpiarFiltroPresentacion = () => {
         setFiltroPresentacion('');
-        setPresentacionesOpciones(presentacionesOpcionesIniciales);
+        setPresentacionesOpciones([...new Set(listaRecetas.map(r => r.presentacion))]);
         aplicarFiltros(filtroMedicamento, filtroIntegrante, '', filtroPeriodo);
     };
 
@@ -176,8 +193,8 @@ const ConsultarRecetas = () => {
         setFiltroIntegrante('');
         setFiltroPresentacion('');
         setFiltroPeriodo('');
-        setIntegrantesOpciones(integrantesOpcionesIniciales);
-        setPresentacionesOpciones(presentacionesOpcionesIniciales);
+        setIntegrantesOpciones([...new Set(listaRecetas.map(r => r.integrante))]);
+        setPresentacionesOpciones([...new Set(listaRecetas.map(r => r.presentacion))]);
     };
 
     const filtrosConfig = [
@@ -245,9 +262,9 @@ const ConsultarRecetas = () => {
                                     {...cardData}
 
                                     //Estos son los que hay que modificar segun la data a mostrar  
-                                    key={unaReceta.orden}                   //La key del componente (debe ser un valor único!!)
+                                    key={unaReceta.numeroOrden}                   //La key del componente (debe ser un valor único!!)
                                     data={unaReceta}                        //Elemento actual en la iteración del map
-                                    header={'N° Orden ' + unaReceta.orden}  //El título de la card  
+                                    header={'N° Orden ' + unaReceta.numeroOrden}  //El título de la card  
                                 />
                             )))}
                     </section>
