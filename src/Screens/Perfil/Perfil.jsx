@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./Perfil.module.css"
 import CardDinamica from "../../components/CardDinamica/CardDinamica";
 import usuarios from "../../db/usuarios";
+import {useNumeroAfiliado} from "../../context/NumeroAfiliado";
 
 
 const Perfil = () => {
@@ -13,8 +14,8 @@ const Perfil = () => {
         { campo: 'Teléfono', propiedad: 'telefono' },
         { campo: 'Email', propiedad: 'email' },
     ]
-
-    const [nroAfiliado, setNroAfiliado] = useState(663459901);
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado();
+    const nroAfiliado = numeroAfiliado;
     const usuario = usuarios.find(u => u.numeroAfiliado === nroAfiliado);
     const grupoFamiliar = usuarios.filter(usuario =>
                                 usuario.numeroAfiliado.toString().startsWith(nroAfiliado.toString().slice(0, 7))

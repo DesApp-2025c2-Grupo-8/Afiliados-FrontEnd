@@ -4,15 +4,20 @@ import FormGenerico from "../../components/plantilla/Form"
 import './FormRecetas.css'
 import { useNavigate, Link } from "react-router-dom"
 import logo from "@assets/images/Titulo-Logo.svg"
+import usuarios from "../../db/usuarios"
+import {useNumeroAfiliado} from "../../context/NumeroAfiliado";
 
 const FormRecetas = () => {
     useEffect(() => {
         document.title = 'Cargar Receta - Medicina Integral'
     }, []);
 
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado(); 
+    const esTitular = numeroAfiliado.toString().endsWith("01");
+
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString().slice(0, 10),
-        numeroAfiliado: 123456701, // Este valor debería ser dinámico según el usuario logueado
+        numeroAfiliado: numeroAfiliado, // Este valor debería ser dinámico según el usuario logueado
         integrante: "",
         medicamento: "",
         cantidad: "",
@@ -98,8 +103,12 @@ const FormRecetas = () => {
                                 required
                             >
                                 <option value="">Seleccione el nombre del integrante</option>
-                                <option value="Integrante 1">Integrante 1</option>
-                                <option value="Integrante 2">Integrante 2</option>
+                                {
+                                usuarios.map((usuario) => {
+                                    return usuario.numeroAfiliado.toString().includes( esTitular ? data.numeroAfiliado.toString().slice(0, 5) : numeroAfiliado.toString()) ? (
+                                        <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
+                                    ) : null
+                                })}
                             </Form.Select>
                             <span>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                         </Form.Group>
@@ -114,8 +123,15 @@ const FormRecetas = () => {
                                     required
                                 >
                                     <option value="">Seleccione un medicamento</option>
+                                    <option value="Antizina">Antizina</option>
+                                    <option value="Amoxicilina">Amoxicilina</option>
+                                    <option value="Diclofenac">Diclofenac</option>
                                     <option value="Ibuprofeno">Ibuprofeno</option>
+                                    <option value="Insulina">Insulina</option>
+                                    <option value="Loratadina">Loratadina</option>
+                                    <option value="Omeprazol">Omeprazol</option>
                                     <option value="Paracetamol">Paracetamol</option>
+                                    <option value="Vitamina C">Vitamina C</option>
                                 </Form.Select>
                                 <span>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
                             </Form.Group>
@@ -142,7 +158,10 @@ const FormRecetas = () => {
                             >
                                 <option value="">Seleccione una opción de la lista</option>
                                 <option value="Comprimidos">Comprimidos</option>
-                                <option value="Gotas">Gotas</option>
+                                <option value="Cápsulas">Cápsulas</option>
+                                <option value="Inyectable">Inyectable</option>
+                                <option value="Jarabe">Jarabe</option>
+                                <option value="Tabletas masticables">Tabletas masticables</option>
                             </Form.Select>
                             <span>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span>
                         </Form.Group>
