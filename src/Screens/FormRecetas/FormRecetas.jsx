@@ -91,7 +91,7 @@ const FormRecetas = () => {
                     <h4 className={styles.titulo}>Carga de Receta</h4>
                     <FormGenerico handleSubmit={handleSubmit} confirmar={confirmar} cancelar={cancelar}>
                         <Form.Group>
-                            <Form.Label>Integrante</Form.Label>
+                            <Form.Label>Integrante<span className={styles.oblgatorio}>*</span></Form.Label>
                             <Form.Select
                                 name="integrante"
                                 value={data.integrante}
@@ -106,12 +106,12 @@ const FormRecetas = () => {
                                     ) : null
                                 })}
                             </Form.Select>
-                            <span>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
+                            <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                         </Form.Group>
 
                         <Row className="mb-3">
                             <Form.Group as={Col} md={8} controlId="medicamento">
-                                <Form.Label>Medicamento</Form.Label>
+                                <Form.Label>Medicamento<span className={styles.oblgatorio}>*</span></Form.Label>
                                 <Form.Select
                                     name="medicamento"
                                     value={data.medicamento}
@@ -129,10 +129,10 @@ const FormRecetas = () => {
                                     <option value="Paracetamol">Paracetamol</option>
                                     <option value="Vitamina C">Vitamina C</option>
                                 </Form.Select>
-                                <span>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
+                                <span className={styles.oblgatorio}>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
                             </Form.Group>
                             <Form.Group as={Col} md={4} controlId="cantidad">
-                                <Form.Label>Cantidad</Form.Label>
+                                <Form.Label>Cantidad<span className={styles.oblgatorio}>*</span></Form.Label>
                                 <Form.Control
                                     name="cantidad"
                                     type="number"
@@ -140,12 +140,12 @@ const FormRecetas = () => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <span>{errores.includes("cantidad should not be empty") ? "Ingrese una cantidad" : ""}</span>
+                                <span className={styles.oblgatorio}>{errores.includes("cantidad should not be empty") ? "Ingrese una cantidad" : ""}</span>
                             </Form.Group>
                         </Row>
 
                         <Form.Group>
-                            <Form.Label>Presentación</Form.Label>
+                            <Form.Label>Presentación<span className={styles.oblgatorio}>*</span></Form.Label>
                             <Form.Select
                                 name="presentacion"
                                 value={data.presentacion}
@@ -159,7 +159,7 @@ const FormRecetas = () => {
                                 <option value="Jarabe">Jarabe</option>
                                 <option value="Tabletas masticables">Tabletas masticables</option>
                             </Form.Select>
-                            <span>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span>
+                            <span className={styles.oblgatorio}>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span>
                         </Form.Group>
 
                         <Form.Group>
