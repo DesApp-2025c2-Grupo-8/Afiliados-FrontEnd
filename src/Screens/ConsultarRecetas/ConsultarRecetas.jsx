@@ -32,24 +32,27 @@ const cardData = {
     tieneBotonDescarga: true 
 };
 
+//CAMBIAR ACA PARA BUSCAR POR OTRO INTEGRANTE
+const NUMERO_AFILIADO = 663459901;
+
 const ConsultarRecetas = () => {
     useEffect(() => {
         document.title = 'Consulta de Recetas - Medicina Integral'
 
-        fetch('http://localhost:3000/recetas')
+        fetch('http://localhost:3000/recetas/' + NUMERO_AFILIADO.toString())
             .then(response => response.json())
             .then(data => {
                 const recetasOrdenadas = [...data].reverse();
                 const recetasFechasCortadas = recetasOrdenadas.map(receta => ({
                     ...receta,
                     fechaDeCarga: receta.fechaDeCarga.slice(0,10)
-                }))
+                }));
                 setListaRecetas(recetasFechasCortadas);
                 setListaRecetasFiltradas(recetasFechasCortadas);
-                setIntegrantesOpciones([...new Set(data.map(r => r.integrante))]);
-                setPresentacionesOpciones([...new Set(data.map(r => r.presentacion))]);
-                console.log(recetasFechasCortadas);
-                
+                const integrantesOpcionesIniciales = [...new Set(data.map(r => r.integrante))].sort();
+                setIntegrantesOpciones(integrantesOpcionesIniciales);
+                const presentacionesOpcionesIniciales = [...new Set(data.map(r => r.presentacion))].sort();
+                setPresentacionesOpciones(presentacionesOpcionesIniciales);   
             })
             .catch(error => console.log(error))
     }, []);
