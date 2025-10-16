@@ -5,6 +5,7 @@ import { FiDownload } from 'react-icons/fi';
 
 const CardDinamica = (props) => {
   const { data, header, color, camposCard, tieneBotonDescarga } = props;
+  console.log(props)
 
   return (
     <Card className={styles.cardBox}>
