@@ -16,6 +16,7 @@ import ConsultarReintegros from "./Screens/ConsultarReintegros/ConsultarReintegr
 
 import NotFound from "./Screens/NotFound/NotFound";
 import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
+import Perfil from "./Screens/Perfil/Perfil";
 
 export function AppRouter() {
   return (
@@ -37,7 +38,7 @@ export function AppRouter() {
           <Route path='/consultar-reintegros' Component={ConsultarReintegros}/>
           <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
           {/* <Route path='/contacto' Component={}/> */}
-          {/* <Route path='/perfil' Component={}/> */}
+          <Route path='/perfil' Component={Perfil}/>
           
           {/* El de 404 debe siempre estar a lo último, si agregan páginas haganlo por encima de esta. */}
           <Route path="/*" Component={NotFound}></Route>

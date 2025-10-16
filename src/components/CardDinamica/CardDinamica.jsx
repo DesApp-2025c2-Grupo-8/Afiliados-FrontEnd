@@ -4,7 +4,9 @@ import styles from './CardDinamica.module.css';
 import { FiDownload } from 'react-icons/fi';
 
 const CardDinamica = (props) => {
+
   const { data, header, color, camposCard, tieneBotonDescarga, tieneContenidoExtra } = props;
+
 
   return (
     <Card className={styles.cardBox}>
