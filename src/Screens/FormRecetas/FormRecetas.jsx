@@ -85,11 +85,7 @@ const FormRecetas = () => {
 
     return (
         <div className="fondo">
-            <div className="header-logo">
-                <Link to="/">
-                    <img src={logo} alt="Logo" className="logo" />
-                </Link>
-            </div>
+            
             <div className="container">
                 <div className="card">
                     <h4 className="titulo">Carga de Receta</h4>
