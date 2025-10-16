@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import recetas from '../../db/recetas';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import styles from './ConsultarRecetas.module.css'
 import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
@@ -9,10 +8,6 @@ import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 import { useNumeroAfiliado } from '../../context/NumeroAfiliado';
 
-// const recetasOrdenInverso = [...recetas].reverse(); //Para ordenar las recetas de más actuales a más antiguas
-// // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
-// const integrantesOpcionesIniciales = [...new Set(recetas.map(r => r.integrante))];
-// const presentacionesOpcionesIniciales = [...new Set(recetas.map(r => r.presentacion))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -255,9 +250,12 @@ const ConsultarRecetas = () => {
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
-                        {filtrosConfig.map(unFiltro => (
-                            <FiltrosCards {...unFiltro} key={unFiltro.label}/>
-                        ))}
+                        {filtrosConfig
+                            .filter(filtro => filtro.opciones.length > 1)
+                            .map(unFiltro => (
+                                <FiltrosCards {...unFiltro} key={unFiltro.label}/>
+                            ))
+                        }
                         <hr />
                         <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
                     </section>
