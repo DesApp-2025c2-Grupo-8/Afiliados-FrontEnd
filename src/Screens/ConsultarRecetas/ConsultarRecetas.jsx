@@ -41,14 +41,14 @@ const ConsultarRecetas = () => {
                 const recetasOrdenadas = [...data].reverse();
                 const recetasFechasCortadas = recetasOrdenadas.map(receta => ({
                     ...receta,
-                    fechaDeCarga: receta.fechaDeCarga.slice(0,10)
+                    fechaDeCarga: new Date(receta.fechaDeCarga).toLocaleDateString('es-AR')
                 }));
                 setListaRecetas(recetasFechasCortadas);
                 setListaRecetasFiltradas(recetasFechasCortadas);
                 const integrantesOpcionesIniciales = [...new Set(data.map(r => r.integrante))].sort();
                 setIntegrantesOpciones(integrantesOpcionesIniciales);
                 const presentacionesOpcionesIniciales = [...new Set(data.map(r => r.presentacion))].sort();
-                setPresentacionesOpciones(presentacionesOpcionesIniciales);   
+                setPresentacionesOpciones(presentacionesOpcionesIniciales);
             })
             .catch(error => console.log(error))
     }, []);

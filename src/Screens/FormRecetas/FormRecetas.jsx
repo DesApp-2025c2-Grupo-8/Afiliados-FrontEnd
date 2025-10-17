@@ -11,7 +11,7 @@ const FormRecetas = () => {
     }, []);
 
     const [data, setData] = useState({
-        fechaDeCarga: new Date().toISOString().slice(0, 10),
+        fechaDeCarga: new Date().toISOString(),
         numeroAfiliado: 123456701, // Este valor debería ser dinámico según el usuario logueado
         integrante: "",
         medicamento: "",
