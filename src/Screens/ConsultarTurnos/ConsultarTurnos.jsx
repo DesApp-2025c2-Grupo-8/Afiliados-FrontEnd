@@ -154,7 +154,7 @@ const ConsultarTurnos = () => {
                         }}
                         placeholder={"Ingrese un integrante o fecha de turno..."}
                     />
-                    <Link className={styles.botonSolicitarTurno} to={'solicitar-turno'}><BsClipboard2Plus style={{ marginRight: '10px' }}/>Solicitar Turno</Link>
+                    <Link className={styles.botonSolicitarTurno} to={'/solicitar-turno'}><BsClipboard2Plus style={{ marginRight: '10px' }}/>Solicitar Turno</Link>
                 </section>
                 <div className={styles.box}>
                     <section className={styles.filtroContainer}>

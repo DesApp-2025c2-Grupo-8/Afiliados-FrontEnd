@@ -1,4 +1,4 @@
-.dashboard-container{
+.dashboardContainer{
     /* padding: 50px 0px; */
     max-width: 1200px;
     /* background-color: red; */
@@ -11,7 +11,7 @@
 }
 
 @media (max-width: 900px) {
-    .dashboard-container{
+    .dashboardContainer{
         flex-direction: column;
         justify-content: center;
     }

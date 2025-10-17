@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react"
 import { Form, Col, Row, Modal, Button } from "react-bootstrap"
 import FormGenerico from "../../components/plantilla/Form"
-import './FormRecetas.css'
+import styles from './FormRecetas.module.css'
 import { useNavigate, Link } from "react-router-dom"
 import logo from "@assets/images/Titulo-Logo.svg"
+import usuarios from "../../db/usuarios"
+import {useNumeroAfiliado} from "../../context/NumeroAfiliado";
 
 const FormRecetas = () => {
     useEffect(() => {
         document.title = 'Cargar Receta - Medicina Integral'
     }, []);
 
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado(); 
+    const esTitular = numeroAfiliado.toString().endsWith("01");
+
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString(),
-        numeroAfiliado: 123456701, // Este valor debería ser dinámico según el usuario logueado
+        numeroAfiliado: numeroAfiliado, // Este valor debería ser dinámico según el usuario logueado
         integrante: "",
         medicamento: "",
         cantidad: "",
@@ -79,18 +84,14 @@ const FormRecetas = () => {
     }
 
     return (
-        <div className="fondo">
-            <div className="header-logo">
-                <Link to="/">
-                    <img src={logo} alt="Logo" className="logo" />
-                </Link>
-            </div>
-            <div className="container">
-                <div className="card">
-                    <h4 className="titulo">Carga de Receta</h4>
+        <div className={styles.fondo}>
+            
+            <div className={styles.container}>
+                <div className={styles.card}>
+                    <h4 className={styles.titulo}>Carga de Receta</h4>
                     <FormGenerico handleSubmit={handleSubmit} confirmar={confirmar} cancelar={cancelar}>
                         <Form.Group>
-                            <Form.Label>Integrante</Form.Label>
+                            <Form.Label>Integrante<span className={styles.oblgatorio}>*</span></Form.Label>
                             <Form.Select
                                 name="integrante"
                                 value={data.integrante}
@@ -98,15 +99,19 @@ const FormRecetas = () => {
                                 required
                             >
                                 <option value="">Seleccione el nombre del integrante</option>
-                                <option value="Integrante 1">Integrante 1</option>
-                                <option value="Integrante 2">Integrante 2</option>
+                                {
+                                usuarios.map((usuario) => {
+                                    return usuario.numeroAfiliado.toString().includes( esTitular ? data.numeroAfiliado.toString().slice(0, 5) : numeroAfiliado.toString()) ? (
+                                        <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
+                                    ) : null
+                                })}
                             </Form.Select>
-                            <span>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
+                            <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                         </Form.Group>
 
                         <Row className="mb-3">
                             <Form.Group as={Col} md={8} controlId="medicamento">
-                                <Form.Label>Medicamento</Form.Label>
+                                <Form.Label>Medicamento<span className={styles.oblgatorio}>*</span></Form.Label>
                                 <Form.Select
                                     name="medicamento"
                                     value={data.medicamento}
@@ -114,13 +119,20 @@ const FormRecetas = () => {
                                     required
                                 >
                                     <option value="">Seleccione un medicamento</option>
+                                    <option value="Antizina">Antizina</option>
+                                    <option value="Amoxicilina">Amoxicilina</option>
+                                    <option value="Diclofenac">Diclofenac</option>
                                     <option value="Ibuprofeno">Ibuprofeno</option>
+                                    <option value="Insulina">Insulina</option>
+                                    <option value="Loratadina">Loratadina</option>
+                                    <option value="Omeprazol">Omeprazol</option>
                                     <option value="Paracetamol">Paracetamol</option>
+                                    <option value="Vitamina C">Vitamina C</option>
                                 </Form.Select>
-                                <span>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
+                                <span className={styles.oblgatorio}>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
                             </Form.Group>
                             <Form.Group as={Col} md={4} controlId="cantidad">
-                                <Form.Label>Cantidad</Form.Label>
+                                <Form.Label>Cantidad<span className={styles.oblgatorio}>*</span></Form.Label>
                                 <Form.Control
                                     name="cantidad"
                                     type="number"
@@ -128,12 +140,12 @@ const FormRecetas = () => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <span>{errores.includes("cantidad should not be empty") ? "Ingrese una cantidad" : ""}</span>
+                                <span className={styles.oblgatorio}>{errores.includes("cantidad should not be empty") ? "Ingrese una cantidad" : ""}</span>
                             </Form.Group>
                         </Row>
 
                         <Form.Group>
-                            <Form.Label>Presentación</Form.Label>
+                            <Form.Label>Presentación<span className={styles.oblgatorio}>*</span></Form.Label>
                             <Form.Select
                                 name="presentacion"
                                 value={data.presentacion}
@@ -142,9 +154,12 @@ const FormRecetas = () => {
                             >
                                 <option value="">Seleccione una opción de la lista</option>
                                 <option value="Comprimidos">Comprimidos</option>
-                                <option value="Gotas">Gotas</option>
+                                <option value="Cápsulas">Cápsulas</option>
+                                <option value="Inyectable">Inyectable</option>
+                                <option value="Jarabe">Jarabe</option>
+                                <option value="Tabletas masticables">Tabletas masticables</option>
                             </Form.Select>
-                            <span>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span>
+                            <span className={styles.oblgatorio}>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span>
                         </Form.Group>
 
                         <Form.Group>
@@ -157,7 +172,7 @@ const FormRecetas = () => {
                         </Form.Group>
                     </FormGenerico>
                 </div>
-                <Modal className="modal" show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
+                <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
                     <Modal.Body>
                         La receta ha sido cargada correctamente. <br />
                         Nro.Orden: {nroOrden}
@@ -167,7 +182,7 @@ const FormRecetas = () => {
                     </Modal.Footer>
                 </Modal>
 
-                <Modal className="modal" show={modalCancelar} onHide={() => setModalCancelar(false)} centered>
+                <Modal className={styles.modal} show={modalCancelar} onHide={() => setModalCancelar(false)} centered>
                     <Modal.Body>
                         ¿Estas seguro que deseas cancelar la carga de la receta?
                     </Modal.Body>
