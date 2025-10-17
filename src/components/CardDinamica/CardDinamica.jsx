@@ -5,7 +5,7 @@ import { FiDownload } from 'react-icons/fi';
 
 const CardDinamica = (props) => {
 
-  const { data, header, color, camposCard, tieneBotonDescarga, tieneContenidoExtra } = props;
+  const { data, header, color, camposCard, tieneBotonDescarga, tieneContenidoExtra, fechasCampos } = props;
 
 
   return (
@@ -15,10 +15,16 @@ const CardDinamica = (props) => {
         {header}
       </Card.Header>
       <Card.Body>
-        {camposCard.map(({ campo, propiedad }) => (
+        {camposCard.map(({ campo, propiedad, esFecha }) => (
           <Card.Text className={styles.cardTexto} key={propiedad}>
-            {/* {console.log(data[key])} */}
-            <strong>{campo}: </strong>{data[propiedad]}
+            {/* {console.log(data[propiedad])} */}
+            <strong>{campo}: </strong>
+        
+            {esFecha 
+                ? new Date(data[propiedad]).toLocaleDateString('es-AR')
+                : data[propiedad]
+            }
+
           </Card.Text>
         ))}
 

@@ -20,9 +20,8 @@ const cardData = {
         { campo: 'Nro. Autorización', propiedad: 'nroAutorizacion' },
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico', propiedad: 'medico' },
-        { campo: 'Fecha Prevista', propiedad: 'fechaPrevista' },
+        { campo: 'Fecha Prevista', propiedad: 'fechaPrevista', esFecha: true },
         { campo: 'Lugar', propiedad: 'lugar' }
-
     ]
 }
 

@@ -17,7 +17,7 @@ const cardData = {
         // Campo: es el nombre en negrita de la fila
         // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
         { campo: 'Integrante', propiedad: 'integrante' },
-        { campo: 'Fecha de carga', propiedad: 'fechaDeCarga' },
+        { campo: 'Fecha de carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Medicamento', propiedad: 'medicamento' },
         { campo: 'Cantidad', propiedad: 'cantidad' },
         { campo: 'Presentación', propiedad: 'presentacion' },
@@ -39,12 +39,8 @@ const ConsultarRecetas = () => {
             .then(response => response.json())
             .then(data => {
                 const recetasOrdenadas = [...data].reverse();
-                const recetasFechasCortadas = recetasOrdenadas.map(receta => ({
-                    ...receta,
-                    fechaDeCarga: new Date(receta.fechaDeCarga).toLocaleDateString('es-AR')
-                }));
-                setListaRecetas(recetasFechasCortadas);
-                setListaRecetasFiltradas(recetasFechasCortadas);
+                setListaRecetas(recetasOrdenadas);
+                setListaRecetasFiltradas(recetasOrdenadas);
                 const integrantesOpcionesIniciales = [...new Set(data.map(r => r.integrante))].sort();
                 setIntegrantesOpciones(integrantesOpcionesIniciales);
                 const presentacionesOpcionesIniciales = [...new Set(data.map(r => r.presentacion))].sort();
