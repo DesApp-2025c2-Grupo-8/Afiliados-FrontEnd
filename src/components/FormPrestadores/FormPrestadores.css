@@ -1,0 +1,89 @@
+.formPrestadores {
+    display: flex;
+    flex-direction: column;
+
+    max-width: 600px;
+    /* ancho máximo del form */
+    margin: 40px auto;
+    /* centra en la pantalla */
+    padding: 30px;
+    background: #ffffff;
+    /* fondo blanco */
+    border-radius: 12px;
+    /* bordes redondeados */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    /* sombra suave */
+    font-family: "Arial", sans-serif;
+}
+
+.formPrestadores .form-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #333;
+    text-align: left;
+}
+
+.formPrestadores .form-control,
+.formPrestadores .form-select {
+    border-radius: 8px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    transition: all 0.2s ease-in-out;
+    font-size: 15px;
+}
+
+
+
+.formPrestadores button[type="submit"] {
+    background-color: #24979B;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    transition: background 0.3s ease;
+}
+
+
+
+@media (max-width: 768px) {
+  .formPrestadores {
+    padding: 20px;
+    margin: 1rem;
+  }
+
+  .mb-3.row{
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+
+  .options{
+    
+  }
+
+  .form-control{
+    width: 100%;
+  }
+
+  .formPrestadores .form-label {
+    font-size: 14px;
+  }
+  
+  .formPrestadores .mb-3{
+    flex-wrap: wrap;
+  }
+
+  .formPrestadores .form-control,
+  .formPrestadores .form-select {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .formPrestadores button[type="submit"] {
+    font-size: 15px;
+    padding: 10px 0;
+  }
+}

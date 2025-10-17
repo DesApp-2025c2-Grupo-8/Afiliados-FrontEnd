@@ -1,18 +1,15 @@
-import React from 'react'
+//import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ThemeProvider } from '@mui/material';
-
-import { customMuiTheme } from './config/customMuiTheme';
-
 import { App } from './App';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
-import { Provider } from 'react-redux';
-import { store } from './store/store';
+import { NumeroAfiliadoProvider } from './context/NumeroAfiliado';
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <ThemeProvider theme={customMuiTheme}>
-      <App />
-    </ThemeProvider>
-  </Provider>
+      <NumeroAfiliadoProvider>
+            <App />
+      </NumeroAfiliadoProvider>
+
 )

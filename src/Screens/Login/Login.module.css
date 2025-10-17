@@ -1,0 +1,77 @@
+.loginContainer {
+  min-height: 90vh;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center; 
+  align-items: center;   
+  background-color: #EBEBEB;
+  background-image: url("../../assets/images/imagenFondoLogin.png");
+  background-size: cover;
+  background-position: center;
+  position: relative; 
+}
+
+.loginBox {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 15px;
+  max-width: 700px; 
+  min-width: 450px; 
+  width: 100%; 
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left; 
+  position: relative; 
+}
+
+.loginBox h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+}
+
+
+
+.btnIngresar {
+  background-color: #24979b !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.3s;
+  width: 100%;
+  padding: 12px;
+}
+
+.btnIngresar:hover {
+  background-color: #1d7c80 !important;
+}
+
+.registerSection {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #333;
+  text-align: center;
+}
+
+.registerSection a {
+  margin-left: 5px;
+  color: #24979B;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.registerSection a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .loginBox {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+
+  .loginBox h2 {
+    font-size: 1.5rem;
+  }
+}

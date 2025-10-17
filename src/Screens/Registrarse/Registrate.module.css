@@ -1,0 +1,94 @@
+.registroContainer {
+  /* position: relative; */
+  width: 100%;
+  padding: 150px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebebeb;
+  background-image: url("@assets/images/imagenFondoLogin.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.justifyContentCenter{
+  width: 70%;
+  min-width: 600px;
+  max-width: 800px;
+}
+
+.colCenter{
+  width: 100%;
+}
+
+.formRegistro{
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 12px; */
+  justify-content: space-between;
+}
+
+.formGroup{
+  padding: 0 10px;
+  width: 50%;
+}
+
+.formGroupFecha{
+  padding: 0 10px;
+  width: 100%;
+}
+
+.registroBox {
+  background-color: #ffffff;
+  padding: 2rem;
+  min-width: 100%;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.registroBox h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.btnRegistrar {
+  background-color: #24979b !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.btnRegistrar:hover {
+  background-color: #1d7c80 !important;
+}
+
+.loginSection {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.loginSection a {
+  margin-left: 5px;
+  color: #24979b;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.loginSection a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .registroBox {
+    padding: 1.5rem;
+  }
+
+  .registroBox h2 {
+    font-size: 1.5rem;
+  }
+}
