@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 
 const Login = () => {
+
+  const navigate = useNavigate()
   useEffect(() => {
     document.title = "Iniciar sesión - Medicina Integral";
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    Navigate("/");
   };
 
   return (
@@ -50,7 +53,8 @@ const Login = () => {
 
                 <Button
                   variant="info"
-                  type="submit"
+                  type="button"
+                  onClick={() => navigate("/")}
                   className={`${styles.btnIngresar} w-100 mt-3`}
                 >
                   Ingresar

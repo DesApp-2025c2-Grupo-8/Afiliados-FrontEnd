@@ -5,7 +5,7 @@ import { AiOutlineClockCircle } from 'react-icons/ai';
 import { AiOutlineEye } from 'react-icons/ai';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 
-import "./Home.css"
+import styles from './Home.module.css';
 import AtajosSolicitudes from '../../components/AtajosSolicitudes/AtajosSolicitudes';
 import Turnos from '../../components/Turnos/Turnos';
 
@@ -38,7 +38,7 @@ const Home = () => {
     ]
 
     return (
-        <div className='dashboard-container'>
+        <div className={styles.dashboardContainer}>
             <ResumenDashboard cardsResumen={cardsResumen}/>
             <AtajosSolicitudes/>
             <Turnos/>

@@ -6,6 +6,7 @@ import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
+import { useNumeroAfiliado } from '../../context/NumeroAfiliado';
 
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
@@ -28,14 +29,16 @@ const cardData = {
 };
 
 //CAMBIAR ACA PARA BUSCAR POR OTRO INTEGRANTE
-const NUMERO_AFILIADO = 663459901;
 
 
 const ConsultarRecetas = () => {
+
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado();
+
     useEffect(() => {
         document.title = 'Consulta de Recetas - Medicina Integral'
 
-        fetch('http://localhost:3000/recetas/' + NUMERO_AFILIADO)
+        fetch('http://localhost:3000/recetas/' + numeroAfiliado)
             .then(response => response.json())
             .then(data => {
                 const recetasOrdenadas = [...data].reverse();

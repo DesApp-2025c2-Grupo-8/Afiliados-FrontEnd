@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Registrate.module.css"; 
 
 const Registro = () => {
+
+  const navigate = useNavigate()
+
   useEffect(() => {
     document.title = "Registrarse - Medicina Integral";
   }, []);
@@ -21,8 +24,8 @@ const Registro = () => {
             <div className={styles.registroBox}>
               <h2>Registrate</h2>
 
-              <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="nombre">
+              <Form onSubmit={handleSubmit} className={styles.formRegistro}>
+                <Form.Group controlId="nombre" className={styles.formGroup}>
                   <Form.Label>Nombre/s</Form.Label>
                   <Form.Control
                     type="text"
@@ -31,7 +34,7 @@ const Registro = () => {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="apellido">
+                <Form.Group controlId="apellido" className={styles.formGroup}>
                   <Form.Label>Apellido/s</Form.Label>
                   <Form.Control
                     type="text"
@@ -40,12 +43,12 @@ const Registro = () => {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="fechaNac">
+                <Form.Group controlId="fechaNac" className={styles.formGroupFecha}>
                   <Form.Label>Fecha Nacimiento</Form.Label>
                   <Form.Control type="date" required />
                 </Form.Group>
 
-                <Form.Group controlId="tipoDoc">
+                <Form.Group controlId="tipoDoc" className={styles.formGroup}>
                   <Form.Label>Tipo Documento</Form.Label>
                   <Form.Select required>
                     <option value="">Seleccione</option>
@@ -55,7 +58,7 @@ const Registro = () => {
                   </Form.Select>
                 </Form.Group>
 
-                <Form.Group controlId="nroDoc">
+                <Form.Group controlId="nroDoc" className={styles.formGroup}>
                   <Form.Label>Nro. Documento</Form.Label>
                   <Form.Control
                     type="number"
@@ -64,7 +67,7 @@ const Registro = () => {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="email">
+                <Form.Group controlId="email" className={styles.formGroup}>
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
@@ -73,7 +76,7 @@ const Registro = () => {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="telefono">
+                <Form.Group controlId="telefono" className={styles.formGroup}>
                   <Form.Label>Teléfono</Form.Label>
                   <Form.Control
                     type="tel"
@@ -82,7 +85,7 @@ const Registro = () => {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="password">
+                <Form.Group controlId="password" className={styles.formGroup}>
                   <Form.Label>Contraseña</Form.Label>
                   <Form.Control
                     type="password"
@@ -91,7 +94,7 @@ const Registro = () => {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="confirmPassword">
+                <Form.Group controlId="confirmPassword" className={styles.formGroup}>
                   <Form.Label>Confirmar Contraseña</Form.Label>
                   <Form.Control
                     type="password"
@@ -103,9 +106,10 @@ const Registro = () => {
                 <Button
                   variant="info"
                   type="submit"
+                  onClick={() => navigate("/login")}
                   className={`${styles.btnRegistrar} w-100 mt-3`}
                 >
-                  Registrar
+                  Registrarse
                 </Button>
               </Form>
 
