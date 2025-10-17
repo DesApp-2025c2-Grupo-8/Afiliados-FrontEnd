@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react"
 import { Form, Col, Row, Modal, Button } from "react-bootstrap"
-import FormGenerico from "../../components/plantilla/Form"
+import FormGenerico from "../../components/FormGenerico/FormGenerico"
 import styles from './FormRecetas.module.css'
 import { useNavigate, Link } from "react-router-dom"
-import logo from "@assets/images/Titulo-Logo.svg"
 import usuarios from "../../db/usuarios"
 import {useNumeroAfiliado} from "../../context/NumeroAfiliado";
 
