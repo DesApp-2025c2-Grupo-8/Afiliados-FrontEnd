@@ -1,4 +1,4 @@
-.footer{
+.footer {
     background-color: #ffffff;
     text-align: center;
     /* position: fixed;
@@ -6,10 +6,9 @@
     bottom: 0; */
     width: 100%;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.226);
-
 }
 
-.container-top{
+.containerTop {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -17,22 +16,22 @@
     padding-bottom: 15px;
 }
 
-.container-bottom{
+.containerBottom {
     background-color: #457B9D;
     color: white;
     text-align: center;
     padding: 10px;
 }
 
-.div-links{
+.divLinks {
     display: flex;
     flex-direction: column;
     text-align: center;
     justify-content: space-between;
-    align-items:flex-start;
+    align-items: flex-start;
 }
 
-.div-links ul{
+.divLinks ul {
     display: flex;
     flex-direction: column;
     padding: 0px;
@@ -40,16 +39,15 @@
     align-items: flex-start;
 }
 
-
-.div-contacto{
+.divContacto {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-self: stretch;
-    align-items:flex-start;
+    align-items: flex-start;
 }
 
-.div-contacto ul{
+.divContacto ul {
     display: flex;
     flex-direction: column;
     padding: 0px;
@@ -57,53 +55,53 @@
     align-items: flex-start;
 }
 
-.item-footer .contacto{
+.itemFooter .contacto {
     margin: 10px 0px;
 }
 
-.titulo-footer{
+.tituloFooter {
     margin: 10px 0px;
 }
 
-.item-footer{
+.itemFooter {
     margin: 3px 0px;
     list-style: none;
 }
 
-
 @media (max-width: 768px) {
-    .container-top{
+    .containerTop {
         flex-direction: column;
         align-items: center;
-        
     }
 
-    .div-links{
+    .divLinks {
         align-items: center;
         margin-bottom: 15px;
         border-bottom: 1px solid gray;
         padding: 5px 0px;
     }
-    .item-footer{
+
+    .itemFooter {
         margin: 0px;
-    
     }
 
-    .div-links ul{
-        align-items: center;
-    }
-    .item-footer .contacto{
-        margin:0px
-    }
-    .div-contacto{
+    .divLinks ul {
         align-items: center;
     }
 
-    .div-contacto ul{
+    .itemFooter .contacto {
+        margin: 0px;
+    }
+
+    .divContacto {
         align-items: center;
     }
 
-    .div-logo{
+    .divContacto ul {
+        align-items: center;
+    }
+
+    .divLogo {
         display: none;
     }
 }

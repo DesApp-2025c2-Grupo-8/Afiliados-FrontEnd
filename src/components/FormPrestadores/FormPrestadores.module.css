@@ -16,7 +16,7 @@
     font-family: "Arial", sans-serif;
 }
 
-.formPrestadores .form-label {
+.formLabel {
     font-weight: 600;
     margin-bottom: 6px;
     display: block;
@@ -24,8 +24,8 @@
     text-align: left;
 }
 
-.formPrestadores .form-control,
-.formPrestadores .form-select {
+.formControl,
+.formSelect {
     border-radius: 8px;
     padding: 10px 12px;
     border: 1px solid #ccc;
@@ -33,9 +33,7 @@
     font-size: 15px;
 }
 
-
-
-.formPrestadores button[type="submit"] {
+.submitButton {
     background-color: #24979B;
     border: none;
     border-radius: 8px;
@@ -46,44 +44,39 @@
     transition: background 0.3s ease;
 }
 
-
-
 @media (max-width: 768px) {
-  .formPrestadores {
-    padding: 20px;
-    margin: 1rem;
-  }
+    .formPrestadores {
+        padding: 20px;
+        margin: 1rem;
+    }
 
-  .mb-3.row{
-    flex-direction: column;
-    gap: 16px;
-  }
-  
+    .mb3Row {
+        flex-direction: column;
+        gap: 16px;
+    }
 
-  .options{
-    
-  }
+    /* .options {} */
 
-  .form-control{
-    width: 100%;
-  }
+    .formControl {
+        width: 100%;
+    }
 
-  .formPrestadores .form-label {
-    font-size: 14px;
-  }
-  
-  .formPrestadores .mb-3{
-    flex-wrap: wrap;
-  }
+    .formLabel {
+        font-size: 14px;
+    }
 
-  .formPrestadores .form-control,
-  .formPrestadores .form-select {
-    font-size: 14px;
-    padding: 8px 10px;
-  }
+    .mb3 {
+        flex-wrap: wrap;
+    }
 
-  .formPrestadores button[type="submit"] {
-    font-size: 15px;
-    padding: 10px 0;
-  }
+    .formControl,
+    .formSelect {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .submitButton {
+        font-size: 15px;
+        padding: 10px 0;
+    }
 }

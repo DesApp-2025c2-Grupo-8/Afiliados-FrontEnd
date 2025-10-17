@@ -1,12 +1,12 @@
-import "./EstadoSolicitud.css"
+import styles from './EstadoSolicitud.module.css';
 
 const EstadoSolicitud = (props) => {
     return (
-        <div className='estado-solicitud'>
-            <p className="titulo-estado-solicitud">{props.titulo}:</p>
-            <div className="container-cantidad-estado-solicitud">
-                <p className="cantidad-estado-solicitud">{props.cantidad}</p>
-                <div className={'linea ' + props.estado}></div>
+        <div className={styles.estadoSolicitud}>
+            <p className={styles.tituloEstadoSolicitud}>{props.titulo}:</p>
+            <div className={styles.containerCantidadEstadoSolicitud}>
+                <p className={styles.cantidadEstadoSolicitud}>{props.cantidad}</p>
+                <div className={`${styles.linea} ${styles[props.estado]}`}></div>
             </div>
         </div>
     );

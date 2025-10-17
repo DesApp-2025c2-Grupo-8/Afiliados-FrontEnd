@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import EstadoSolicitud from '../../components/EstadoSolicitud/EstadoSolicitud';
-import "./AtajosSolicitudes.css"
+import styles from './AtajosSolicitudes.module.css';
 import { BsClipboard2Plus } from 'react-icons/bs';
 import { LuDollarSign } from 'react-icons/lu';
 import { PiPulse } from 'react-icons/pi';
@@ -61,44 +61,44 @@ const AtajosSolicitudes = () => {
   }, [solicitudSeleccionada, periodoSeleccionado]);
 
   return (
-    <section className='atajos-solicitudes'>
-      <div className='atajos-accion'>
-        <h2 className='titulo-atajos-accion'>Atajos de acción</h2>
-        <Link className='btn-accion'> <PiPulse /> Nueva autorización</Link>
-        <Link className='btn-accion'> <LuDollarSign /> Solicitar reintegro</Link>
-        <Link to="/cargar-receta" className='btn-accion'> <BsClipboard2Plus /> Cargar receta</Link>
+    <section className={styles.atajosSolicitudes}>
+      <div className={styles.atajosAccion}>
+        <h2 className={styles.tituloAtajosAccion}>Atajos de acción</h2>
+        <Link className={styles.btnAccion}> <PiPulse /> Nueva autorización</Link>
+        <Link className={styles.btnAccion}> <LuDollarSign /> Solicitar reintegro</Link>
+        <Link to="/cargar-receta" className={styles.btnAccion}> <BsClipboard2Plus /> Cargar receta</Link>
       </div>
-      <div className='solicitudes-estado'>
+      <div className={styles.solicitudesEstado}>
         <h2>Solicitudes por estado</h2>
-        <div className='container-estado-periodo'>
-          <div className='seleccion-estado'>
+        <div className={styles.containerEstadoPeriodo}>
+          <div className={styles.seleccionEstado}>
             <button
-              className={'btn-seleccion-estado ' + (solicitudSeleccionada == "autorizacion" ? "activo" : " ")}
+              className={`${styles.btnSeleccionEstado} ${solicitudSeleccionada === "autorizacion" ? styles.activo : ""}`}
               onClick={() => setSolicitudSeleccionada("autorizacion")}
             >
               Autorizaciones
             </button>
             <button
-              className={'btn-seleccion-estado ' + (solicitudSeleccionada === "reintegro" ? "activo" : " ")}
+              className={`${styles.btnSeleccionEstado} ${solicitudSeleccionada === "reintegro" ? styles.activo : ""}`}
               onClick={() => setSolicitudSeleccionada("reintegro")}
             >
               Reintegros
             </button>
             <button
-              className={'btn-seleccion-estado ' + (solicitudSeleccionada === "receta" ? "activo" : " ")}
+              className={`${styles.btnSeleccionEstado} ${solicitudSeleccionada === "receta" ? styles.activo : ""}`}
               onClick={() => setSolicitudSeleccionada("receta")}
             >
               Recetas
             </button>
           </div>
-          <div className='periodo-resultado'>
-            <p className='titulo-periodo'>Período:</p>
-            <div className='periodo-botones'>
-              <button className={(periodoSeleccionado === "ultimaSemana" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimaSemana")}>Últimos 7 días</button>
-              <button className={(periodoSeleccionado === "ultimoMes" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimoMes",)}>Último mes</button>
-              <button className={(periodoSeleccionado === "ultimoAño" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimoAño")}>Último año</button>
+          <div className={styles.periodoResultado}>
+            <p className={styles.tituloPeriodo}>Período:</p>
+            <div className={styles.periodoBotones}>
+              <button className={periodoSeleccionado === "ultimaSemana" ? styles.activo : ""} onClick={() => setPeriodoSeleccionado("ultimaSemana")}>Últimos 7 días</button>
+              <button className={periodoSeleccionado === "ultimoMes" ? styles.activo : ""} onClick={() => setPeriodoSeleccionado("ultimoMes")}>Último mes</button>
+              <button className={periodoSeleccionado === "ultimoAño" ? styles.activo : ""} onClick={() => setPeriodoSeleccionado("ultimoAño")}>Último año</button>
             </div>
-            <div className='periodo-estados'>
+            <div className={styles.periodoEstados}>
               {estadoSolicitud.map((item, idx) =>
                 <EstadoSolicitud
                   key={idx + item.estado}

@@ -1,20 +1,20 @@
-.atajos-solicitudes{
+.atajosSolicitudes {
     width: 60%;
     padding: 20px 0px;
 }
 
-.atajos-accion{
+.atajosAccion {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.atajos-accion .titulo-atajos-accion{
+.tituloAtajosAccion {
     margin-bottom: 30px;
     width: 100%;
 }
 
-.atajos-accion .btn-accion{
+.btnAccion {
     border-radius: 12px;
     font-size: 22px;
     padding: 8px 16px;
@@ -29,23 +29,22 @@
     font-weight: normal;
 }
 
-.solicitudes-estado{
+.solicitudesEstado {
     margin-top: 40px;
 }
 
-.solicitudes-estado h2{
+.solicitudesEstado h2 {
     margin-bottom: 30px;
 }
 
-.container-estado-periodo{
+.containerEstadoPeriodo {
     background-color: white;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
-
 }
 
-.seleccion-estado{
+.seleccionEstado {
     border-radius: 12px;
     overflow: hidden;
     width: 100%;
@@ -53,7 +52,8 @@
     justify-content: space-between;
     margin: auto;
 }
-.seleccion-estado .btn-seleccion-estado{
+
+.btnSeleccionEstado {
     width: 33%;
     border: none;
     padding: 10px 20px;
@@ -62,25 +62,23 @@
     color: #757575;
 }
 
-
-
-.periodo-resultado{
+.periodoResultado {
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.periodo-resultado p{
+.periodoResultado p {
     width: 100%;
     font-size: 20px;
 }
 
-.periodo-resultado .periodo-botones{
+.periodoBotones {
     width: 33%;
 }
 
-.periodo-resultado .periodo-botones button{
+.periodoBotones button {
     border: none;
     background-color: #E6E6E6;
     color: #757575;
@@ -91,61 +89,61 @@
     width: 80%;
     text-align: left;
 }
-.periodo-estados{
+
+.periodoEstados {
     width: 66%;
 }
 
-.periodo-resultado .periodo-botones .activo, .seleccion-estado .btn-seleccion-estado.activo{
+.activo {
     background-color: #24979B;
     color: white;
 }
 
 @media (max-width: 1200px) {
-    .atajos-accion .btn-accion{
+    .btnAccion {
         width: 100%;
         min-width: 100%;
         max-width: 100%;
         margin-bottom: 10px;
     }
-
-
 }
-
 
 @media (max-width: 900px) {
-    .atajos-solicitudes{
-    width: 90%;
-    margin: auto;
-
-}
+    .atajosSolicitudes {
+        width: 90%;
+        margin: auto;
+    }
 }
 
 @media (max-width: 768px) {
-.periodo-resultado{
-    flex-wrap: wrap;
-}
-.periodo-resultado .titulo-periodo{
-    text-align: center;
-}
-        .periodo-resultado .periodo-botones{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    
-}
-.seleccion-estado{
-    flex-direction: column;
-    
-}
-.periodo-estados{
-    margin: auto;
-    width: 80%;
-}
-.seleccion-estado .btn-seleccion-estado{
-    width: 80%;
-    margin: auto;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
+    .periodoResultado {
+        flex-wrap: wrap;
+    }
+
+    .tituloPeriodo {
+        text-align: center;
+    }
+
+    .periodoBotones {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .seleccionEstado {
+        flex-direction: column;
+    }
+
+    .periodoEstados {
+        margin: auto;
+        width: 80%;
+    }
+
+    .btnSeleccionEstado {
+        width: 80%;
+        margin: auto;
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
 }

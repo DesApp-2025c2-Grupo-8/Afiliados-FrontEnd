@@ -4,15 +4,13 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { FaSearch } from "react-icons/fa";
-import './FormPrestadores.css'
-
-
+import styles from './FormPrestadores.module.css';
 
 const FormPrestadores = (props) => {
 
     return (
         <>
-            <Form onSubmit={(e) => props.buscarPrestadores(e)} className="formPrestadores" >
+            <Form onSubmit={(e) => props.buscarPrestadores(e)} className={styles.formPrestadores} >
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formNombrePrestador">
                         <Form.Label>Buscar por nombre</Form.Label>
@@ -22,9 +20,9 @@ const FormPrestadores = (props) => {
                     <Form.Group as={Col} controlId="formEspecialidadPrestador">
                         <Form.Label>Especialidad<span style={{color: 'red'}}>*</span></Form.Label>
                         <Form.Select onChange={(e) => props.especialidad(e.target.value)} defaultValue="" >
-                            <option className="options" value={"Cardiología"}>Cardiología</option>
-                            <option className="options" value={"Diabetología"}>Diabetología</option>
-                            <option className="options" value={"Psicología"}>Psicología</option>
+                            <option className={styles.options} value={"Cardiología"}>Cardiología</option>
+                            <option className={styles.options} value={"Diabetología"}>Diabetología</option>
+                            <option className={styles.options} value={"Psicología"}>Psicología</option>
                         </Form.Select>
                     </Form.Group>
                 </Row>
@@ -35,15 +33,13 @@ const FormPrestadores = (props) => {
                 </Form.Group>
 
                 <Row className="mb-3">
-
                     <Form.Group as={Col} controlId="formTipoPrestador">
                         <Form.Label>Tipo de Prestador</Form.Label>
                         <Form.Select defaultValue="Tipo de Prestador">
-                            <option className="options">Tipo de Prestador</option>
-                            <option className="options">...</option>
+                            <option className={styles.options}>Tipo de Prestador</option>
+                            <option className={styles.options}>...</option>
                         </Form.Select>
                     </Form.Group>
-
                 </Row>
 
                 <Button variant="primary" type="submit">
@@ -51,7 +47,6 @@ const FormPrestadores = (props) => {
                     <FaSearch style={{ margin: '4px' }} />
                 </Button>
             </Form>
-
         </>
     )
 }
