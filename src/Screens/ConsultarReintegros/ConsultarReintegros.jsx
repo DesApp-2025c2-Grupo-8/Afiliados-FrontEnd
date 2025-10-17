@@ -22,7 +22,7 @@ const cardData = {
         // Campo: es el nombre en negrita de la fila
         // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
         { campo: 'Nro', propiedad: 'id' },
-        { campo: 'Fecha de carga', propiedad: 'fechaDeCarga' },
+        { campo: 'Fecha de carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico/a', propiedad: 'medico' },
         { campo: 'Lugar de atención', propiedad: 'lugarDeAtencion' },

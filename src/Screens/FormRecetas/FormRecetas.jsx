@@ -16,7 +16,7 @@ const FormRecetas = () => {
     const esTitular = numeroAfiliado.toString().endsWith("01");
 
     const [data, setData] = useState({
-        fechaDeCarga: new Date().toISOString().slice(0, 10),
+        fechaDeCarga: new Date().toISOString(),
         numeroAfiliado: numeroAfiliado, // Este valor debería ser dinámico según el usuario logueado
         integrante: "",
         medicamento: "",

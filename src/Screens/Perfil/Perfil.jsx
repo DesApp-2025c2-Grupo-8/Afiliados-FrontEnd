@@ -9,7 +9,7 @@ const Perfil = () => {
 
     const camposCard = [
         { campo: 'Edad', propiedad: 'edad' },
-        { campo: 'Fecha de nacimiento', propiedad: 'fechaNacimiento' },
+        { campo: 'Fecha de nacimiento', propiedad: 'fechaNacimiento', esFecha: true },
         { campo: 'N° Afiliado', propiedad: 'numeroAfiliado' },
         { campo: 'Teléfono', propiedad: 'telefono' },
         { campo: 'Email', propiedad: 'email' },

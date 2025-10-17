@@ -26,7 +26,7 @@ const cardData = {
     camposCard: [
         //{ campo: 'Fecha de Reserva', propiedad: 'fechaReserva' },
         { campo: 'Integrante', propiedad: 'integrante' },
-        { campo: 'Fecha de Turno', propiedad: 'fecha' },
+        { campo: 'Fecha de Turno', propiedad: 'fecha', esFecha: true },
         { campo: 'Hora', propiedad: 'hora' },
         { campo: 'Especialidad', propiedad: 'tipoConsulta' },
         //{ campo: 'Profesional', propiedad: 'profesional' },
@@ -199,11 +199,12 @@ const ConsultarTurnos = () => {
                     <section className={styles.turnosContainer}>
                         {listaTurnosFiltrados.length === 0 ?
                             <h2>No existen turnos con los filtros ingresados</h2> :
-                            (listaTurnosFiltrados.map((unTurno) => (
+                            (listaTurnosFiltrados.map((unTurno, idx) => (
                                     <CardDinamica
                                         {...cardData}
                                         data={unTurno}
                                         header={'Nº Turno: ' + unTurno.id}
+                                        key={idx}
                                         tieneContenidoExtra={
                                             esTurnoVigente(unTurno) ? (
                                             <button
