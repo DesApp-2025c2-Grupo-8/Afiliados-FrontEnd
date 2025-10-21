@@ -13,6 +13,7 @@ import ConsultarRecetas from "./Screens/ConsultarRecetas/ConsultarRecetas";
 import CartillaPrestadores from "./Screens/CartillaPrestadores/CartillaPrestadores";
 import ConsultarAutorizaciones from "./Screens/ConsultarAutorizaciones/ConsultarAutorizaciones";
 import ConsultarReintegros from "./Screens/ConsultarReintegros/ConsultarReintegros";
+import FormAutorizaciones from "./Screens/FormAutorizaciones/FormAutorizaciones";
 
 import NotFound from "./Screens/NotFound/NotFound";
 import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
@@ -32,7 +33,7 @@ export function AppRouter() {
           <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
           <Route path='/consultar-turnos' Component={ConsultarTurnos}/>
-          {/* <Route path='/cargar-autorizacion' Component={}/> */}
+          <Route path='/cargar-autorizacion' Component={FormAutorizaciones}/>
           <Route path='/consultar-autorizaciones' Component={ConsultarAutorizaciones}/>
           {/* <Route path='/solicitar-reintegro' Component={}/> */}
           <Route path='/consultar-reintegros' Component={ConsultarReintegros}/>
