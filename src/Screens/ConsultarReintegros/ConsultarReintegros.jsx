@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import reintegros from '../../db/reintegros';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import styles from './ConsultarReintegros.module.css'
-// import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { MdAttachMoney } from 'react-icons/md';
+import { useNumeroAfiliado } from '../../context/NumeroAfiliado';
 
-const reintegrosOrdenInverso = [...reintegros].reverse(); //Para ordenar las recetas de más actuales a más antiguas
 // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
 const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado'];
-const integrantesOpcionesIniciales = [...new Set(reintegros.map(r => r.integrante))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -21,30 +18,44 @@ const cardData = {
     camposCard: [ 
         // Campo: es el nombre en negrita de la fila
         // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
-        { campo: 'Nro', propiedad: 'id' },
+        { campo: 'N° Orden: ', propiedad: 'numeroOrden' },
         { campo: 'Fecha de carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico/a', propiedad: 'medico' },
         { campo: 'Lugar de atención', propiedad: 'lugarDeAtencion' },
-        { campo: 'Monto', propiedad: 'monto'}
+        { campo: 'Monto', propiedad: 'datosFactura.monto' }
     ],
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
-    tieneBotonDescarga: true
 };
 
 const ConsultarReintegros = () => {
+
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado();
+
     useEffect(() => {
         document.title = 'Consulta de Reintegros - Medicina Integral'
+
+        // fetch('http://localhost:3000/reintegros')                   //findAll()
+        fetch('http://localhost:3000/reintegros/'+ numeroAfiliado)  //findByNumeroAfiliado()
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const reintegrosOrdenados = [...data].reverse();
+                setListaReintegros(reintegrosOrdenados);
+                setlistaReintegrosFiltrados(reintegrosOrdenados);
+                const integrantesOpcionesIniciales = [...new Set(data.map(r => r.integrante))].sort();
+                setIntegrantesOpciones(integrantesOpcionesIniciales);
+            })
     }, []);
 
-    const [listaReintegros] = useState(reintegrosOrdenInverso);
-    const [listaReintegrosFiltrados, setlistaReintegrosFiltrados] = useState(reintegrosOrdenInverso);
+    const [listaReintegros, setListaReintegros] = useState([]);
+    const [listaReintegrosFiltrados, setlistaReintegrosFiltrados] = useState([]);
     const [filtroEstado, setFiltroEstado] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
     const [estadosOpciones, setEstadosOpciones] = useState(estadosOpcionesIniciales);
-    const [integrantesOpciones, setIntegrantesOpciones] = useState(integrantesOpcionesIniciales);
+    const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
 
     const filtrarPorEstado = (unEstado) => {
         setFiltroEstado(unEstado);
@@ -214,7 +225,7 @@ const ConsultarReintegros = () => {
                 <section className={styles.botonesContainer}>
                     <h1>Consultar Reintegros</h1>
                     
-                    <Link className={styles.botonCargarReceta} to={'/cargar-reintegro'}><MdAttachMoney style={{marginRight: '10px'}}/>Solicitar Reintegro</Link>
+                    <Link className={styles.botonCargarReceta} to={'/solicitar-reintegro'}><MdAttachMoney style={{marginRight: '10px'}}/>Solicitar Reintegro</Link>
                 </section>
                 <div className={styles.box}>
                     <section className={styles.filtroContainer}>
@@ -238,9 +249,10 @@ const ConsultarReintegros = () => {
 
                                     //Estos son los que hay que modificar segun la data a mostrar 
                                     color={colorSegunEstado(unReintegro.estado)} 
-                                    key={unReintegro.id}                   //La key del componente (debe ser un valor único!!)
+                                    key={unReintegro.numeroOrden}                   //La key del componente (debe ser un valor único!!)
                                     data={unReintegro}                        //Elemento actual en la iteración del map
                                     header={unReintegro.estado.charAt(0).toUpperCase() + unReintegro.estado.slice(1)}  //El título de la card  
+                                    tieneBotonDescarga={unReintegro.estado === 'Pago'}
                                 />
                             )))}
                     </section>
