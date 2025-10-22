@@ -223,9 +223,12 @@ const ConsultarReintegros = () => {
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
-                        {filtrosConfig.map(unFiltro => (
-                            <FiltrosCards {...unFiltro} key={unFiltro.label}/>
-                        ))}
+                        {filtrosConfig
+                            .filter(filtro => filtro.opciones.length > 1)
+                            .map(unFiltro => (
+                                <FiltrosCards {...unFiltro} key={unFiltro.label}/>
+                            ))
+                        }
                         <hr />
                         <h3>{listaReintegrosFiltrados.length} reintegro(s) encontrados</h3>
                     </section>
