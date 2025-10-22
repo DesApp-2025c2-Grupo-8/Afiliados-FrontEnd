@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import reintegros from '../../db/reintegros';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import styles from './ConsultarReintegros.module.css'
-// import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { MdAttachMoney } from 'react-icons/md';
@@ -27,7 +25,6 @@ const cardData = {
         { campo: 'Monto', propiedad: 'datosFactura.monto' }
     ],
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
-    tieneBotonDescarga: true
 };
 
 const ConsultarReintegros = () => {
@@ -253,6 +250,7 @@ const ConsultarReintegros = () => {
                                     key={unReintegro.numeroOrden}                   //La key del componente (debe ser un valor único!!)
                                     data={unReintegro}                        //Elemento actual en la iteración del map
                                     header={unReintegro.estado.charAt(0).toUpperCase() + unReintegro.estado.slice(1)}  //El título de la card  
+                                    tieneBotonDescarga={unReintegro.estado === 'Pago'}
                                 />
                             )))}
                     </section>
