@@ -29,9 +29,6 @@ const cardData = {
     tieneBotonDescarga: true 
 };
 
-//CAMBIAR ACA PARA BUSCAR POR OTRO INTEGRANTE
-
-
 const ConsultarRecetas = () => {
 
     const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado();
@@ -198,13 +195,11 @@ const ConsultarRecetas = () => {
 
     const limpiarFiltroIntegrante = () => {
         setFiltroIntegrante('');
-        setIntegrantesOpciones(integrantesOpcionesIniciales);
         aplicarFiltros(filtroEstado, filtroMedicamento, '', filtroPresentacion, filtroPeriodo);
     };
 
     const limpiarFiltroPresentacion = () => {
         setFiltroPresentacion('');
-        setPresentacionesOpciones(presentacionesOpcionesIniciales);
         aplicarFiltros(filtroEstado, filtroMedicamento, filtroIntegrante, '', filtroPeriodo);
     };
 
