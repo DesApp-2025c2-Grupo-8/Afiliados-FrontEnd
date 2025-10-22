@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react"
-import { Form, Col, Row, Modal, Button } from "react-bootstrap"
-import styles from './FormularioReintegros.module.css'
-import { useNavigate, Link } from "react-router-dom"
-import usuarios from "../../db/usuarios"
+import { useState, useEffect } from "react";
+import { Form, Col, Row, Modal, Button } from "react-bootstrap";
+import styles from './FormularioReintegros.module.css';
+import { useNavigate, Link } from "react-router-dom";
+import usuarios from "../../db/usuarios";
 import {useNumeroAfiliado} from "../../context/NumeroAfiliado";
 
 const FormularioReintegros = () => {
@@ -69,26 +69,26 @@ const FormularioReintegros = () => {
 
     const confirmar = async (event) => {
         event.preventDefault()
-        console.log(data);
+        // console.log(data);
         setModalConfirmar(true);
-        // try {
-        //     const dataToSend = {
-        //         ...data
-        //     };
-        //     const response = await fetch('http://localhost:3000/reintegros', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(dataToSend)
-        //     });
-        //     const result = await response.json();
-        //     setNroOrden(result.numeroOrden);
-        //     console.log("Resultado:", result);
-        //     result.error ? setErrores(result.message) : setModalConfirmar(true);
-        // } catch (error) {
-        //     console.log("Error:", error);
-        // }   
+        try {
+            const dataToSend = {
+                ...data
+            };
+            const response = await fetch('http://localhost:3000/reintegros', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            });
+            const result = await response.json();
+            setNroOrden(result.numeroOrden);
+            console.log("Resultado:", result);
+            result.error ? setErrores(result.message) : setModalConfirmar(true);
+        } catch (error) {
+            console.log("Error:", error);
+        }   
     }
 
     const cancelar = () => {
@@ -226,7 +226,7 @@ const FormularioReintegros = () => {
                                     <Form.Label>Fecha de la factura<span className={styles.oblgatorio}>*</span></Form.Label>
                                     <Form.Control
                                         type="date"
-                                        name="fechaFactura"
+                                        name="fechaDeFactura"
                                         value={data.datosFactura.fechaDeFactura}
                                         onChange={handleChangeFactura}
                                         required
