@@ -1,0 +1,78 @@
+.fondo {
+    min-height: 90vh;
+    padding-top: 100px;
+    width: 100%;
+    background-image: url("@assets/images/fondo-FormRecetas.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.oblgatorio{
+    color: #E64F4F;
+}
+
+.container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    min-height: 80vh;       
+    padding-bottom: 2rem;
+}
+
+
+.card {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 100%;
+    margin:auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+}
+
+
+
+.titulo {
+    font-size: 1.9rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+select,
+input,
+textarea {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+button {
+    margin: 3rem;
+    font-weight: bold;
+}
+
+.modal {
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .card {
+        padding: 1rem;
+    }
+
+    .titulo {
+        font-size: 1.3rem;
+    }
+
+}

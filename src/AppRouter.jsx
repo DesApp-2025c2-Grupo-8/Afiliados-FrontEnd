@@ -17,6 +17,7 @@ import ConsultarReintegros from "./Screens/ConsultarReintegros/ConsultarReintegr
 import NotFound from "./Screens/NotFound/NotFound";
 import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
 import Perfil from "./Screens/Perfil/Perfil";
+import FormularioReintegros from "./Screens/FormularioReintegros/FormularioReintegros";
 
 export function AppRouter() {
   return (
@@ -34,7 +35,7 @@ export function AppRouter() {
           <Route path='/consultar-turnos' Component={ConsultarTurnos}/>
           {/* <Route path='/cargar-autorizacion' Component={}/> */}
           <Route path='/consultar-autorizaciones' Component={ConsultarAutorizaciones}/>
-          {/* <Route path='/solicitar-reintegro' Component={}/> */}
+          <Route path='/solicitar-reintegro' Component={FormularioReintegros}/>
           <Route path='/consultar-reintegros' Component={ConsultarReintegros}/>
           <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
           {/* <Route path='/contacto' Component={}/> */}
