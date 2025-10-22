@@ -8,15 +8,16 @@ import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 import { useNumeroAfiliado } from '../../context/NumeroAfiliado';
 
+const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
     // Color: Clase para el color del header de la Card, en idex.css
-    color: 'observacion', 
     // camposCard: va toda la informacion que queremos mostrar en la tarjeta, espera un nombre y un valor se mustran por campo o fila de la card
     camposCard: [ 
         // Campo: es el nombre en negrita de la fila
         // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
+        { campo: 'Estado', propiedad: 'estado' },
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Fecha de carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Medicamento', propiedad: 'medicamento' },
@@ -27,9 +28,6 @@ const cardData = {
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
     tieneBotonDescarga: true 
 };
-
-//CAMBIAR ACA PARA BUSCAR POR OTRO INTEGRANTE
-
 
 const ConsultarRecetas = () => {
 
@@ -44,47 +42,62 @@ const ConsultarRecetas = () => {
                 const recetasOrdenadas = [...data].reverse();
                 setListaRecetas(recetasOrdenadas);
                 setListaRecetasFiltradas(recetasOrdenadas);
-                const integrantesOpcionesIniciales = [...new Set(data.map(r => r.integrante))].sort();
-                setIntegrantesOpciones(integrantesOpcionesIniciales);
-                const presentacionesOpcionesIniciales = [...new Set(data.map(r => r.presentacion))].sort();
-                setPresentacionesOpciones(presentacionesOpcionesIniciales);
+                const integrantesIniciales = [...new Set(data.map(r => r.integrante))].sort();
+                setIntegrantesOpcionesIniciales(integrantesIniciales)
+                setIntegrantesOpciones(integrantesIniciales);
+                const presentacionesIniciales = [...new Set(data.map(r => r.presentacion))].sort();
+                setPresentacionesOpcionesIniciales(presentacionesIniciales)
+                setPresentacionesOpciones(presentacionesIniciales);
             })
             .catch(error => console.log(error))
-    }, []);
+    }, [numeroAfiliado]);
 
     const [listaRecetas, setListaRecetas] = useState([]);
     const [listaRecetasFiltradas, setListaRecetasFiltradas] = useState([]);
+    const [filtroEstado, setFiltroEstado] = useState('');
     const [filtroMedicamento, setFiltroMedicamento] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPresentacion, setFiltroPresentacion] = useState('');
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
+    const [estadosOpciones, setEstadosOpciones] = useState(estadosOpcionesIniciales);
+    const [integrantesOpcionesIniciales, setIntegrantesOpcionesIniciales] = useState([]);
+    const [presentacionesOpcionesIniciales, setPresentacionesOpcionesIniciales] = useState([]);
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
     const [presentacionesOpciones, setPresentacionesOpciones] = useState([]);
 
+    const filtrarPorEstado = (unEstado) => {
+        setFiltroEstado(unEstado);
+        aplicarFiltros(unEstado, filtroMedicamento, filtroIntegrante, filtroPresentacion, filtroPeriodo);
+    };
+
     const filtrarPorMedicamento = (unMedicamento) => {
         setFiltroMedicamento(unMedicamento);
-        aplicarFiltros(unMedicamento, filtroIntegrante, filtroPresentacion, filtroPeriodo);
+        aplicarFiltros(filtroEstado, unMedicamento, filtroIntegrante, filtroPresentacion, filtroPeriodo);
     };
 
     const filtrarPorIntegrante = (unIntegrante) => {
         setFiltroIntegrante(unIntegrante);
-        aplicarFiltros(filtroMedicamento, unIntegrante, filtroPresentacion, filtroPeriodo);
+        aplicarFiltros(filtroEstado, filtroMedicamento, unIntegrante, filtroPresentacion, filtroPeriodo);
     };
 
     const filtrarPorPresentacion = (unaPresentacion) => {
         setFiltroPresentacion(unaPresentacion);
-        aplicarFiltros(filtroMedicamento, filtroIntegrante, unaPresentacion, filtroPeriodo);
+        aplicarFiltros(filtroEstado, filtroMedicamento, filtroIntegrante, unaPresentacion, filtroPeriodo);
     };
 
     const filtrarPorPeriodo = (unPeriodo) => {
         setFiltroPeriodo(unPeriodo);
-        aplicarFiltros(filtroMedicamento, filtroIntegrante, filtroPresentacion, unPeriodo);
+        aplicarFiltros(filtroEstado, filtroMedicamento, filtroIntegrante, filtroPresentacion, unPeriodo);
     }
 
-    const aplicarFiltros = (unMedicamento, unIntegrante, unaPresentacion, unPeriodo) => {
+    const aplicarFiltros = (unEstado, unMedicamento, unIntegrante, unaPresentacion, unPeriodo) => {
         let listaRecetasAFiltrar = [...listaRecetas];
         
+        if (unEstado) {
+            listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.estado === unEstado);
+        };
+
         if (unMedicamento) {
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase()));
         };
@@ -97,7 +110,7 @@ const ConsultarRecetas = () => {
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.presentacion === unaPresentacion);
         };
 
-        if (unPeriodo) {
+        if (unPeriodo && unPeriodo !== 'TODO') {
             const fechaDelPeriodoSeleccionado =  obtenerFechaDelPeriodoSeleccionado(unPeriodo);
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.fechaDeCarga >= fechaDelPeriodoSeleccionado);
             // console.log('Cantidad de elem filtrados en el periodo seleccionado: ', listaRecetasAFiltrar.length);
@@ -105,16 +118,25 @@ const ConsultarRecetas = () => {
 
         setListaRecetasFiltradas(listaRecetasAFiltrar);
 
+        const opcionesEstado = listaRecetas.filter(r => 
+            (!unMedicamento || r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase())) &&
+            (!unaPresentacion || r.presentacion === unaPresentacion) &&
+            (!unIntegrante || r.integrante === unIntegrante)
+        ).map(r => r.estado);
+
         const opcionesIntegrante = listaRecetas.filter(r =>
+            (!unEstado || r.estado === unEstado) &&
             (!unMedicamento || r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase())) &&
             (!unaPresentacion || r.presentacion === unaPresentacion)
         ).map(r => r.integrante);
 
         const opcionesPresentacion = listaRecetas.filter(r =>
+            (!unEstado || r.estado === unEstado) &&
             (!unMedicamento || r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase())) &&
             (!unIntegrante || r.integrante === unIntegrante)
         ).map(r => r.presentacion);
 
+        setEstadosOpciones([...new Set(opcionesEstado)]);
         setIntegrantesOpciones([...new Set(opcionesIntegrante)]);
         setPresentacionesOpciones([...new Set(opcionesPresentacion)]);
     };
@@ -127,7 +149,7 @@ const ConsultarRecetas = () => {
         // {console.log('2025/10/04' >= '2015/05/03');}
         // {console.log('2025/10/04' >= '2024/12/27');}
         const fechaActual = new Date();
-        let fechaPeriodoFiltro;
+        let fechaPeriodoFiltro = new Date(fechaActual);
 
         //['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'] => 'TODO'
 
@@ -138,64 +160,75 @@ const ConsultarRecetas = () => {
 
         switch (unPeriodo) {
             case 'Último año':
-                fechaPeriodoFiltro = new Date(fechaActual.setFullYear(fechaActual.getFullYear()-1));
+                fechaPeriodoFiltro.setFullYear(fechaPeriodoFiltro.getFullYear() - 1);
                 break;
             case 'Últimos seis meses':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-6));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 6);
                 break;
             case 'Últimos tres meses':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-3));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 3);
                 break;
             case 'Último mes':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-1));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 1);
                 break;
             case 'Últimas dos semanas':
-                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate()-14));
+                fechaPeriodoFiltro.setDate(fechaPeriodoFiltro.getDate() - 14);
                 break;
             case 'Última semana':
-                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate()-7));
+                fechaPeriodoFiltro.setDate(fechaPeriodoFiltro.getDate() - 7);
                 break;
-            default:
-                fechaPeriodoFiltro = fechaActual;
         }
         
         // console.log(fechaPeriodoFiltro.toISOString());
         return fechaPeriodoFiltro.toISOString().slice(0,10);
     };
 
+    const limpiarFiltroEstado = () => {
+        setFiltroEstado('');
+        aplicarFiltros('', filtroMedicamento, filtroIntegrante, filtroPresentacion, filtroPeriodo)
+    }
+
     const limpiarFiltroMedicamento = () => {
         setFiltroMedicamento('');
-        aplicarFiltros('', filtroIntegrante, filtroPresentacion, filtroPeriodo);
+        aplicarFiltros(filtroEstado,'', filtroIntegrante, filtroPresentacion, filtroPeriodo);
     };
 
     const limpiarFiltroIntegrante = () => {
         setFiltroIntegrante('');
-        setIntegrantesOpciones([...new Set(listaRecetas.map(r => r.integrante))]);
-        aplicarFiltros(filtroMedicamento, '', filtroPresentacion, filtroPeriodo);
+        aplicarFiltros(filtroEstado, filtroMedicamento, '', filtroPresentacion, filtroPeriodo);
     };
 
     const limpiarFiltroPresentacion = () => {
         setFiltroPresentacion('');
-        setPresentacionesOpciones([...new Set(listaRecetas.map(r => r.presentacion))]);
-        aplicarFiltros(filtroMedicamento, filtroIntegrante, '', filtroPeriodo);
+        aplicarFiltros(filtroEstado, filtroMedicamento, filtroIntegrante, '', filtroPeriodo);
     };
 
     const limpiarFiltroPeriodo = () => {
         setFiltroPeriodo('');
-        aplicarFiltros(filtroMedicamento, filtroIntegrante, filtroPresentacion, '');
+        aplicarFiltros(filtroEstado, filtroMedicamento, filtroIntegrante, filtroPresentacion, '');
     };
 
     const limpiarFiltros = () => {
         setListaRecetasFiltradas(listaRecetas);
+        setFiltroEstado('');
         setFiltroMedicamento('');
         setFiltroIntegrante('');
         setFiltroPresentacion('');
         setFiltroPeriodo('');
-        setIntegrantesOpciones([...new Set(listaRecetas.map(r => r.integrante))]);
-        setPresentacionesOpciones([...new Set(listaRecetas.map(r => r.presentacion))]);
+        setIntegrantesOpciones(integrantesOpcionesIniciales);
+        setPresentacionesOpciones(presentacionesOpcionesIniciales);
     };
 
     const filtrosConfig = [
+        {
+            label: 'Estado',
+            default: 'TODOS',
+            defaultDesactivado: false,
+            opciones: estadosOpciones,
+            valorActual: filtroEstado,
+            filtrarAlSeleccionar: filtrarPorEstado,
+            borrarFiltro: limpiarFiltroEstado,
+        },
         {
             label: 'Integrante',
             default: 'Seleccione un integrante...',
@@ -224,6 +257,21 @@ const ConsultarRecetas = () => {
             borrarFiltro: limpiarFiltroPeriodo,
         }
     ];
+
+    const colorSegunEstado = (unEstado) => {
+        let resultado = '';
+        switch (unEstado){
+            case 'Aceptada':
+                resultado = 'observacion';
+                break;
+            case 'Rechazada':
+                resultado = 'rechazada';
+                break;
+            default:
+                resultado = 'pendiente'
+        }
+        return resultado;
+    };
 
     return (   
         <>
@@ -265,7 +313,9 @@ const ConsultarRecetas = () => {
                                     //Estos son los que hay que modificar segun la data a mostrar  
                                     key={unaReceta.numeroOrden}                   //La key del componente (debe ser un valor único!!)
                                     data={unaReceta}                        //Elemento actual en la iteración del map
-                                    header={'N° Orden ' + unaReceta.numeroOrden}  //El título de la card  
+                                    header={'N° Orden: ' + unaReceta.numeroOrden}  //El título de la card
+                                    color={colorSegunEstado(unaReceta.estado)}  
+                                    tieneBotonDescarga={unaReceta.estado === 'Aceptada'}
                                 />
                             )))}
                     </section>
