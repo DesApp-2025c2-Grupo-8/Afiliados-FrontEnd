@@ -8,10 +8,8 @@ import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { MdAttachMoney } from 'react-icons/md';
 
-const reintegrosOrdenInverso = [...reintegros].reverse(); //Para ordenar las recetas de más actuales a más antiguas
 // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
 const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado'];
-const integrantesOpcionesIniciales = [...new Set(reintegros.map(r => r.integrante))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -21,27 +19,33 @@ const cardData = {
     camposCard: [ 
         // Campo: es el nombre en negrita de la fila
         // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
-        { campo: 'Nro', propiedad: 'id' },
+        { campo: 'N° Orden: ', propiedad: 'numeroOrden' },
         { campo: 'Fecha de carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico/a', propiedad: 'medico' },
         { campo: 'Lugar de atención', propiedad: 'lugarDeAtencion' },
-        { campo: 'Monto', propiedad: 'monto'}
+        { campo: 'Monto', propiedad: 'datosFactura.monto' }
     ],
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
     tieneBotonDescarga: true
 };
 
 const ConsultarReintegros = () => {
-    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado(); //CAMBIAR FETCH CON ESTO
+
+    // const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado(); //CAMBIAR FETCH CON ESTO
+
     useEffect(() => {
         document.title = 'Consulta de Reintegros - Medicina Integral'
 
         fetch('http://localhost:3000/reintegros')
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 const reintegrosOrdenados = [...data].reverse();
-                setListaReintegros
+                setListaReintegros(reintegrosOrdenados);
+                setlistaReintegrosFiltrados(reintegrosOrdenados);
+                const integrantesOpcionesIniciales = [...new Set(data.map(r => r.integrante))].sort();
+                setIntegrantesOpciones(integrantesOpcionesIniciales);
             })
     }, []);
 
@@ -51,7 +55,7 @@ const ConsultarReintegros = () => {
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
-    const [estadosOpciones, setEstadosOpciones] = useState([]);
+    const [estadosOpciones, setEstadosOpciones] = useState(estadosOpcionesIniciales);
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
 
     const filtrarPorEstado = (unEstado) => {
@@ -246,7 +250,7 @@ const ConsultarReintegros = () => {
 
                                     //Estos son los que hay que modificar segun la data a mostrar 
                                     color={colorSegunEstado(unReintegro.estado)} 
-                                    key={unReintegro.id}                   //La key del componente (debe ser un valor único!!)
+                                    key={unReintegro.numeroOrden}                   //La key del componente (debe ser un valor único!!)
                                     data={unReintegro}                        //Elemento actual en la iteración del map
                                     header={unReintegro.estado.charAt(0).toUpperCase() + unReintegro.estado.slice(1)}  //El título de la card  
                                 />

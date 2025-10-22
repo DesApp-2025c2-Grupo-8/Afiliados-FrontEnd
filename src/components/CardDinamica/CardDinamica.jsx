@@ -7,6 +7,10 @@ const CardDinamica = (props) => {
 
   const { data, header, color, camposCard, tieneBotonDescarga, tieneContenidoExtra, fechasCampos } = props;
 
+  const getValor = (obj, path) => {
+    return path.split('.').reduce((acc, key) => acc?.[key], obj);
+  };
+
 
   return (
     <Card className={styles.cardBox}>
@@ -21,8 +25,8 @@ const CardDinamica = (props) => {
             <strong>{campo}: </strong>
         
             {esFecha 
-                ? new Date(data[propiedad]).toLocaleDateString('es-AR')
-                : data[propiedad]
+                ? new Date(getValor(data, propiedad)).toLocaleDateString('es-AR')
+                : getValor(data, propiedad)
             }
 
           </Card.Text>
