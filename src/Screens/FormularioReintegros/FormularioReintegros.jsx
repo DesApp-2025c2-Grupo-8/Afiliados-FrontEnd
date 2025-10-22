@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import { Form, Col, Row, Modal, Button } from "react-bootstrap"
-import FormGenerico from "../../components/FormGenerico/FormGenerico"
 import styles from './FormularioReintegros.module.css'
 import { useNavigate, Link } from "react-router-dom"
 import usuarios from "../../db/usuarios"
@@ -23,13 +22,21 @@ const FormularioReintegros = () => {
         especialidad: "",
         lugarDeAtencion: "",
         observaciones: "",
-        monto: 0
+        datosFactura: {
+            cuit: "",
+            fechaDeFactura: "",
+            monto: "",
+            personaFacturada: "",
+            medioDePago: "",
+            cbu: ""
+        }
     })
 
     const [modalConfirmar, setModalConfirmar] = useState(false)
     const [modalCancelar, setModalCancelar] = useState(false)
     const [nroOrden, setNroOrden] = useState(null)
     const [errores, setErrores] = useState([])
+    const [paso, setPaso] = useState(1);
 
     const navigate = useNavigate()
 
@@ -43,31 +50,45 @@ const FormularioReintegros = () => {
         )
     }
 
+    const handleChangeFactura = (event) => {
+        const { name, value } = event.target
+        setData(prev => ({
+            ...prev,
+            datosFactura: {
+                ...prev.datosFactura,
+                [name]: value
+            }
+        }))
+    }
+
+
     const handleSubmit = (event) => {
         event.preventDefault()
+        setPaso(2)
     }
 
     const confirmar = async (event) => {
         event.preventDefault()
-        try {
-            const dataToSend = {
-                ...data,
-                cantidad: parseInt(data.cantidad)
-            };
-            const response = await fetch('http://localhost:3000/reintegros', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(dataToSend)
-            });
-            const result = await response.json();
-            setNroOrden(result.numeroOrden);
-            console.log("Resultado:", result);
-            result.error ? setErrores(result.message) : setModalConfirmar(true);
-        } catch (error) {
-            console.log("Error:", error);
-        }
+        console.log(data);
+        setModalConfirmar(true);
+        // try {
+        //     const dataToSend = {
+        //         ...data
+        //     };
+        //     const response = await fetch('http://localhost:3000/reintegros', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(dataToSend)
+        //     });
+        //     const result = await response.json();
+        //     setNroOrden(result.numeroOrden);
+        //     console.log("Resultado:", result);
+        //     result.error ? setErrores(result.message) : setModalConfirmar(true);
+        // } catch (error) {
+        //     console.log("Error:", error);
+        // }   
     }
 
     const cancelar = () => {
@@ -76,12 +97,14 @@ const FormularioReintegros = () => {
 
     const handleCancelar = () => {
         setModalCancelar(false)
-        navigate("/consultar-recetas")
+        navigate("/consultar-reintegros")
     }
 
     const handleConfirmar = () => {
+        console.log("Enviando...");
         setModalConfirmar(false)
-        navigate("/consultar-recetas")
+        // setPaso(2)
+        navigate("/consultar-reintegros")
     }
 
     return (
@@ -90,83 +113,197 @@ const FormularioReintegros = () => {
             <div className={styles.container}>
                 <div className={styles.card}>
                     <h4 className={styles.titulo}>Solicitud de Reintegro</h4>
-                    <FormGenerico handleSubmit={handleSubmit} confirmar={confirmar} cancelar={cancelar}>
-                        <Form.Group>
-                            <Form.Label>Integrante<span className={styles.oblgatorio}>*</span></Form.Label>
-                            <Form.Select
-                                name="integrante"
-                                value={data.integrante}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Seleccione el nombre del integrante</option>
-                                {
-                                usuarios.map((usuario) => {
-                                    return usuario.numeroAfiliado.toString().includes( esTitular ? data.numeroAfiliado.toString().slice(0, 5) : numeroAfiliado.toString()) ? (
-                                        <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
-                                    ) : null
-                                })}
-                            </Form.Select>
-                            <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
-                        </Form.Group>
 
-                        <Row className="mb-3">
-                            <Form.Group as={Col} md={8} controlId="medico">
-                                <Form.Label>Médico<span className={styles.oblgatorio}>*</span></Form.Label>
+                    {paso === 1 && (
+                        <Form onSubmit={handleSubmit} >
+                            <Form.Group>
+                                <Form.Label>Integrante<span className={styles.oblgatorio}>*</span></Form.Label>
                                 <Form.Select
-                                    name="medico"
-                                    value={data.medico}
+                                    name="integrante"
+                                    value={data.integrante}
                                     onChange={handleChange}
                                     required
                                 >
-                                    <option value="">Seleccione un médico</option>
-                                    <option value="Dr. Juan">Dr. Juan</option>
-                                    <option value="Dr. Pepe">Dr. Pepe</option>
-                                    <option value="Dra. Fulana">Dra. Fulana</option>
-                                    
+                                    <option value="">Seleccione el nombre del integrante</option>
+                                    {
+                                        usuarios.map((usuario) => {
+                                            return usuario.numeroAfiliado.toString().includes(esTitular ? data.numeroAfiliado.toString().slice(0, 5) : numeroAfiliado.toString()) ? (
+                                                <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
+                                            ) : null
+                                        })}
                                 </Form.Select>
-                                <span className={styles.oblgatorio}>{errores.includes("medico should not be empty") ? "Ingrese un médico" : ""}</span>
+                                <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                             </Form.Group>
-                            <Form.Group as={Col} md={4} controlId="cantidad">
-                                <Form.Label>Cantidad<span className={styles.oblgatorio}>*</span></Form.Label>
+
+                            <Form.Group>
+                                <Form.Label>Fecha de la prestación<span className={styles.oblgatorio}>*</span></Form.Label>
                                 <Form.Control
-                                    name="cantidad"
-                                    type="number"
-                                    min="0"
+                                    name='fechaDePrestacion'
+                                    type='date'
+                                    value={data.fechaDePrestacion}
                                     onChange={handleChange}
                                     required
-                                />
-                                <span className={styles.oblgatorio}>{errores.includes("cantidad should not be empty") ? "Ingrese una cantidad" : ""}</span>
+                                >
+
+                                </Form.Control>
+                                <span className={styles.oblgatorio}>{errores.includes("fechaDePrestacion should not be empty") ? "Seleccione una fecha de prestación" : ""}</span>
                             </Form.Group>
-                        </Row>
 
-                        <Form.Group>
-                            <Form.Label>Especialidad<span className={styles.oblgatorio}>*</span></Form.Label>
-                            <Form.Select
-                                name="especialidad"
-                                value={data.especialidad}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Seleccione una especialidad de la lista</option>
-                                <option value="Cirujano">Cirujano</option>
-                                <option value="Neurólogo">Neurólogo</option>
-                                <option value="Odontólogo">Odontólogo</option>
-                                <option value="Traumatólogo">Traumatólogo</option>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} md={6} controlId="medico">
+                                    <Form.Label>Médico<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Select
+                                        name="medico"
+                                        value={data.medico}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Seleccione un médico</option>
+                                        <option value="Dr. Juan">Dr. Juan</option>
+                                        <option value="Dr. Pepe">Dr. Pepe</option>
+                                        <option value="Dra. Fulana">Dra. Fulana</option>
 
-                            </Form.Select>
-                            <span className={styles.oblgatorio}>{errores.includes("especialidad should not be empty") ? "Seleccione una especialidad" : ""}</span>
-                        </Form.Group>
+                                    </Form.Select>
+                                    <span className={styles.oblgatorio}>{errores.includes("medico should not be empty") ? "Ingrese un médico" : ""}</span>
+                                </Form.Group>
+                                <Form.Group as={Col} md={6} controlId="especialidad">
+                                    <Form.Label>Especialidad<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Select
+                                        name="especialidad"
+                                        value={data.especialidad}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Seleccione una especialidad</option>
+                                        <option value="Cirujano">Cirujano</option>
+                                        <option value="Neurólogo">Neurólogo</option>
+                                        <option value="Odontólogo">Odontólogo</option>
+                                        <option value="Traumatólogo">Traumatólogo</option>
 
-                        <Form.Group>
-                            <Form.Label>Observaciones</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                name="observaciones"
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </FormGenerico>
+                                    </Form.Select>
+                                    <span className={styles.oblgatorio}>{errores.includes("especialidad should not be empty") ? "Seleccione una especialidad" : ""}</span>
+                                </Form.Group>
+                            </Row>
+
+                            <Form.Group>
+                                <Form.Label>Lugar de atención<span className={styles.oblgatorio}>*</span></Form.Label>
+                                <Form.Select
+                                    name="lugarDeAtencion"
+                                    value={data.lugarDeAtencion}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="">Seleccione el lugar de atención</option>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+
+                                </Form.Select>
+                                <span className={styles.oblgatorio}>{errores.includes("lugarDeAtencion should not be empty") ? "Seleccione un lugar de atención" : ""}</span>
+                            </Form.Group>
+
+                            <Form.Group>
+                                <Form.Label>Observaciones</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    name="observaciones"
+                                    onChange={handleChange}
+                                />
+                            </Form.Group>
+                            <div className={styles.botones}>
+                                <Button type="button" onClick={cancelar} style={{backgroundColor: '#E64F4F', border: 'none'}}>Cancelar</Button>
+                                <Button type="submit" style={{ backgroundColor: '#24979B', border: 'none' }}>Siguiente</Button>
+                            </div>
+                        </Form>
+                    )}
+
+                    {paso === 2 && (
+                        <>
+                            <h4 className={styles.subtitulo}>- Datos de facturación -</h4>
+                            <Form onSubmit={confirmar}>
+                                <Form.Group>
+                                    <Form.Label>Fecha de la factura<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        name="fechaFactura"
+                                        value={data.datosFactura.fechaDeFactura}
+                                        onChange={handleChangeFactura}
+                                        required
+                                    />
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>CUIT<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="cuit"
+                                        min="0"
+                                        value={data.datosFactura.cuit}
+                                        onChange={handleChangeFactura}
+                                        required
+                                    />
+                                    <span className={styles.oblgatorio}>{errores.includes("monto should not be empty") ? "Ingrese un monto" : ""}</span>
+                                </Form.Group>
+                                
+                                <Form.Group>
+                                    <Form.Label>Monto a reintegrar<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        name="monto"
+                                        min="0"
+                                        value={data.datosFactura.monto}
+                                        onChange={handleChangeFactura}
+                                        required
+                                    />
+                                    <span className={styles.oblgatorio}>{errores.includes("monto should not be empty") ? "Ingrese un monto" : ""}</span>
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Persona facturada<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="personaFacturada"
+                                        value={data.datosFactura.personaFacturada}
+                                        onChange={handleChangeFactura}
+                                        required
+                                    />
+                                </Form.Group>
+
+                                <Form.Group>
+                                    <Form.Label>Forma de pago<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Select
+                                        name="medioDePago"
+                                        value={data.datosFactura.medioDePago}
+                                        onChange={handleChangeFactura}
+                                        required
+                                    >
+                                        <option value="">Seleccione una forma de pago</option>
+                                        <option value="Efectivo">Efectivo</option>
+                                        <option value="Transferencia">Transferencia</option>
+                                    </Form.Select>
+                                </Form.Group>
+
+                                {data.datosFactura.medioDePago === "Transferencia" && (
+                                    <Form.Group>
+                                        <Form.Label>CBU<span className={styles.oblgatorio}>*</span></Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="cbu"
+                                                value={data.datosFactura.cbu}
+                                                onChange={handleChangeFactura}
+                                                required
+                                            />
+                                    </Form.Group>
+                                )}
+
+                                <div className={styles.botones}>
+                                    <Button variant="secondary" onClick={() => setPaso(1)}>Volver</Button>
+                                    <Button type="submit" style={{ backgroundColor: '#24979B', border: 'none' }}>Finalizar</Button>
+                                </div>
+                            </Form>
+                        </>
+                    )}
+
                 </div>
                 <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
                     <Modal.Body>

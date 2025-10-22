@@ -33,18 +33,26 @@ const cardData = {
 };
 
 const ConsultarReintegros = () => {
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado(); //CAMBIAR FETCH CON ESTO
     useEffect(() => {
         document.title = 'Consulta de Reintegros - Medicina Integral'
+
+        fetch('http://localhost:3000/reintegros')
+            .then(response => response.json())
+            .then(data => {
+                const reintegrosOrdenados = [...data].reverse();
+                setListaReintegros
+            })
     }, []);
 
-    const [listaReintegros] = useState(reintegrosOrdenInverso);
-    const [listaReintegrosFiltrados, setlistaReintegrosFiltrados] = useState(reintegrosOrdenInverso);
+    const [listaReintegros, setListaReintegros] = useState([]);
+    const [listaReintegrosFiltrados, setlistaReintegrosFiltrados] = useState([]);
     const [filtroEstado, setFiltroEstado] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
-    const [estadosOpciones, setEstadosOpciones] = useState(estadosOpcionesIniciales);
-    const [integrantesOpciones, setIntegrantesOpciones] = useState(integrantesOpcionesIniciales);
+    const [estadosOpciones, setEstadosOpciones] = useState([]);
+    const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
 
     const filtrarPorEstado = (unEstado) => {
         setFiltroEstado(unEstado);
@@ -214,7 +222,7 @@ const ConsultarReintegros = () => {
                 <section className={styles.botonesContainer}>
                     <h1>Consultar Reintegros</h1>
                     
-                    <Link className={styles.botonCargarReceta} to={'/cargar-reintegro'}><MdAttachMoney style={{marginRight: '10px'}}/>Solicitar Reintegro</Link>
+                    <Link className={styles.botonCargarReceta} to={'/solicitar-reintegro'}><MdAttachMoney style={{marginRight: '10px'}}/>Solicitar Reintegro</Link>
                 </section>
                 <div className={styles.box}>
                     <section className={styles.filtroContainer}>
