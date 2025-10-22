@@ -43,10 +43,11 @@ const ConsultarReintegros = () => {
                 const reintegrosOrdenados = [...data].reverse();
                 setListaReintegros(reintegrosOrdenados);
                 setlistaReintegrosFiltrados(reintegrosOrdenados);
-                const integrantesOpcionesIniciales = [...new Set(data.map(r => r.integrante))].sort();
-                setIntegrantesOpciones(integrantesOpcionesIniciales);
+                const integrantesIniciales = [...new Set(data.map(r => r.integrante))].sort();
+                setIntegrantesOpcionesIniciales(integrantesIniciales);
+                setIntegrantesOpciones(integrantesIniciales);
             })
-    }, []);
+    }, [numeroAfiliado]);
 
     const [listaReintegros, setListaReintegros] = useState([]);
     const [listaReintegrosFiltrados, setlistaReintegrosFiltrados] = useState([]);
@@ -55,6 +56,7 @@ const ConsultarReintegros = () => {
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
     const [estadosOpciones, setEstadosOpciones] = useState(estadosOpcionesIniciales);
+    const [integrantesOpcionesIniciales, setIntegrantesOpcionesIniciales] = useState([]);
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
 
     const filtrarPorEstado = (unEstado) => {
@@ -83,7 +85,7 @@ const ConsultarReintegros = () => {
             listaReintegrosAFiltrar = listaReintegrosAFiltrar.filter(r => r.integrante === unIntegrante);
         };
 
-        if (unPeriodo) {
+        if (unPeriodo && unPeriodo !== 'TODO') {
             const fechaDelPeriodoSeleccionado =  obtenerFechaDelPeriodoSeleccionado(unPeriodo);
             listaReintegrosAFiltrar = listaReintegrosAFiltrar.filter(r => r.fechaDeCarga >= fechaDelPeriodoSeleccionado);
             // console.log('Cantidad de elem filtrados en el periodo seleccionado: ', listaRecetasAFiltrar.length);
@@ -111,7 +113,7 @@ const ConsultarReintegros = () => {
         // {console.log('2025/10/04' >= '2015/05/03');}
         // {console.log('2025/10/04' >= '2024/12/27');}
         const fechaActual = new Date();
-        let fechaPeriodoFiltro;
+        let fechaPeriodoFiltro = new Date(fechaActual);
 
         //['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'] => 'TODO'
 
@@ -122,25 +124,23 @@ const ConsultarReintegros = () => {
 
         switch (unPeriodo) {
             case 'Último año':
-                fechaPeriodoFiltro = new Date(fechaActual.setFullYear(fechaActual.getFullYear()-1));
+                fechaPeriodoFiltro.setFullYear(fechaPeriodoFiltro.getFullYear() - 1);
                 break;
             case 'Últimos seis meses':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-6));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 6);
                 break;
             case 'Últimos tres meses':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-3));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 3);
                 break;
             case 'Último mes':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth()-1));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 1);
                 break;
             case 'Últimas dos semanas':
-                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate()-14));
+                fechaPeriodoFiltro.setDate(fechaPeriodoFiltro.getDate() - 14);
                 break;
             case 'Última semana':
-                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate()-7));
+                fechaPeriodoFiltro.setDate(fechaPeriodoFiltro.getDate() - 7);
                 break;
-            default:
-                fechaPeriodoFiltro = fechaActual;
         }
         
         // console.log(fechaPeriodoFiltro.toISOString());
@@ -149,13 +149,11 @@ const ConsultarReintegros = () => {
 
     const limpiarFiltroEstado = () => {
         setFiltroEstado('');
-        setEstadosOpciones(estadosOpcionesIniciales);
         aplicarFiltros('', filtroIntegrante, filtroPeriodo);
     };
 
     const limpiarFiltroIntegrante = () => {
         setFiltroIntegrante('');
-        setIntegrantesOpciones(integrantesOpcionesIniciales);
         aplicarFiltros(filtroEstado, '', filtroPeriodo);
     };
 
