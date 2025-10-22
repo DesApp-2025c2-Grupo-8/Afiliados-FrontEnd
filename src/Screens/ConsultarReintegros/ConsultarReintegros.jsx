@@ -5,6 +5,7 @@ import styles from './ConsultarReintegros.module.css'
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { MdAttachMoney } from 'react-icons/md';
+import { useNumeroAfiliado } from '../../context/NumeroAfiliado';
 
 // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
 const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado'];
@@ -29,12 +30,13 @@ const cardData = {
 
 const ConsultarReintegros = () => {
 
-    // const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado(); //CAMBIAR FETCH CON ESTO
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado();
 
     useEffect(() => {
         document.title = 'Consulta de Reintegros - Medicina Integral'
 
-        fetch('http://localhost:3000/reintegros')
+        // fetch('http://localhost:3000/reintegros')                   //findAll()
+        fetch('http://localhost:3000/reintegros/'+ numeroAfiliado)  //findByNumeroAfiliado()
             .then(response => response.json())
             .then(data => {
                 console.log(data);
