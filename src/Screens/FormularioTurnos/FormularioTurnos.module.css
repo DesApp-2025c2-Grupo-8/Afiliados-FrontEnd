@@ -1,0 +1,99 @@
+.fondo {
+    min-height: 90vh;
+    padding-top: 100px;
+    width: 100%;
+    background-image: url("@assets/images/fondo-FormRecetas.png");
+    background-size: cover;
+    background-position: center;
+}
+.obligatorio{
+    color: #E64F4F;
+}
+
+.container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    min-height: 80vh;       
+    padding-bottom: 2rem;
+}
+
+
+.card {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 100%;
+    margin:auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+}
+
+.botones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.titulo {
+    font-size: 1.9rem;
+    text-align: center;
+}
+
+.datos {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    background-color: #e9ecef;
+}
+
+.resultadosContainer {
+    margin-top: 30px;
+}
+
+
+.botonVolverContainer {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.botonCancelar {
+    background-color: #E64F4F;
+    border: none;
+}
+
+.botonSiguiente, .botonBuscar {
+    background-color: #24979B;
+    border: none;
+}
+
+select,
+input,
+textarea {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.modalHeader {
+   background-color: #17a2b8; 
+   color: white;
+   border-bottom: none;
+}
+
+.modal {
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.modalTitle {
+   color: white;
+}
