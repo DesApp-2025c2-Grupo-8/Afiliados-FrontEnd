@@ -405,7 +405,7 @@ const FormularioTurnos = () => {
                         <Button 
                             variant="success"
                             onClick={handleConfirmarTurno} 
-                            disabled={!turnoSeleccionado.fechaSeleccionada || turnoSeleccionado.horaSeleccionada}
+                            disabled={!turnoSeleccionado.fechaSeleccionada || !turnoSeleccionado.horaSeleccionada}
                         > Confirmar Turno
                         </Button>
                     </Modal.Footer>

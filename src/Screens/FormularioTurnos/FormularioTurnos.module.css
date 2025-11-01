@@ -106,7 +106,7 @@ textarea {
 }
 
 .modalHeader {
-   background-color: #17a2b8; 
+   background-color: #24979B; 
    color: white;
    border-bottom: none;
 }
@@ -120,4 +120,6 @@ textarea {
 
 .modalTitle {
    color: white;
+   text-align: center;
+   width: 100%;
 }
