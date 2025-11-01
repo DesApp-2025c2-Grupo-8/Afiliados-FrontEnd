@@ -3,6 +3,8 @@ import { Form, Button, Row, Col, Modal } from "react-bootstrap"
 import styles from './FormularioTurnos.module.css';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import { useNavigate } from "react-router-dom";
+import usuarios from "../../db/usuarios";
+import { useNumeroAfiliado } from "../../context/NumeroAfiliado";
 
 
 const datosFormInicial = {
@@ -14,9 +16,9 @@ const datosFormInicial = {
 
 
 const FormularioTurnos = () => {
-    useEffect(() => {
-        document.title = 'Solicitud de Turno - Medicina Integral'
-    }, [])
+
+    const { numeroAfiliado } = useNumeroAfiliado()
+    const esTitular = numeroAfiliado.toString().endsWith("01")
 
 
     const [datosFormulario, setDatosFormulario]= useState(datosFormInicial)
@@ -35,9 +37,31 @@ const FormularioTurnos = () => {
     const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
     const [modalFechaHora, setModalFechaHora] = useState(false);
     const [modalCancelar, setModalCancelar] = useState(false)
+    const [modalConfirmar, setModalConfirmar] = useState(false)
     const [errores, setErrores] = useState({});
+    const [nroTurno, setNroTurno] = useState(null);
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        document.title = 'Solicitud de Turno - Medicina Integral'
+
+        if(numeroAfiliado !== data.numeroAfiliado){
+            setData(prev =>({...prev, numeroAfiliado: numeroAfiliado}))
+        }
+
+        const fetchOpciones = async() => {
+            try {
+                const response = await fetch("http://localhost:3000/turnos/opciones")
+                
+                const result = await response.json()
+                setDatosFormulario(result)
+            } catch (error) {
+                console.error("Error al cargar las opciones", error)
+            }
+        }
+        fetchOpciones()
+    }, [numeroAfiliado, data.numeroAfiliado])
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -51,27 +75,48 @@ const FormularioTurnos = () => {
         event.preventDefault();
         const nuevosErrores = {}
 
-        if(!data.integrante){
-            nuevosErrores.integrante = "Seleccione un integrante"
-        }
-
-        if(!data.especialidad){
-            nuevosErrores.especialidad = "Seleccione una especialidad"
-        }
+        if(!data.integrante){nuevosErrores.integrante = "Seleccione un integrante"}
+        if(!data.especialidad){nuevosErrores.especialidad = "Seleccione una especialidad"}
 
         if(Object.keys(nuevosErrores).length >0){
             setErrores(nuevosErrores)
             return;
         }
-
         setPaso(2);
-        setResultadosBusqueda([])
+        //setResultadosBusqueda([])
     }
 
     const handleBuscar = async (event) => {
         event.preventDefault()
 
-        //Llamada a la api
+        const nuevosErrores = {}
+        if(!data.integrante){nuevosErrores.integrante = "Seleccione un integrante"}
+        if(!data.especialidad){nuevosErrores.especialidad = "Seleccione una especialidad"}
+
+        if(Object.keys(nuevosErrores).length >0){
+            setErrores(nuevosErrores)
+            return;
+        }
+        try {
+            const response = await fetch("http://localhost:3000/turnos/buscar", {
+                method: "POST",
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    especialidad: data.especialidad,
+                    medico: data.medico || null,
+                    lugarDeAtencion: data.lugarDeAtencion || null,
+                })
+            })
+            const resultadosFiltrados = await response.json()
+            setResultadosBusqueda(resultadosFiltrados)
+            setPaso(3)
+        } catch (error) {
+            console.error('Error: ', error)
+            setResultadosBusqueda([])
+            setPaso(3)
+        }
     }
 
     const cancelar = () => {
@@ -84,31 +129,79 @@ const FormularioTurnos = () => {
     }
 
     const handleSeleccionarFechaHora = (unTurno) => {
-        setTurnoSeleccionado(unTurno);
+        const idTurno = unTurno._id || unTurno.profesional
+        if(!idTurno){ return }
+        
+        setTurnoSeleccionado({
+            ...unTurno,
+            id: idTurno,
+            fechaSeleccionada: null,
+            horaSeleccionada: null
+        });
         setModalFechaHora(true);
     }
 
     const handleFechaHoraChange = (event) => {
         const { name, value } = event.target;
-        if(!turnoSeleccionado){
-            return;
-        }
+        if(!turnoSeleccionado){return;}
+
+        let horaSeleccionada = turnoSeleccionado.horaSeleccionada;
+        let fechaSeleccionada = turnoSeleccionado.fechaSeleccionada
 
         if(name==='fecha'){
             const disponibilidadFecha = turnoSeleccionado.disponibilidad.find(dia => dia.fecha ===value);
-            setTurnoSeleccionado(prev => ({...prev, fechaSeleccionada: value, horaSeleccionada: disponibilidadFecha ? disponibilidadFecha.hora : null}))
+            fechaSeleccionada = value
+            horaSeleccionada = disponibilidadFecha ? disponibilidadFecha.hora[0] : null
         }else if(name==='hora'){
-            setTurnoSeleccionado(prev => ({...prev, horaSeleccionada: value}))
+            horaSeleccionada = value
         }
+
+        setTurnoSeleccionado(prev =>({
+            ...prev,
+            fechaSeleccionada: fechaSeleccionada,
+            horaSeleccionada: horaSeleccionada
+        }))
     }
 
 
-    const handleConfirmarTurno = () => {
-        console.log('Turno Confirmado: ', turnoSeleccionado);
-        setModalFechaHora(false);
-        navigate("/consultar-turnos");
+    const handleConfirmarTurno = async() => {
+        if(!turnoSeleccionado?.fechaSeleccionada || !turnoSeleccionado.horaSeleccionada) return;
+        const turnoParaGuardar = {
+            numeroAfiliado: data.numeroAfiliado,
+            integrante: data.integrante,
+            especialidad: data.especialidad,
+            medico: turnoSeleccionado.profesional,
+            lugarDeAtencion: turnoSeleccionado.direccion,
+            fecha: turnoSeleccionado.fechaSeleccionada,
+            hora: turnoSeleccionado.horaSeleccionada,
+        }
 
-        //llamada api para guardar el turno
+        try {
+            const response = await fetch("http://localhost:3000/turnos/confirmar", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(turnoParaGuardar)
+            })
+            const result = await response.json()
+
+            if(response.ok){
+                setNroTurno(result.numeroOrden)
+                setModalFechaHora(false)
+                setModalConfirmar(true)
+            }
+        } catch (error) {
+            console.error("error: ", error)
+        }
+    
+        //navigate("/consultar-turnos");
+
+    }
+
+    const handleConfirmacionFinal = () =>{
+        setModalConfirmar(false)
+        navigate("/consultar-turnos");
     }
 
     const handleVolverBusqueda = () => {
@@ -123,10 +216,13 @@ const FormularioTurnos = () => {
        { campo: "Tipo de prestador", propiedad: "tipoPrestador" },
    ];
 
-   const getContenidoExtra = (unTurno) => (
-    <>
-        <p>Primer turno libre: {unTurno.primerTurnoLibre || 'N/D'}</p>
+   const getContenidoExtra = (unTurno) => {
+    const keyBase = unTurno.id || unTurno._id || unTurno.profesional
+    return(
+        <>
+        <p key={`${keyBase}-info`}>Primer turno libre: {unTurno.primerTurnoLibre || 'N/D'}</p>
         <Button
+            key={`${keyBase}-btn`}
             variant="warning"
             onClick={() => handleSeleccionarFechaHora(unTurno)}
             
@@ -134,17 +230,18 @@ const FormularioTurnos = () => {
             Seleccionar fecha y hora
         </Button>
     </>
-   )
+    )
+   }
 
-   const fechasDisponibles = turnoSeleccionado && turnoSeleccionado.disponibilidad ? [...new Set(turnoSeleccionado.disponibilidad.map(dia => dia.fecha))] : []
+   //const fechasDisponibles = turnoSeleccionado && turnoSeleccionado.disponibilidad ? [...new Set(turnoSeleccionado.disponibilidad.map(dia => dia.fecha))] : []
 
-   const horasDisponiblesModal = turnoSeleccionado && turnoSeleccionado.disponibilidad ? turnoSeleccionado.disponibilidad.filter(dia => dia.fecha ===turnoSeleccionado.fechaSeleccionada).map(dia => dia.hora) : []
+   const horasDisponiblesModal = turnoSeleccionado?.disponibilidad?.filter((d) => d.fecha === turnoSeleccionado.fechaSeleccionada).flatMap((d) => d.hora) || []
 
 
    return (
     <div className={styles.fondo}>
         <div className={styles.container}>
-            <div className={styles.card}>
+            <div className={`${styles.card} ${paso===3 ? styles.cardPaso3 : ""}`}>
                 <h4 className={styles.titulo}>Solicitud de Turno</h4>
 
                 {paso ===1 && (
@@ -158,7 +255,11 @@ const FormularioTurnos = () => {
                                 isInvalid={!!errores.integrante}
                             >
                                 <option value="">Seleccione un integrante</option>
-                                {datosFormulario.integrantes.map(i => <option key={i} value={i}>{i}</option>)}
+                                {usuarios.map((usuario) => {
+                                        return usuario.numeroAfiliado.toString().includes( esTitular ? data.numeroAfiliado.toString().slice(0,5) : numeroAfiliado.toString()) ? (
+                                            <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
+                                        ): null
+                                    })}
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">{errores.integrante}</Form.Control.Feedback>
                         </Form.Group>
@@ -172,11 +273,14 @@ const FormularioTurnos = () => {
                                 isInvalid={!!errores.especialidad}
                             >
                                 <option value="">Seleccione una especialidad</option>
-                                {datosFormulario.especialidades.map(e => <option key={e} value={e}>{e}</option>)}
+                                <option key="clinico" value="Clínico">Clínico</option>
+                                <option key="cirujano" value="Cirujano">Cirujano</option>
+                                <option key="neurologo" value="Neurólogo">Neurólogo</option>
+                                <option key="odontologo" value="Odontólogo">Odontólogo</option>
+                                <option key="traumatologo" value="Traumatólogo">Traumatólogo</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">{errores.especialidad}</Form.Control.Feedback>
                         </Form.Group>
-
                         <div className={styles.botones}>
                             <Button type="button" onClick={cancelar} className={styles.botonCancelar}>Cancelar</Button>
                             <Button type="submit" className={styles.botonSiguiente}>Siguiente</Button>
@@ -194,7 +298,9 @@ const FormularioTurnos = () => {
                                 onChange={handleChange}
                             >
                                 <option value="">Seleccione un médico</option>
-                                {datosFormulario.medicos.map(m => <option key={m} value={m}>{m}</option>)}
+                                <option value="Dr. Juan"> Dr. Juan</option>
+                                <option value="Dr. Pepe"> Dr. Pepe</option>
+                                <option value="Dra. Lena"> Dra. Lena</option>
                             </Form.Select>
                         </Form.Group>
 
@@ -206,7 +312,9 @@ const FormularioTurnos = () => {
                                 onChange={handleChange}
                             >
                                 <option value="">Seleccione un lugar</option>
-                                {datosFormulario.lugares.map(l => <option key={l} value={l}>{l}</option>)}
+                                <option value="Sanatorio">Sanatorio</option>
+                                <option value="Clínica Médica">Clínica Médica</option>
+                                <option value="Consultorio Privado">Consultorio Privado</option>
                             </Form.Select>
                         </Form.Group>
 
@@ -228,24 +336,21 @@ const FormularioTurnos = () => {
                     <div className={styles.botonVolverContainer}>
                         <Button variant="secondary" onClick={handleVolverBusqueda}>Volver a la búsqueda</Button>
                     </div>
-
-                    <Row>
+                    <div className={styles.cardsContainer}>
                         {resultadosBusqueda.length > 0 ? (
                             resultadosBusqueda.map((turno) => (
-                                <Col md={6} key={turno.id} className="mb-4">
+                                <div key={turno.id || turno._id || turno.profesional} className="mb-4" style={{maxWidth: '450px', width: '100%'}}>
                                     <CardDinamica
                                         data={turno}
                                         header={`Turno con ${turno.profesional}`}
-                                        color={styles.headerInfo}
+                                        color={'aceptada'}
                                         camposCard={camposCardTurno}
                                         tieneContenidoExtra={getContenidoExtra(turno)}
                                     />
-                                </Col>
+                                </div>
                             ))
-                        ) : (
-                            <p className="text-center">No se encontraron turnos disponibles con los criterios seleccionados.</p>
-                        )}
-                    </Row>
+                        ):(<p className="text-center">No se encontraron turnos disponibles con los criterios seleccionados.</p>)}
+                    </div>
                 </div>
             )}
 
@@ -272,7 +377,7 @@ const FormularioTurnos = () => {
                                             required
                                         >
                                             <option value="">Seleccione...</option>
-                                            {fechasDisponibles.map(fecha => (<option key={fecha} value={fecha}>{fecha}</option>))}
+                                            {turnoSeleccionado.disponibilidad.filter(d => d.hora.length > 0).map(d => (<option key={d.fecha} value={d.fecha}>{d.fecha}</option>))}
                                         </Form.Select>
                                     </Form.Group>
                                 </Col>
@@ -297,16 +402,24 @@ const FormularioTurnos = () => {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="danger" onClick={() => setModalFechaHora(false)}>Cancelar</Button>
-                        <Button variant="success" onClick={handleConfirmarTurno} disabled={!turnoSeleccionado.fechaSeleccionada || turnoSeleccionado.horaSeleccionada}>Confirmar Turno</Button>
+                        <Button 
+                            variant="success"
+                            onClick={handleConfirmarTurno} 
+                            disabled={!turnoSeleccionado.fechaSeleccionada || turnoSeleccionado.horaSeleccionada}
+                        > Confirmar Turno
+                        </Button>
                     </Modal.Footer>
                     </>
                 )}
             </Modal>
 
+            <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
+                <Modal.Body> El turno ha sido solicitado correctamente. <br /> Nro. Turno: <strong>{nroTurno}</strong></Modal.Body>
+                <Modal.Footer><Button onClick={handleConfirmacionFinal} style={{backgroundColor: '#24979B', border: 'none'}}>Aceptar </Button></Modal.Footer>
+            </Modal>
+
             <Modal className={styles.modal} show={modalCancelar} onHide={() => setModalCancelar(false)} centered>
-                <Modal.Body>
-                    ¿Estás seguro que deseas cancelar la solicitud del turno?
-                </Modal.Body>
+                <Modal.Body>¿Estás seguro que deseas cancelar la solicitud del turno?</Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => setModalCancelar(false)} style={{ backgroundColor: '#24979B', border: 'none' }}>Volver</Button>
                     <Button onClick={handleCancelar} style={{ backgroundColor: '#E64F4F', border: 'none' }}>Continuar</Button>

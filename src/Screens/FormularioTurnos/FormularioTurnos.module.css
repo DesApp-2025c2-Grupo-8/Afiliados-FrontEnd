@@ -12,10 +12,11 @@
 
 .container {
     display: flex;
+    flex-direction: column;
     justify-content: center; 
     align-items: center;   
     min-height: 80vh;       
-    padding-bottom: 2rem;
+    padding-top: 0;
 }
 
 
@@ -41,6 +42,21 @@
     text-align: center;
 }
 
+.cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.cardPaso3 {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 0.1rem;
+    box-shadow: none;
+}
+
 .datos {
     margin-top: 20px;
     padding: 10px;
@@ -50,13 +66,21 @@
 }
 
 .resultadosContainer {
-    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 70vh;
+    padding-top:1rem;
+    gap: 0.3rem;
 }
 
 
 .botonVolverContainer {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top:0;
+    margin-bottom: 0.5rem;
 }
 
 .botonCancelar {
