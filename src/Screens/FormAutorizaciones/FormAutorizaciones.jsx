@@ -42,7 +42,8 @@ const FormAutorizaciones = () => {
         integrante: "",
         medico: "",
         especialidad: "",
-        ubicacion: {},
+        partido: "",
+        direccion: "",
         observaciones: ""
     })
 
@@ -61,7 +62,8 @@ const FormAutorizaciones = () => {
             ...prev,
             especialidad,
             medico: "",
-            ubicacion: { partido: "", direccion: ""},
+            partido: "",
+            direccion: ""
         }))
     }
 
@@ -81,24 +83,25 @@ const FormAutorizaciones = () => {
 
         //actualiza la data pero con el medico seleccionado.
         setData(prev => ({
-        ...prev,
-        medico: nombreMedico
-    }))
+            ...prev,
+            medico: nombreMedico
+        }))
 
     }
 
     const handleUbicacionChange = (event) => {
-        const ubicacionElegida = event.target.value
-        setUbicacionSeleccionada(ubicacionElegida)
+        const partidoSeleccionado = event.target.value
+        setUbicacionSeleccionada(partidoSeleccionado)
 
-        const ubicacion = ubicaciones.find(u => u.partido === ubicacionElegida)
+        const ubicacion = ubicaciones.find(u => u.partido === partidoSeleccionado)
         const direccion = ubicacion ? ubicacion.direccion : ""
         setDireccionDisponible(direccion)
 
         setData(prev => ({
-        ...prev,
-        ubicacion: { partido: ubicacionElegida, direccion: direccion}
-    }))
+            ...prev,
+            partido: partidoSeleccionado,
+            direccion: direccion
+        }))
     }
 
     const handleChange = (event) => {
@@ -121,6 +124,7 @@ const FormAutorizaciones = () => {
             const dataToSend = {
                 ...data,
             }
+            console.log(dataToSend)
             const response = await fetch('http://localhost:3000/autorizaciones', {
                 method: 'POST',
                 headers: {
@@ -154,7 +158,7 @@ const FormAutorizaciones = () => {
     }
 
     return (
-        <>
+        <div className={styles.fondo}>
             <section className={styles.formContainer}>
                 <h1 className={styles.titulo}>Nueva Autorización</h1>
                 <FormGenerico handleSubmit={handleSubmit} confirmar={confirmar} cancelar={cancelar}>
@@ -224,7 +228,7 @@ const FormAutorizaciones = () => {
 
 
                     <Form.Group>
-                        <Form.Label>Ubicación<span className={styles.oblgatorio}>*</span></Form.Label>
+                        <Form.Label>Partido<span className={styles.oblgatorio}>*</span></Form.Label>
                         <Form.Select
                             name="ubicacion"
                             value={ubicacionSeleccionada}
@@ -241,7 +245,7 @@ const FormAutorizaciones = () => {
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Direccion<span className={styles.oblgatorio}>*</span></Form.Label>
+                        <Form.Label>Dirección<span className={styles.oblgatorio}>*</span></Form.Label>
                         <Form.Control
                             type="text"
                             name="direccion"
@@ -255,6 +259,8 @@ const FormAutorizaciones = () => {
                         <Form.Control
                             as="textarea"
                             name="observaciones"
+                            value={data.observaciones}
+                            onChange={handleChange}
                         />
                     </Form.Group>
                 </FormGenerico>
@@ -280,7 +286,7 @@ const FormAutorizaciones = () => {
 
                 </Modal.Footer>
             </Modal>
-        </>
+        </div>
     )
 
 }

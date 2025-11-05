@@ -8,6 +8,16 @@
   transition: all 0.3s ease;
 }
 
+.fondo {
+    min-height: 90vh;
+    padding-top: 100px;
+    padding-bottom: 2rem;
+    width: 100%;
+    background-image: url("@assets/images/fondo-FormRecetas.png");
+    background-size: cover;
+    background-position: center;
+}
+
 .titulo {
   text-align: center;
   font-size: 1.8rem;
