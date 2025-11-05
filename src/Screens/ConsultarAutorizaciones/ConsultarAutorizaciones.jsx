@@ -214,7 +214,7 @@ const ConsultarAutorizaciones = () => {
             case 'Rechazada':
                 resultado = 'rechazada';
                 break;
-            case 'En Observación':
+            case 'Observación':
                 resultado = "observacion"
                 break;
             default:
