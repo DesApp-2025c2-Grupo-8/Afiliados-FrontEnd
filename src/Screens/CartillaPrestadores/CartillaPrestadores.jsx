@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import prestadores from '../../db/prestadores.js'
-import CardPrestadores from '../../components/CardPrestadores/CardPrestadores';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import FormPrestadores from '../../components/FormPrestadores/FormPrestadores.jsx'
 import styles from './CartillaPrestadores.module.css'
