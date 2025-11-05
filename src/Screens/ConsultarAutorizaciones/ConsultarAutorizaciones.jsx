@@ -19,7 +19,8 @@ const cardData = {
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico', propiedad: 'medico' },
         { campo: 'Fecha De Carga', propiedad: 'fechaDeCarga', esFecha: true },
-        { campo: 'Dirección', propiedad: 'direccion' }
+        { campo: 'Dirección', propiedad: 'direccion' },
+        { campo: 'Observaciones', propiedad: 'observaciones'}
     ]
 }
 
