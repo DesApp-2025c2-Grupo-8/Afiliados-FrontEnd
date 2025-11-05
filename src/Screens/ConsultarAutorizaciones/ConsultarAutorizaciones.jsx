@@ -6,42 +6,60 @@ import styles from './ConsultarAutorizaciones.module.css'
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
+import { useNumeroAfiliado } from "../../context/NumeroAfiliado.jsx";
 
 
-const autorizacionesOrdenInverso = [...autorizaciones].reverse();
-const medicosOpcionalesIniciales = [...new Set(autorizaciones.map(autorizacion => autorizacion.medico))];
-const integrantesOpcionesIniciales = [...new Set(autorizaciones.map(autorizacion => autorizacion.integrante))];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
-const estadosOpcionesIniciales = [...new Set(autorizaciones.map(autorizacion => autorizacion.estado))]
+
 //campos de las cards
 const cardData = {
 
     camposCard: [
-        { campo: 'Nro. Autorización', propiedad: 'nroAutorizacion' },
+        { campo: 'Nro. Autorización', propiedad: 'numeroAutorizacion' },
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico', propiedad: 'medico' },
-        { campo: 'Fecha Prevista', propiedad: 'fechaPrevista', esFecha: true },
-        { campo: 'Lugar', propiedad: 'lugar' }
+        { campo: 'Fecha De Carga', propiedad: 'fechaDeCarga', esFecha: true },
+        { campo: 'Dirección', propiedad: 'direccion' }
     ]
 }
 
 // Componente principal
 const ConsultarAutorizaciones = () => {
+
+    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado()
+
     useEffect(() => {
         document.title = 'Consulta de Autorizaciones - Medicina Integral'
+
+        fetch('http://localhost:3000/autorizaciones/' + numeroAfiliado)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const autorizacionesOrdenadas = [...data].reverse()
+                setlistaAutorizaciones(autorizacionesOrdenadas)
+                setListaAutorizacionesFiltradas(autorizacionesOrdenadas)
+                const integrantesOpcionesIniciales = [...new Set(data.map(autorizacion => autorizacion.integrante))].sort()
+                setIntegrantesOpciones(integrantesOpcionesIniciales)
+                const medicosOpcionalesIniciales = [...new Set(data.map(autorizacion => autorizacion.medico))].sort()
+                setMedicosOpcionales(medicosOpcionalesIniciales)
+                const estadosOpcionesIniciales = [...new Set(data.map(autorizacion => autorizacion.estado))].sort()
+                setEstadosOpciones(estadosOpcionesIniciales)
+
+            })
+            .catch(error => console.log(error))
     }, [])
 
 
-    const [listaAutorizaciones] = useState(autorizacionesOrdenInverso);
-    const [listaAutorizacionesFiltradas, setListaAutorizacionesFiltradas] = useState(autorizacionesOrdenInverso);
+    const [listaAutorizaciones, setlistaAutorizaciones] = useState([])
+    const [listaAutorizacionesFiltradas, setListaAutorizacionesFiltradas] = useState([]);
     const [filtroMedico, setFiltroMedico] = useState('');
     const [filtroEstado, setFiltroEstado] = useState('');
     const [filtroIntegrante, setFiltroIntegrante] = useState('');
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
 
-    const [integrantesOpciones, setIntegrantesOpciones] = useState(integrantesOpcionesIniciales);
-    const [medicosOpcionales, setMedicosOpcionales] = useState(medicosOpcionalesIniciales);
-    const [estadosOpciones, setEstadosOpciones] = useState(estadosOpcionesIniciales);
+    const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
+    const [medicosOpcionales, setMedicosOpcionales] = useState([]);
+    const [estadosOpciones, setEstadosOpciones] = useState([]);
 
 
     const filtrarPorMedico = (unMedico) => {
@@ -73,9 +91,9 @@ const ConsultarAutorizaciones = () => {
         if (unIntegrante) {
             listaAutorizacionesAFiltrar = listaAutorizacionesAFiltrar.filter(autorizacion => autorizacion.integrante === unIntegrante);
         };
-        if (unPeriodo) {
-            const fechaPeriodoSeleccionado = obtenerFechaDelPeriodoSeleccionado(unPeriodo);
-            listaAutorizacionesAFiltrar = listaAutorizacionesAFiltrar.filter(autorizacion => autorizacion.fechaPrevista >= fechaPeriodoSeleccionado);
+        if (unPeriodo && unPeriodo !== 'TODO') {
+            const fechaDelPeriodoSeleccionado = obtenerFechaDelPeriodoSeleccionado(unPeriodo);
+            listaAutorizacionesAFiltrar = listaAutorizacionesAFiltrar.filter(r => r.fechaDeCarga >= fechaDelPeriodoSeleccionado);
         };
         if (unEstado) {
             listaAutorizacionesAFiltrar = listaAutorizacionesAFiltrar.filter(autorizacion => autorizacion.estado === unEstado);
@@ -105,43 +123,44 @@ const ConsultarAutorizaciones = () => {
     }
 
     const obtenerFechaDelPeriodoSeleccionado = (unPeriodo) => {
+
         const fechaActual = new Date();
-        let fechaPeriodoFiltro;
+        let fechaPeriodoFiltro = new Date(fechaActual);
 
         switch (unPeriodo) {
             case 'Último año':
-                fechaPeriodoFiltro = new Date(fechaActual.setFullYear(fechaActual.getFullYear() - 1));
+                fechaPeriodoFiltro.setFullYear(fechaPeriodoFiltro.getFullYear() - 1);
                 break;
             case 'Últimos seis meses':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth() - 6));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 6);
                 break;
             case 'Últimos tres meses':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth() - 3));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 3);
                 break;
             case 'Último mes':
-                fechaPeriodoFiltro = new Date(fechaActual.setMonth(fechaActual.getMonth() - 1));
+                fechaPeriodoFiltro.setMonth(fechaPeriodoFiltro.getMonth() - 1);
                 break;
             case 'Últimas dos semanas':
-                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate() - 14));
+                fechaPeriodoFiltro.setDate(fechaPeriodoFiltro.getDate() - 14);
                 break;
             case 'Última semana':
-                fechaPeriodoFiltro = new Date(fechaActual.setDate(fechaActual.getDate() - 7));
+                fechaPeriodoFiltro.setDate(fechaPeriodoFiltro.getDate() - 7);
                 break;
-            default:
-                fechaPeriodoFiltro = fechaActual;
-
         }
 
+        // console.log(fechaPeriodoFiltro.toISOString());
         return fechaPeriodoFiltro.toISOString().slice(0, 10);
-    }
+    };
 
     const limpiarFiltroMedico = () => {
         setFiltroMedico('');
+        setMedicosOpcionales([...new Set(listaAutorizaciones.map(autorizacion => autorizacion.medico))])
         aplicarFiltros('', filtroIntegrante, filtroPeriodo, filtroEstado);
     }
 
     const limpiarFiltroIntegrante = () => {
         setFiltroIntegrante('');
+        setIntegrantesOpciones([...new Set(listaAutorizaciones.map(autorizacion => autorizacion.integrante))])
         aplicarFiltros(filtroMedico, '', filtroPeriodo, filtroEstado);
     }
 
@@ -152,6 +171,7 @@ const ConsultarAutorizaciones = () => {
 
     const limpiarFiltroEstado = () => {
         setFiltroEstado('');
+        setEstadosOpciones([...new Set(listaAutorizaciones.map(autorizacion => autorizacion.estado))])
         aplicarFiltros(filtroMedico, filtroIntegrante, filtroPeriodo, '');
     }
 
@@ -161,9 +181,9 @@ const ConsultarAutorizaciones = () => {
         setFiltroIntegrante('');
         setFiltroPeriodo('');
         setFiltroEstado('');
-        setEstadosOpciones(estadosOpcionesIniciales);
-        setMedicosOpcionales(medicosOpcionalesIniciales);
-        setIntegrantesOpciones(integrantesOpcionesIniciales);
+        setEstadosOpciones([...new Set(listaAutorizaciones.map(autorizacion => autorizacion.estado))]);
+        setMedicosOpcionales([...new Set(listaAutorizaciones.map(autorizacion => autorizacion.medico))]);
+        setIntegrantesOpciones([...new Set(listaAutorizaciones.map(autorizacion => autorizacion.integrante))]);
     }
 
     const filtrosConfig = [
@@ -207,14 +227,14 @@ const ConsultarAutorizaciones = () => {
 
     const colorSegunEstado = (unEstado) => {
         let resultado = '';
-        switch (unEstado){
+        switch (unEstado) {
             case 'Aceptada':
                 resultado = 'aceptada';
                 break;
             case 'Rechazada':
                 resultado = 'rechazada';
                 break;
-            case 'En Observación':
+            case 'Observación':
                 resultado = "observacion"
                 break;
             default:
@@ -252,7 +272,7 @@ const ConsultarAutorizaciones = () => {
                                 {...cardData}
                                 color={colorSegunEstado(autorizacion.estado)}
 
-                                key={autorizacion.nroAutorizacion}
+                                key={autorizacion.numeroAutorizacion}
                                 data={autorizacion}
                                 header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
                             />

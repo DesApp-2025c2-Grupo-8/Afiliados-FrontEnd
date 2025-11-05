@@ -1,0 +1,74 @@
+.formContainer {
+  max-width: 600px;
+  margin: 200px auto;
+  background-color: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.fondo {
+    min-height: 90vh;
+    padding-top: 100px;
+    padding-bottom: 2rem;
+    width: 100%;
+    background-image: url("@assets/images/fondo-FormRecetas.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #222;
+}
+
+label {
+  font-weight: 500;
+  color: #333;
+}
+
+.formContainer select,
+.formContainer textarea {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  padding: 0.6rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.formContainer select:focus,
+.formContainer textarea:focus {
+  border-color: #007b8f;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 143, 0.25);
+  outline: none;
+}
+
+.oblgatorio {
+  color: red;
+  margin-left: 4px;
+  font-weight: bold;
+}
+
+.modal {
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+/* 🧱 Responsive */
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 1.5rem;
+    margin: 100px 1rem;
+  }
+
+  .titulo {
+    font-size: 1.5rem;
+  }
+}
