@@ -2,6 +2,7 @@ import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './CardDinamica.module.css';
 import { FiDownload } from 'react-icons/fi';
+import { jsPDF } from "jspdf";
 
 const CardDinamica = (props) => {
 
@@ -9,6 +10,36 @@ const CardDinamica = (props) => {
 
   const getValor = (obj, path) => {
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
+  };
+
+  const generarPDF = () => {
+    const doc = new jsPDF();
+    let y = 20;
+
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.text(header, 10, y);
+    y += 10;
+
+    doc.setLineWidth(0.5);
+    doc.line(10, y, 200, y);
+    y += 10;
+
+    camposCard.forEach(({ campo, propiedad, esFecha }) => {
+      const valor = esFecha
+        ? new Date(getValor(data, propiedad)).toLocaleDateString('es-AR')
+        : getValor(data, propiedad);
+
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.text(`${campo}:`, 10, y);
+      doc.setFont("helvetica", "normal");
+      doc.text(`${valor}`, 50, y);
+      y += 8;
+    });
+
+    const nombreArchivo = `${data.integrante + ' - ' + data.numeroOrden || 'comprobante'}.pdf`;
+    doc.save(nombreArchivo);
   };
 
 
@@ -34,7 +65,7 @@ const CardDinamica = (props) => {
 
         {tieneBotonDescarga && (
           <div className={styles.botonBox}>
-            <p className={styles.botonPDF}><FiDownload style={{ marginRight: '10px' }} />Descargar</p>
+            <p className={styles.botonPDF} onClick={generarPDF}><FiDownload style={{ marginRight: '10px' }} />Descargar</p>
           </div>
         )}
 
