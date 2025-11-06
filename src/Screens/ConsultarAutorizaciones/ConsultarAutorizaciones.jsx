@@ -8,6 +8,7 @@ import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -23,18 +24,22 @@ const cardData = {
         { campo: 'Médico', propiedad: 'medico' },
         { campo: 'Fecha De Carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Dirección', propiedad: 'direccion' },
-        { campo: 'Observaciones', propiedad: 'observaciones'}
+        { campo: 'Observaciones', propiedad: 'observaciones' }
     ]
 }
 
 // Componente principal
 const ConsultarAutorizaciones = () => {
 
+    const navigate = useNavigate();
+
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
 
     useEffect(() => {
         document.title = 'Consulta de Autorizaciones - Medicina Integral'
-
+        if (!dataAfiliado) {
+            navigate("/login");
+        }
         fetch('http://localhost:3000/autorizaciones/' + dataAfiliado.numeroAfiliado)
             .then(response => response.json())
             .then(data => {

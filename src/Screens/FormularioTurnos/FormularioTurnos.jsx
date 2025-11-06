@@ -8,6 +8,8 @@ import usuarios from "../../db/usuarios";
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 
 
+
+
 const datosFormInicial = {
     especialidades: [],
     medicos: [],
@@ -17,14 +19,14 @@ const datosFormInicial = {
 
 const FormularioTurnos = () => {
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
-    const numeroAfiliado = dataAfiliado.numeroAfiliado;
-
-    const esTitular = dataAfiliado.rol === 'TITULAR';
-
-
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+    
+    const esTitular = dataAfiliado?.rol === 'TITULAR';
+    
+    
     const [datosFormulario, setDatosFormulario] = useState(datosFormInicial)
-
-
+    
+    
     const [data, setData] = useState({
         numeroAfiliado: numeroAfiliado,
         integrante: "",
@@ -32,7 +34,7 @@ const FormularioTurnos = () => {
         medico: "",
         lugarDeAtencion: "",
     })
-
+    
     const [paso, setPaso] = useState(1);
     const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
     const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
@@ -41,22 +43,22 @@ const FormularioTurnos = () => {
     const [modalConfirmar, setModalConfirmar] = useState(false)
     const [errores, setErrores] = useState({});
     const [nroTurno, setNroTurno] = useState(null);
-
+    
     const navigate = useNavigate()
-
+    
     const fetchOpciones = async () => {
         try {
             const response = await fetch("http://localhost:3000/turnos/opciones")
-
+            
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
+            
             const text = await response.text();
             if (!text) {
                 throw new Error("Respuesta vacía del servidor.");
             }
-
+            
             const result = JSON.parse(text);
             setDatosFormulario(result)
         } catch (error) {
@@ -64,9 +66,12 @@ const FormularioTurnos = () => {
             setDatosFormulario(datosFormInicial);
         }
     }
-
+    
     useEffect(() => {
         document.title = 'Solicitud de Turno - Medicina Integral'
+        if (!dataAfiliado) {
+                    navigate("/login");
+                }
 
         if (numeroAfiliado !== data.numeroAfiliado) {
             setData(prev => ({ ...prev, numeroAfiliado: numeroAfiliado }))
@@ -75,7 +80,7 @@ const FormularioTurnos = () => {
         fetchOpciones()
 
     }, [numeroAfiliado, data.numeroAfiliado])
-
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setData(prev => ({ ...prev, [name]: value }))
@@ -83,7 +88,7 @@ const FormularioTurnos = () => {
             setErrores(prev => ({ ...prev, [name]: "" }))
         }
     }
-
+    
     const handleSiguiente = (event) => {
         event.preventDefault();
         const nuevosErrores = {}
@@ -304,15 +309,15 @@ const FormularioTurnos = () => {
                                 >
                                     <option value="">Seleccione un integrante</option>
                                     {
-                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado.grupoFamiliar)
+                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
                                     }
                                     {
-                                        dataAfiliado.grupoFamiliar.map((usuario) =>
+                                        dataAfiliado?.grupoFamiliar.map((usuario) =>
                                             //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
                                             esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
                                                 ""
                                         )}
-                                         <option key={dataAfiliado.numeroAfiliado} value={`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}>{`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}</option>
+                                         <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
                                 </Form.Select>
                                 <Form.Control.Feedback type="invalid">{errores.integrante}</Form.Control.Feedback>
                             </Form.Group>

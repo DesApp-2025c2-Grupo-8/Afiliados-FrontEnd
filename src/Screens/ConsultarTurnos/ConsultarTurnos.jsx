@@ -6,6 +6,7 @@ import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom";
 
 // import { useNumeroAfiliado } from '../../context/NumeroAfiliado'; 
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
@@ -33,11 +34,13 @@ const cardData = {
 
 
 const ConsultarTurnos = () => {
-    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
-        const numeroAfiliado = dataAfiliado.numeroAfiliado;
-
-    const esTitular = dataAfiliado.rol === 'TITULAR';
+    const navigate = useNavigate();
     
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+
+    const esTitular = dataAfiliado?.rol === 'TITULAR';
+
     const [listaTurnos, setListaTurnos] = useState([]);
     const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState([]);
     const [filtroAntiguos, setFiltroAntiguos] = useState(false);
@@ -192,6 +195,9 @@ const ConsultarTurnos = () => {
 
     useEffect(() => {
   document.title = 'Consulta de Turnos - Medicina Integral';
+  if (!dataAfiliado) {
+                navigate("/login");
+            }
 
   const fetchTurnos = async () => {
     if (!numeroAfiliado) return;
