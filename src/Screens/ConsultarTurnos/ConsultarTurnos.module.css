@@ -45,18 +45,18 @@
 }
 
 
-.botonCheckVigentesContainer {
+.botonAntiguosContainer {
     display: flex;
     justify-content: left;
     align-items: center;
     margin-top: 20px;
 }
 
-.botonCheckVigentesContainer input[type='checkbox'] {
+.botonAntiguosContainer input[type='checkbox'] {
     display: none;
 }
 
-.botonCheckVigentes {
+.botonAntiguos {
     margin: 10px 10px;
     display: flex;
     align-items: center;

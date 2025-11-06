@@ -6,7 +6,10 @@ import styles from './ConsultarAutorizaciones.module.css'
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
-import { useNumeroAfiliado } from "../../context/NumeroAfiliado.jsx";
+import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
+import { useNavigate } from "react-router-dom";
+
+
 
 
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
@@ -28,12 +31,16 @@ const cardData = {
 // Componente principal
 const ConsultarAutorizaciones = () => {
 
-    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado()
+    const navigate = useNavigate();
+
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
 
     useEffect(() => {
         document.title = 'Consulta de Autorizaciones - Medicina Integral'
-
-        fetch('http://localhost:3000/autorizaciones/' + numeroAfiliado)
+        if (!dataAfiliado) {
+            navigate("/login");
+        }
+        fetch('http://localhost:3000/autorizaciones/' + dataAfiliado?.numeroAfiliado)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
@@ -49,7 +56,7 @@ const ConsultarAutorizaciones = () => {
 
             })
             .catch(error => console.log(error))
-    }, [])
+    }, [dataAfiliado])
 
 
     const [listaAutorizaciones, setlistaAutorizaciones] = useState([])

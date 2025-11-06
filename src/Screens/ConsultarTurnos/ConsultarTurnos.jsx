@@ -1,15 +1,15 @@
-import React, {useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import turnos from '../../db/turnos'; 
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom";
 
-const turnosOrdenInverso = [...turnos].reverse(); //Para ordenar turnos de más actuales a más antiguos
-const turnosOrdenados = [...turnos].sort((turno1,turno2) => turno2.fechaDeCarga.localeCompare(turno1.fechaDeCarga)) //ordena y compara las fechas.
+// import { useNumeroAfiliado } from '../../context/NumeroAfiliado'; 
+import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 
 
 const periodosOpciones = [
@@ -24,117 +24,297 @@ const periodosOpciones = [
 const cardData = {
     color: 'observacion',
     camposCard: [
-        //{ campo: 'Fecha de Reserva', propiedad: 'fechaReserva' },
         { campo: 'Integrante', propiedad: 'integrante' },
-        { campo: 'Fecha de Turno', propiedad: 'fecha', esFecha: true },
         { campo: 'Hora', propiedad: 'hora' },
-        { campo: 'Especialidad', propiedad: 'tipoConsulta' },
-        //{ campo: 'Profesional', propiedad: 'profesional' },
-        { campo: 'Lugar', propiedad: 'lugar' }
+        { campo: 'Especialidad', propiedad: 'especialidad' },
+        { campo: 'Lugar de Atención', propiedad: 'lugarDeAtencion' }
     ],
-    tieneContenidoExtra: true
+
 };
 
 
 const ConsultarTurnos = () => {
-    useEffect(() => {
-        document.title = 'Consulta de Turnos - Medicina Integral';
-    }, []);
-
+    const navigate = useNavigate();
     
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
 
-    
-    const [listaTurnos] = useState(turnosOrdenados);
-    const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState(turnosOrdenInverso);
+    const esTitular = dataAfiliado?.rol === 'TITULAR';
 
-    const [filtroVigentes, setFiltroVigentes] = useState(false);
+    const [listaTurnos, setListaTurnos] = useState([]);
+    const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState([]);
+    const [filtroAntiguos, setFiltroAntiguos] = useState(false);
     const [filtroPeriodo, setFiltroPeriodo] = useState('');
     const [filtroBusqueda, setFiltroBusqueda] = useState('');
-
-
     const [mostrarModal, setMostrarModal] = useState(false);
     const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
-    const [turnosCancelados, setTurnosCancelados] = useState([]);
 
-    useEffect(() => {
-        aplicarFiltros(filtroVigentes, filtroPeriodo, filtroBusqueda);
-    }, [listaTurnos, turnosCancelados, filtroVigentes, filtroPeriodo, filtroBusqueda]);
-
-
-    const esTurnoVigente = (turno) => {
-        if(turnosCancelados.includes(turno.id)){
-            return false
-        }
-
-        const hoy = new Date().toISOString().slice(0,10);
-        const horaHoy = new Date().toTimeString().slice(0,5);
-
-        if(turno.fecha > hoy){
-            return true;
-        }else if(turno.fecha === hoy){
-            return turno.hora >= horaHoy
-        }
-
-        return false; 
-
-    }
-
-
-    const aplicarFiltros = (vigentes, periodo, busqueda) => {
-        let turnosFiltrados = listaTurnos.filter(t => !turnosCancelados.includes(t.id))
-
-        if(vigentes) {
-            const hoy = new Date().toISOString().slice(0,10);
-            //toISOString --> pasa la fecha a un formato YYYY-MM-DDTHH:mm:ss:sssZ y slice --> elimina la hora y minutos, dejando solo la fecha.
-            turnosFiltrados = turnosFiltrados.filter(t => t.fecha >= hoy);
-        }
-        if(periodo){
-            const fechaLimite = obtenerFechaDelPeriodoSeleccionado(periodo);
-            turnosFiltrados = turnosFiltrados.filter(t => t.fecha >= fechaLimite);
-        }
-        if(busqueda){
-            const textoBusqueda = busqueda.toLowerCase();
-            turnosFiltrados = turnosFiltrados.filter(t => t.integrante?.toLowerCase().includes(textoBusqueda) || t.fecha.includes(textoBusqueda)) 
-        }
-
-        setListaTurnosFiltrados(turnosFiltrados);
-    }
-
-    const obtenerFechaDelPeriodoSeleccionado = (periodo) => {
+    const obtenerFechaDelPeriodoSeleccionado = useCallback((periodo) => {
         const hoy = new Date();
-        let fecha;
+        let fecha = new Date(hoy);
 
         switch(periodo){
             case 'Último año':
-                fecha = new Date(hoy.setFullYear(hoy.getFullYear() - 1));
+                fecha.setFullYear(fecha.getFullYear() - 1);
                 break;
             case 'Últimos seis meses':
-                fecha = new Date(hoy.setMonth(hoy.getMonth() - 6));
+                fecha.setMonth(fecha.getMonth() - 6);
                 break;
             case 'Últimos tres meses':
-                fecha = new Date(hoy.setMonth(hoy.getMonth() - 3));
+                fecha.setMonth(fecha.getMonth() - 3);
                 break;
             case 'Último mes':
-                fecha = new Date(hoy.setMonth(hoy.getMonth() - 1));
+                fecha.setMonth(fecha.getMonth() - 1);
                 break;
             case 'Últimas dos semanas':
-                fecha = new Date(hoy.setDate(hoy.getDate() - 14));
+                fecha.setDate(fecha.getDate() - 14);
                 break;
             case 'Última semana':
-                fecha = new Date(hoy.setDate(hoy.getDate() - 7));
+                fecha.setDate(fecha.getDate() - 7);
                 break;
             default:
-                fecha = hoy;
+                return new Date(0).toISOString().slice(0,10); 
         }
 
         return fecha.toISOString().slice(0,10);
+    }, [])
+
+    const formatearFecha = (fecha) => {
+        if(!fecha || typeof fecha !== 'string') return fecha;
+
+        const partes = fecha.split('-'); 
+        if (partes.length === 3) {
+            return `${partes[2]}-${partes[1]}-${partes[0]}`;
+        }
+        return fecha
     }
 
+    // funcion para definir una fecha local
+    const fechaLocal = (date) => {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    const esTurnoAntiguo = useCallback((turno) => {
+        const hoy = fechaLocal(new Date()); // Usar fecha local
+        const horaHoy = new Date().toTimeString().slice(0,5);
+
+        if(turno.fecha < hoy){
+            return true;
+        }else if(turno.fecha === hoy){
+            return turno.hora <= horaHoy
+        }
+
+        return false; 
+    }, [])
+
+    const aplicarFiltros = useCallback((antiguos, periodo, busqueda) => {
+        let turnosFiltrados = listaTurnos.slice();
+
+        if (antiguos) {
+            turnosFiltrados = turnosFiltrados.filter(t => esTurnoAntiguo(t));
+        } else {
+            turnosFiltrados = turnosFiltrados.filter(t => !esTurnoAntiguo(t));
+        }
+        if (periodo) {
+            const fechaLimite = obtenerFechaDelPeriodoSeleccionado(periodo);
+            const hoy = new Date().toISOString().slice(0, 10);
+
+            if (antiguos) {
+                turnosFiltrados = turnosFiltrados.filter(
+                    t => t.fecha >= fechaLimite && t.fecha <= hoy
+                );
+            } else {
+                turnosFiltrados = turnosFiltrados.filter(
+                    t => t.fecha >= fechaLimite
+                );
+            }
+        }
+        if (busqueda) {
+            const textoBusqueda = busqueda.toLowerCase();
+            turnosFiltrados = turnosFiltrados.filter(t => 
+                t.integrante?.toLowerCase().includes(textoBusqueda) || 
+                t.fecha.includes(busqueda) || 
+                t.tipoConsulta?.toLowerCase().includes(textoBusqueda) || 
+                t.lugarDeAtencion?.toLowerCase().includes(textoBusqueda)
+            )
+        }
+        setListaTurnosFiltrados(turnosFiltrados);
+    }, [listaTurnos, esTurnoAntiguo, obtenerFechaDelPeriodoSeleccionado]);
+
+
+
+
+    // useEffect(() => {
+    //     document.title = 'Consulta de Turnos - Medicina Integral';
+    //     const fetchTurnos = async () => {
+    //         if (!numeroAfiliado) return
+    //         try {
+    //             const response = await fetch(`http://localhost:3000/turnos/consulta/${numeroAfiliado}`);
+                
+    //             if (!response.ok) {
+    //                 setListaTurnos([])
+    //                 setListaTurnosFiltrados([])
+    //                 return;
+    //             }
+    //             const data = await response.json()
+                
+    //             const dataLimpia = data.map(turno => {
+    //                 let lugarDeAtencionString = 'N/D';
+
+    //                 if (Array.isArray(turno.lugarDeAtencion) && turno.lugarDeAtencion.length > 0) {
+    //                     const primeraUbicacion = turno.lugarDeAtencion[0];
+                        
+    //                     lugarDeAtencionString = `${primeraUbicacion.partido} (${primeraUbicacion.direccion})`;
+    //                 }
+    //                 return {
+    //                     ...turno,
+    //                     lugarDeAtencion: lugarDeAtencionString
+    //                 };
+    //             });
+    //             const turnosOrdenados = [...dataLimpia].sort((a, b) => {
+    //                 const dateA = new Date(a.fecha);
+    //                 const dateB = new Date(b.fecha);
+    //                 return dateB.getTime() - dateA.getTime(); 
+    //             })
+                
+    //             setListaTurnos(turnosOrdenados);
+                
+    //         } catch (error) {
+    //             console.error('Error al obtener turnos:', error);
+    //             setListaTurnos([])
+    //         } 
+    //     }
+    //     fetchTurnos()
+    // }, [numeroAfiliado]);
+
+
+
+
+    useEffect(() => {
+  document.title = 'Consulta de Turnos - Medicina Integral';
+  if (!dataAfiliado) {
+                navigate("/login");
+            }
+
+  const fetchTurnos = async () => {
+    if (!numeroAfiliado) return;
+
+    try {
+      let turnosTotales = [];
+
+      // Función auxiliar para traer y limpiar turnos de un afiliado
+      const obtenerTurnosAfiliado = async (numAfiliado) => {
+        const response = await fetch(`http://localhost:3000/turnos/consulta/${numAfiliado}`);
+        if (!response.ok) return [];
+
+        const data = await response.json();
+
+        const dataLimpia = data.map((turno) => {
+          let lugarDeAtencionString = 'N/D';
+
+          if (Array.isArray(turno.lugarDeAtencion) && turno.lugarDeAtencion.length > 0) {
+            const primeraUbicacion = turno.lugarDeAtencion[0];
+            lugarDeAtencionString = `${primeraUbicacion.partido} (${primeraUbicacion.direccion})`;
+          }
+
+          return {
+            ...turno,
+            lugarDeAtencion: lugarDeAtencionString,
+          };
+        });
+
+        return dataLimpia;
+      };
+
+      // Primero traemos los turnos del afiliado actual
+      const turnosAfiliado = await obtenerTurnosAfiliado(numeroAfiliado);
+      turnosTotales.push(...turnosAfiliado);
+
+      // Si es titular, también traer los turnos del grupo familiar
+      if (esTitular && dataAfiliado?.grupoFamiliar?.length > 0) {
+        const promesasGrupo = dataAfiliado.grupoFamiliar.map((afiliado) =>
+          obtenerTurnosAfiliado(afiliado.numeroAfiliado)
+        );
+
+        const resultadosGrupo = await Promise.all(promesasGrupo);
+        resultadosGrupo.forEach((turnos) => {
+          turnosTotales.push(...turnos);
+        });
+      }
+
+      // Ordenar todos los turnos juntos por fecha (más reciente primero)
+      const turnosOrdenados = [...turnosTotales].sort((a, b) => {
+        const dateA = new Date(a.fecha);
+        const dateB = new Date(b.fecha);
+        return dateB.getTime() - dateA.getTime();
+      });
+
+      setListaTurnos(turnosOrdenados);
+      setListaTurnosFiltrados(turnosOrdenados);
+    } catch (error) {
+      console.error('Error al obtener turnos:', error);
+      setListaTurnos([]);
+      setListaTurnosFiltrados([]);
+    }
+  };
+
+  fetchTurnos();
+}, [numeroAfiliado, esTitular, dataAfiliado]);
+
+
+
+
+
+
+    
+    useEffect(() => {
+        aplicarFiltros(filtroAntiguos, filtroPeriodo, filtroBusqueda);
+    }, [listaTurnos, aplicarFiltros, filtroAntiguos, filtroPeriodo, filtroBusqueda]);
+
+    const handleAbrirModal = (turno) => {
+        setTurnoSeleccionado(turno)
+        setMostrarModal(true)
+    }
+
+    const handleCancelarTurno = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/turnos/cancelar/${id}`, {
+                method: "PATCH",
+                headers: { 'Content-Type': 'application/json'},
+            })
+            await response.json()
+            
+            const turnosActualizados = listaTurnos.filter(t => t._id !== id);
+            setListaTurnos(turnosActualizados); 
+            setMostrarModal(false)
+            setTurnoSeleccionado(null);
+        } catch (error) {
+            console.error('Error al cancelar el turno: ', error);
+            setMostrarModal(false)
+            setTurnoSeleccionado(null)
+        }
+    }
+
+    const handleBusqueda = (texto) => {
+        setFiltroBusqueda(texto);
+    }
+
+    const handleFiltrarPorPeriodo = (periodo) => {
+        setFiltroPeriodo(periodo);
+    }
+
+    const handleFiltrarPorAntiguos = (isChecked) => {
+        setFiltroAntiguos(isChecked);
+    }
+
+    
     const limpiarFiltros = () => {
-        setFiltroVigentes(false);
+        setFiltroAntiguos(false);
         setFiltroPeriodo('');
         setFiltroBusqueda('');
-        setListaTurnosFiltrados(listaTurnos);
     }
 
     return(
@@ -143,15 +323,9 @@ const ConsultarTurnos = () => {
                 <section className={styles.headerContainer}>
                     <h1>Consultar Turnos</h1>
                     <SearchBarCards
-                    valorInput={filtroBusqueda}
-                        filtro={(texto) => {
-                            setFiltroBusqueda(texto);
-                            aplicarFiltros(filtroVigentes, filtroPeriodo, texto);
-                        }}
-                        limpiarFiltros={() => {
-                            setFiltroBusqueda('');
-                            aplicarFiltros(filtroVigentes, filtroPeriodo, '');
-                        }}
+                        valorInput={filtroBusqueda}
+                        filtro={handleBusqueda}
+                        limpiarFiltros={() => {handleBusqueda('');}}
                         placeholder={"Ingrese un integrante o fecha de turno..."}
                     />
                     <Link className={styles.botonSolicitarTurno} to={'/solicitar-turno'}><BsClipboard2Plus style={{ marginRight: '10px' }}/>Solicitar Turno</Link>
@@ -163,34 +337,24 @@ const ConsultarTurnos = () => {
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros <MdCancel style={{ marginLeft: '10px' }} /></button>
                         </div>
-                        <div className={styles.botonCheckVigentesContainer}>
-                            <label className={styles.botonCheckVigentes}>
+                        <div className={styles.botonAntiguosContainer}>
+                            <label className={styles.botonAntiguos}>
                                 <input 
                                     type='checkbox'
-                                    checked={filtroVigentes}
-                                    onChange={(e) => {
-                                        setFiltroVigentes(e.target.checked);
-                                        aplicarFiltros(e.target.checked, filtroPeriodo, filtroBusqueda)
-                                    }}
+                                    checked={filtroAntiguos}
+                                    onChange={(e) => handleFiltrarPorAntiguos(e.target.checked)}
                                 />
-                                Vigentes
+                                Antiguos
                             </label>
                         </div>
                         <hr />
-
-                        <FiltrosCards //PERÍODO
+                        <FiltrosCards 
                             label={'Período'}
                             default={'TODO'}
                             opciones={periodosOpciones}
                             valorActual={filtroPeriodo}
-                            filtrarAlSeleccionar = {(periodo) => {
-                                setFiltroPeriodo(periodo)
-                                aplicarFiltros(filtroVigentes, periodo, filtroBusqueda)
-                            }}
-                            borrarFiltro={() => {
-                                setFiltroPeriodo('')
-                                aplicarFiltros(filtroVigentes, '', filtroBusqueda)
-                            }}
+                            filtrarAlSeleccionar = {handleFiltrarPorPeriodo}
+                            borrarFiltro={() => {handleFiltrarPorPeriodo('')}}
                         />
                         <hr />
                         <h3>{listaTurnosFiltrados.length} turno(s) encontrados</h3>
@@ -203,16 +367,13 @@ const ConsultarTurnos = () => {
                                     <CardDinamica
                                         {...cardData}
                                         data={unTurno}
-                                        header={'Nº Turno: ' + unTurno.id}
+                                        header={`Fecha de Turno: ${formatearFecha(unTurno.fecha)}`}
                                         key={idx}
                                         tieneContenidoExtra={
-                                            esTurnoVigente(unTurno) ? (
+                                            !esTurnoAntiguo(unTurno) ? (
                                             <button
                                                 className={styles.botonAbrirModal}
-                                                onClick={() => {
-                                                setTurnoSeleccionado(unTurno);
-                                                setMostrarModal(true);
-                                                }}
+                                                onClick={() => handleAbrirModal(unTurno)}
                                             >
                                             Cancelar Turno
                                             </button> ) :null
@@ -231,7 +392,7 @@ const ConsultarTurnos = () => {
                             <h2>Cancelar Turno</h2>
                         </div>
                         <p className={styles.modalBody}>
-                            ¿Deseas cancelar el turno para <strong>{turnoSeleccionado.integrante}</strong> el día <strong>{turnoSeleccionado.fecha} - {turnoSeleccionado.hora}</strong>?
+                            ¿Deseas cancelar el turno para <strong>{turnoSeleccionado.integrante}</strong> el día <strong>{formatearFecha(turnoSeleccionado.fecha)} - {turnoSeleccionado.hora}</strong>?
                         </p>
                         
                         <div className={styles.modalFooter}>
@@ -243,11 +404,8 @@ const ConsultarTurnos = () => {
                                 Volver
                             </button>
                             <button className={styles.botonCancelarTurno}
-                                onClick={() => {
-                                    setTurnosCancelados(p => [...p, turnoSeleccionado.id]);
-                                    setMostrarModal(false);
-                                    setTurnoSeleccionado(null);
-                                }}>
+                                onClick={() => handleCancelarTurno(turnoSeleccionado._id)} 
+                            >
                                 Cancelar Turno
                             </button>
                         </div>
