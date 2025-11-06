@@ -6,7 +6,7 @@ import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
-import { useNumeroAfiliado } from '../../context/NumeroAfiliado';
+import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 
 const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
@@ -31,12 +31,12 @@ const cardData = {
 
 const ConsultarRecetas = () => {
 
-    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado();
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
 
     useEffect(() => {
         document.title = 'Consulta de Recetas - Medicina Integral'
 
-        fetch('http://localhost:3000/recetas/' + numeroAfiliado)
+        fetch('http://localhost:3000/recetas/' + dataAfiliado.numeroAfiliado)
             .then(response => response.json())
             .then(data => {
                 const recetasOrdenadas = [...data].reverse();
@@ -50,7 +50,7 @@ const ConsultarRecetas = () => {
                 setPresentacionesOpciones(presentacionesIniciales);
             })
             .catch(error => console.log(error))
-    }, [numeroAfiliado]);
+    }, [dataAfiliado]);
 
     const [listaRecetas, setListaRecetas] = useState([]);
     const [listaRecetasFiltradas, setListaRecetasFiltradas] = useState([]);
