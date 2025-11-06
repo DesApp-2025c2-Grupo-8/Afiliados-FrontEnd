@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom/client'
 import { App } from './App';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
-import { NumeroAfiliadoProvider } from './context/NumeroAfiliado';
+import { DatosAfiliadoProvider } from './context/AfiliadoDatos';
 
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-      <NumeroAfiliadoProvider>
+      <DatosAfiliadoProvider>
             <App />
-      </NumeroAfiliadoProvider>
+      </DatosAfiliadoProvider>
 
 )

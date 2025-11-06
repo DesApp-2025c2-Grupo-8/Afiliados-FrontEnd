@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Registrate.module.css"; 
+import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
 
 const Registro = () => {
   const navigate = useNavigate();
+  const { dataAfiliado } = useAfiliadoDatos();
 
   const [formData, setFormData] = useState({
-    nombre: "",
-    apellido: "",
-    fechaNac: "",
-    tipoDoc: "",
-    nroDoc: "",
+    fechaNacimiento: "",
+    tipoDocumento: "",
+    numeroDocumento: "",
     email: "",
     telefono: "",
     password: "",
@@ -22,43 +22,56 @@ const Registro = () => {
 
   useEffect(() => {
     document.title = "Registrarse - Medicina Integral";
+    //si el ususario esta iniciado (hay datos en el context) redirigir al home
+    if (dataAfiliado) {
+      navigate("/");
+    }
   }, []);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
+    }, console.log(formData));
+  };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (formData.password !== formData.confirmPassword) {
+    setMensaje("Las contraseñas no coinciden.");
+    return;
+  }
+
+  // 🔹 Crear una copia sin `confirmPassword`
+  const { confirmPassword, ...dataToSend } = formData;
+  const fechaNac = new Date(dataToSend.fechaNacimiento);
+  dataToSend.fechaNacimiento = fechaNac.setHours(fechaNac.getHours()+3);
+  console.log("Fecha de Nacimiento ajustada:", dataToSend.fechaNacimiento);
+  // dataToSend.fechaNacimiento = dataToSend.fechaNacimiento;
+  console.log("Datos a enviar:", dataToSend);
+
+  try {
+    const response = await fetch("http://localhost:3000/auth/registro", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToSend)
     });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const result = await response.json();
 
-    if (formData.password !== formData.confirmPassword) {
-      setMensaje("Las contraseñas no coinciden.");
-      return;
+    if (response.ok) {
+      setMensaje("Registro exitoso. Redirigiendo al login...");
+      setTimeout(() => navigate("/login"), 2000);
+    } else {
+      setMensaje(result.message || "Error al registrarse.");
     }
+  } catch (error) {
+    console.error("Error:", error);
+    setMensaje("Error al conectar con el servidor.");
+  }
+};
 
-    try {
-      const response = await fetch("http://localhost:3000/usuarios/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setMensaje("Registro exitoso. Redirigiendo al login...");
-        setTimeout(() => navigate("/login"), 2000);
-      } else {
-        setMensaje(result.message || "Error al registrarse.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setMensaje("Error al conectar con el servidor.");
-    }
-  };
 
   return (
     <div className={styles.registroContainer}>
@@ -68,58 +81,37 @@ const Registro = () => {
             <h2>Registrate</h2>
 
             <Form onSubmit={handleSubmit} className={styles.formRegistro}>
-              <Form.Group controlId="nombre" className={styles.formGroup}>
-                <Form.Label>Nombre/s</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingrese su/s nombre/s"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
 
-              <Form.Group controlId="apellido" className={styles.formGroup}>
-                <Form.Label>Apellido/s</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Ingrese su/s apellido/s"
-                  value={formData.apellido}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="fechaNac" className={styles.formGroupFecha}>
-                <Form.Label>Fecha Nacimiento</Form.Label>
-                <Form.Control
-                  type="date"
-                  value={formData.fechaNac}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="tipoDoc" className={styles.formGroup}>
+              <Form.Group controlId="tipoDocumento" className={styles.formGroup}>
                 <Form.Label>Tipo Documento</Form.Label>
                 <Form.Select
-                  value={formData.tipoDoc}
+                  value={formData.tipoDocumento}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Seleccione</option>
-                  <option value="dni">DNI</option>
-                  <option value="pasaporte">Pasaporte</option>
-                  <option value="lc">Libreta Cívica</option>
+                  <option value="DNI">DNI</option>
+                  <option value="PASAPORTE">Pasaporte</option>
+                  <option value="LC">Libreta Cívica</option>
                 </Form.Select>
               </Form.Group>
 
-              <Form.Group controlId="nroDoc" className={styles.formGroup}>
+              <Form.Group controlId="numeroDocumento" className={styles.formGroup}>
                 <Form.Label>Nro. Documento</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="99999999"
-                  value={formData.nroDoc}
+                  value={formData.numeroDocumento}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+
+              <Form.Group controlId="fechaNacimiento" className={styles.formGroupFecha}>
+                <Form.Label>Fecha Nacimiento</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={formData.fechaNacimiento}
                   onChange={handleChange}
                   required
                 />
@@ -163,7 +155,7 @@ const Registro = () => {
                 <Form.Control
                   type="password"
                   placeholder="Confirme su contraseña"
-                  value={formData.confirmPassword}
+                  value={formData.confirmPassword }
                   onChange={handleChange}
                   required
                 />
