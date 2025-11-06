@@ -6,7 +6,6 @@ import styles from './ConsultarAutorizaciones.module.css'
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
-
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 
@@ -24,8 +23,9 @@ const cardData = {
         { campo: 'Médico', propiedad: 'medico' },
         { campo: 'Fecha De Carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Dirección', propiedad: 'direccion' },
-        { campo: 'Observaciones', propiedad: 'observaciones' }
-    ]
+        { campo: 'Observaciones', propiedad: 'observaciones'}
+    ],
+    tieneBotonDescarga: true
 }
 
 // Componente principal
@@ -284,6 +284,7 @@ const ConsultarAutorizaciones = () => {
                                 key={autorizacion.numeroAutorizacion}
                                 data={autorizacion}
                                 header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
+                                tieneBotonDescarga= {autorizacion.estado === 'Aceptada'}
                             />
                         ))) : (
                             <p>No se encontraron autorizaciones</p>
