@@ -40,7 +40,7 @@ const ConsultarAutorizaciones = () => {
         if (!dataAfiliado) {
             navigate("/login");
         }
-        fetch('http://localhost:3000/autorizaciones/' + dataAfiliado.numeroAfiliado)
+        fetch('http://localhost:3000/autorizaciones/' + dataAfiliado?.numeroAfiliado)
             .then(response => response.json())
             .then(data => {
                 console.log(data)

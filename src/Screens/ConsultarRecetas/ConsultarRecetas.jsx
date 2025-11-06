@@ -41,7 +41,7 @@ const ConsultarRecetas = () => {
                     navigate("/login");
                 }
         
-        fetch('http://localhost:3000/recetas/' + dataAfiliado.numeroAfiliado)
+        fetch('http://localhost:3000/recetas/' + dataAfiliado?.numeroAfiliado)
             .then(response => response.json())
             .then(data => {
                 const recetasOrdenadas = [...data].reverse();
