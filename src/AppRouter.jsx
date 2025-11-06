@@ -14,6 +14,7 @@ import NotFound from "./Screens/NotFound/NotFound";
 import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
 import Perfil from "./Screens/Perfil/Perfil";
 import FormularioReintegros from "./Screens/FormularioReintegros/FormularioReintegros";
+import FormularioTurnos from "./Screens/FormularioTurnos/FormularioTurnos";
 
 export function AppRouter() {
   const location = useLocation();
@@ -27,19 +28,24 @@ export function AppRouter() {
 
       <main className="main">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registro" element={<Registro />} />
-          <Route path="/cargar-receta" element={<FormRecetas />} />
-          <Route path="/consultar-recetas" element={<ConsultarRecetas />} />
-          <Route path="/consultar-turnos" element={<ConsultarTurnos />} />
-          <Route path="/cargar-autorizacion" element={<FormAutorizaciones />} />
-          <Route path="/consultar-autorizaciones" element={<ConsultarAutorizaciones />} />
-          <Route path="/solicitar-reintegro" element={<FormularioReintegros />} />
-          <Route path="/consultar-reintegros" element={<ConsultarReintegros />} />
-          <Route path="/cartilla-prestadores" element={<CartillaPrestadores />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/*" element={<NotFound />} />
+          {/* <Route path='/'/> */}
+          <Route path='/' exact={true} Component={Home}/>
+          <Route path="/login" Component={Login}/>
+          <Route path="/registro" Component={Registro}/>
+          <Route path='/solicitar-turno' Component={FormularioTurnos}/>
+          <Route path='/cargar-receta' Component={FormRecetas}/>
+          <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
+          <Route path='/consultar-turnos' Component={ConsultarTurnos}/>
+          <Route path='/cargar-autorizacion' Component={FormAutorizaciones}/>
+          <Route path='/consultar-autorizaciones' Component={ConsultarAutorizaciones}/>
+          <Route path='/solicitar-reintegro' Component={FormularioReintegros}/>
+          <Route path='/consultar-reintegros' Component={ConsultarReintegros}/>
+          <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
+          {/* <Route path='/contacto' Component={}/> */}
+          <Route path='/perfil' Component={Perfil}/>
+          
+          {/* El de 404 debe siempre estar a lo último, si agregan páginas haganlo por encima de esta. */}
+          <Route path="/*" Component={NotFound}></Route>
         </Routes>
       </main>
 
