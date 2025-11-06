@@ -19,6 +19,7 @@ import NotFound from "./Screens/NotFound/NotFound";
 import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
 import Perfil from "./Screens/Perfil/Perfil";
 import FormularioReintegros from "./Screens/FormularioReintegros/FormularioReintegros";
+import FormularioTurnos from "./Screens/FormularioTurnos/FormularioTurnos";
 
 export function AppRouter() {
   return (
@@ -30,7 +31,7 @@ export function AppRouter() {
           <Route path='/' exact={true} Component={Home}/>
           <Route path="/login" Component={Login}/>
           <Route path="/registro" Component={Registro}/>
-          {/* <Route path='/solicitar-turno' Component={}/> */}
+          <Route path='/solicitar-turno' Component={FormularioTurnos}/>
           <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
           <Route path='/consultar-turnos' Component={ConsultarTurnos}/>
