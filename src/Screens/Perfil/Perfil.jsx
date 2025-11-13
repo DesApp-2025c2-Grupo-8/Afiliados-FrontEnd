@@ -69,7 +69,7 @@ const Perfil = () => {
                             <p><strong>Plan Medico:</strong> {usuario.planMedico}</p>
                         </article>
                     </div>
-                    <button onClick={handleCerrarSesion}>Cerrar Sesión</button>
+                    <button className={styles.btnCerrarSesion} onClick={handleCerrarSesion}>Cerrar Sesión</button>
                 </section>
                 <section className={styles.seccionGrupoFamiliar + " " + (grupoFamiliar.length < 1 ? styles.sinGrupoFamiliar : "")}>
                     <h2>Grupo Familiar</h2>
