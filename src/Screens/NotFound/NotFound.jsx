@@ -1,8 +1,16 @@
-import React, { useEffect } from 'react'; 
+import React, { useEffect } from 'react';
+import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
+import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
-    useEffect( () => {
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const navigate = useNavigate();
+    useEffect(() => {
         document.title = 'Error 404 - Medicina Integral'
+
+        if (!dataAfiliado) {
+            navigate("/login");
+        } 
     }, [])
 
     return(

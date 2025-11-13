@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 // import usuarios from "../../db/usuarios";
 import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
 
+
 const FormularioReintegros = () => {
     useEffect(() => {
         document.title = 'Solicitar Reintegro - Medicina Integral'
@@ -16,11 +17,14 @@ const FormularioReintegros = () => {
                 setPrestadores(medicos);
             })
             .catch(error => console.error('Error:', error))
+        if (!dataAfiliado) {
+            navigate("/login");
+            }
     }, []);
 
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
-    const numeroAfiliado = dataAfiliado.numeroAfiliado;
-    const esTitular = dataAfiliado.rol === "TITULAR";
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+    const esTitular = dataAfiliado?.rol === "TITULAR";
 
     const [prestadores, setPrestadores] = useState([])
 
@@ -146,15 +150,15 @@ const FormularioReintegros = () => {
                                 >
                                     <option value="">Seleccione el nombre del integrante</option>
                                     {
-                                console.log("dataAfiliado.grupoFamiliar", dataAfiliado.grupoFamiliar)
-                            }
-                            {                               
-                            dataAfiliado.grupoFamiliar.map((usuario) => 
-                                    //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
-                                    esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> : 
-                                    ""
-                                )}
-                                <option key={dataAfiliado.numeroAfiliado} value={`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}>{`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}</option>
+                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
+                                    }
+                                    {
+                                        dataAfiliado?.grupoFamiliar.map((usuario) =>
+                                            //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
+                                            esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
+                                                ""
+                                        )}
+                                         <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
                                 </Form.Select>
                                 <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                             </Form.Group>

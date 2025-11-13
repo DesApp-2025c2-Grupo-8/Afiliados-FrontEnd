@@ -7,6 +7,7 @@ import { MdCancel } from 'react-icons/md';
 import { MdAttachMoney } from 'react-icons/md';
 
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
+import { useNavigate } from "react-router-dom";
 
 // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
 const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado'];
@@ -30,18 +31,22 @@ const cardData = {
 };
 
 const ConsultarReintegros = () => {
-
-  
+    
+    const navigate = useNavigate();
+    
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
-    const numeroAfiliado = dataAfiliado.numeroAfiliado;
-
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+    
     useEffect(() => {
         document.title = 'Consulta de Reintegros - Medicina Integral'
-
+        
+        if (!dataAfiliado) {
+                    navigate("/login");
+                }
         // fetch('http://localhost:3000/reintegros')                   //findAll()
         fetch('http://localhost:3000/reintegros/'+ numeroAfiliado)  //findByNumeroAfiliado()
-            .then(response => response.json())
-            .then(data => {
+        .then(response => response.json())
+        .then(data => {
                 console.log(data);
                 const reintegrosOrdenados = [...data].reverse();
                 setListaReintegros(reintegrosOrdenados);
