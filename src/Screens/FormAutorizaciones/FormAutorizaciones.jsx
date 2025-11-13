@@ -173,13 +173,13 @@ const FormAutorizaciones = () => {
                             {
                                 console.log("dataAfiliado.grupoFamiliar", dataAfiliado.grupoFamiliar)
                             }
-                            {                               
-                            dataAfiliado.grupoFamiliar.map((usuario) => 
+                            {
+                                dataAfiliado.grupoFamiliar.map((usuario) =>
                                     //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
-                                    esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> : 
-                                    ""
+                                    esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
+                                        ""
                                 )}
-                                <option key={dataAfiliado.numeroAfiliado} value={`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}>{`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}</option>
+                            <option key={dataAfiliado.numeroAfiliado} value={`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}>{`${dataAfiliado.nombre} ${dataAfiliado.apellido}`}</option>
                         </Form.Select>
                         <span>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                     </Form.Group>

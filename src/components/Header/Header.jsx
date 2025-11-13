@@ -28,8 +28,8 @@ const RUTAS = [
         nombre: 'Cartilla prestadores'
     },
     {
-        ruta: '/contacto',
-        nombre: 'Contacto'
+        // ruta: '/contacto',
+        // nombre: 'Contacto'
     },
     {
         ruta: '/perfil',
