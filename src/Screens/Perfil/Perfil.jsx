@@ -10,8 +10,8 @@ const Perfil = () => {
     const camposCard = [
         { campo: 'Fecha de nacimiento', propiedad: 'fechaNacimiento', esFecha: true },
         { campo: 'N° Afiliado', propiedad: 'numeroAfiliado' },
-        { campo: 'Teléfono', propiedad: 'telefono' },
-        { campo: 'Email', propiedad: 'email' },
+        // { campo: 'Teléfono', propiedad: 'telefono' },
+        // { campo: 'Email', propiedad: 'email' },
     ]
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
 
