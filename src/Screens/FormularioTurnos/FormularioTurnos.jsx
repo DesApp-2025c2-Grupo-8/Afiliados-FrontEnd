@@ -6,6 +6,19 @@ import { useNavigate } from "react-router-dom";
 import usuarios from "../../db/usuarios";
 import { useNumeroAfiliado } from "../../context/NumeroAfiliado";
 
+const formatoFecha = (fechaISO) => {
+    if (!fechaISO) return '';
+    try {
+        const [anio, mes, dia] = fechaISO.split('-')
+        if (anio && mes && dia) {
+            return `${dia}-${mes}-${anio}`
+        }
+        return fechaISO; 
+    } catch (e) {
+        return fechaISO;
+    }
+}
+
 
 const datosFormInicial = {
     especialidades: [],
@@ -38,7 +51,7 @@ const FormularioTurnos = () => {
     const [modalCancelar, setModalCancelar] = useState(false)
     const [modalConfirmar, setModalConfirmar] = useState(false)
     const [errores, setErrores] = useState({});
-    const [nroTurno, setNroTurno] = useState(null);
+    const [turnoConfirmado, setTurnoConfirmado] = useState(null);
 
     const navigate = useNavigate()
 
@@ -230,7 +243,12 @@ const FormularioTurnos = () => {
             const result = await response.json()
 
             if(response.ok){
-                setNroTurno(result.numeroOrden) 
+                setTurnoConfirmado({
+                    fecha: turnoParaGuardar.fecha,
+                    hora: turnoParaGuardar.hora,
+                    medico: turnoParaGuardar.medico,
+                }); 
+                
                 setModalFechaHora(false)
                 setModalConfirmar(true)
             } else {
@@ -258,10 +276,10 @@ const FormularioTurnos = () => {
        { campo: "Tipo de prestador", propiedad: "tipoPrestador" },
    ];
 
-   const getContenidoExtra = (unTurno) => {
+    const getContenidoExtra = (unTurno) => {
     const keyBase = unTurno.id || unTurno._id || unTurno.profesional
     const primerTurnoLibre = (unTurno.disponibilidad && unTurno.disponibilidad.length > 0)
-        ? `${unTurno.disponibilidad[0].fecha} - ${unTurno.disponibilidad[0].hora[0]}`
+        ? `${formatoFecha(unTurno.disponibilidad[0].fecha)} - ${unTurno.disponibilidad[0].hora[0]}`
         : 'N/D';
         
     return(
@@ -402,7 +420,7 @@ const FormularioTurnos = () => {
                                 };
 
                                 return (
-                                    <div key={turno.id || turno._id || turno.profesional} className="mb-4" style={{maxWidth: '450px', width: '100%'}}>
+                                    <div key={turno.id || turno._id || turno.profesional} className={`${styles.cardResultado} mb-4`}>
                                         <CardDinamica
                                             data={turnoRender} 
                                             header={`Turno en ${turnoRender.direccion}`}
@@ -417,7 +435,7 @@ const FormularioTurnos = () => {
                     </div>
                 </div>
             )}
-
+            </div>
             <Modal show={modalFechaHora} onHide={() => setModalFechaHora(false)} centered>
                 {turnoSeleccionado && (
                     <>
@@ -441,7 +459,14 @@ const FormularioTurnos = () => {
                                             required
                                         >
                                             <option value="">Seleccione...</option>
-                                            {turnoSeleccionado.disponibilidad.filter(d => d.hora.length > 0).map(d => (<option key={d.fecha} value={d.fecha}>{d.fecha}</option>))}
+                                            {turnoSeleccionado.disponibilidad
+                                                .filter(d => d.hora.length > 0)
+                                                .map(d => (
+                                                    <option key={d.fecha} value={d.fecha}>
+                                                        {formatoFecha(d.fecha)}
+                                                    </option>
+                                                ))
+                                            }
                                         </Form.Select>
                                     </Form.Group>
                                 </Col>
@@ -461,7 +486,7 @@ const FormularioTurnos = () => {
                                     </Form.Group>
                                 </Col>
                             </Row>
-                            <p className="mt-3 text-success">Turno preseleccionado: {turnoSeleccionado.fechaSeleccionada} a las {turnoSeleccionado.horaSeleccionada}</p>
+                            <p className="mt-3 text-success">Turno preseleccionado: **{formatoFecha(turnoSeleccionado.fechaSeleccionada)}** a las **{turnoSeleccionado.horaSeleccionada}**</p>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -477,7 +502,16 @@ const FormularioTurnos = () => {
                 )}
             </Modal>
             <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
-                <Modal.Body> El turno ha sido solicitado correctamente. <br /> Nro. Turno: <strong>{nroTurno}</strong></Modal.Body>
+                <Modal.Body> 
+                    El turno ha sido solicitado correctamente. <br /> 
+                    {turnoConfirmado && (
+                        <>
+                            Se ha confirmado el turno para el **día {formatoFecha(turnoConfirmado.fecha)}** a las **{turnoConfirmado.hora}**.
+                            <br/>
+                            Con el Dr/a. **{turnoConfirmado.medico}**.
+                        </>
+                    )}
+                </Modal.Body>
                 <Modal.Footer><Button onClick={handleConfirmacionFinal} style={{backgroundColor: '#24979B', border: 'none'}}>Aceptar </Button></Modal.Footer>
             </Modal>
 
@@ -489,7 +523,6 @@ const FormularioTurnos = () => {
                 </Modal.Footer>
             </Modal>
         </div>
-    </div>
    )
 }
 
