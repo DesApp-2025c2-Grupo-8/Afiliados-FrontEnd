@@ -67,7 +67,7 @@ const handleSubmit = async (e) => {
 
     if (response.ok) {
       setMensaje("Registro exitoso. Redirigiendo al login...");
-      setTimeout(() => navigate("/login"), 2000);
+      navigate("/login")
     } else {
       setMensaje(result.message || "Error al registrarse.");
     }
