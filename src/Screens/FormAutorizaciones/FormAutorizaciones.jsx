@@ -184,7 +184,7 @@ const FormAutorizaciones = () => {
                                         )}
                                          <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
                         </Form.Select>
-                        <span>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
+                        <span>{errores.includes("integrante should not be empty") ? "Seleccione un Integrante" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
@@ -210,11 +210,11 @@ const FormAutorizaciones = () => {
                                 ))
                             }
                         </Form.Select>
-                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione una especialidad" : ""}</span>
+                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione una Especialidad" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Medico<span className={styles.oblgatorio}>*</span></Form.Label>
+                        <Form.Label>Médico<span className={styles.oblgatorio}>*</span></Form.Label>
                         <Form.Select
                             name="medico"
                             value={medicoSeleccionado}
@@ -222,14 +222,14 @@ const FormAutorizaciones = () => {
                             disabled={!especialidadSeleccionada}
                             required
                         >
-                            <option value="">Seleccione una Especialidad</option>
+                            <option value="">Seleccione un Médico</option>
                             {prestadores
                                 .filter(p => p.especialidad === especialidadSeleccionada)
                                 .map((medico, i) => (
                                     <option key={i} value={medico.nombre}>{medico.nombre}</option>
                                 ))}
                         </Form.Select>
-                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione una especialidad" : ""}</span>
+                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione un Médico" : ""}</span>
                     </Form.Group>
 
 
@@ -247,15 +247,16 @@ const FormAutorizaciones = () => {
                                 <option key={i} value={ubi.partido}>{ubi.partido}</option>
                             ))}
                         </Form.Select>
-                        <span>{errores.includes("ubicacion should not be empty") ? "Seleccione una ubicacion" : ""}</span>
+                        <span>{errores.includes("partido should not be empty") ? "Seleccione un Partido" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>Dirección<span className={styles.oblgatorio}>*</span></Form.Label>
+                        <Form.Label>Dirección</Form.Label>
                         <Form.Control
                             type="text"
                             name="direccion"
                             value={direccionDisponible}
+                            disabled={!ubicacionSeleccionada}
                             readOnly
                         />
                     </Form.Group>

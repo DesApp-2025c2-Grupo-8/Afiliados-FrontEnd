@@ -18,11 +18,11 @@ const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres 
 const cardData = {
 
     camposCard: [
-        { campo: 'Nro. Autorización', propiedad: 'numeroAutorizacion' },
+        { campo: 'N° Autorización', propiedad: 'numeroAutorizacion' },
         { campo: 'Integrante', propiedad: 'integrante' },
-        { campo: 'Médico', propiedad: 'medico' },
-        { campo: 'Fecha De Carga', propiedad: 'fechaDeCarga', esFecha: true },
-        { campo: 'Dirección', propiedad: 'direccion' },
+        { campo: 'Médico/a', propiedad: 'medico' },
+        { campo: 'Fecha de Carga', propiedad: 'fechaDeCarga', esFecha: true },
+        { campo: 'Lugar de atención', propiedad: 'direccion' },
         { campo: 'Observaciones', propiedad: 'observaciones'}
     ],
     tieneBotonDescarga: true
