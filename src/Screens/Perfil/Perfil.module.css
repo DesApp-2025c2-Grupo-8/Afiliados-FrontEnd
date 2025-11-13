@@ -94,3 +94,14 @@
 .filas .cardsInformacion{
     width: 50%;
 }
+
+.btnCerrarSesion{
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #E64F4F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}

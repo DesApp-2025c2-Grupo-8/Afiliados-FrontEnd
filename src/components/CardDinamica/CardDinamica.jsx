@@ -13,6 +13,7 @@ const CardDinamica = (props) => {
   };
 
   const generarPDF = () => {
+    // console.log(data);
     const doc = new jsPDF();
     let y = 20;
 
@@ -38,7 +39,8 @@ const CardDinamica = (props) => {
       y += 8;
     });
 
-    const nombreArchivo = `${data.integrante + ' - ' + data.numeroOrden || 'comprobante'}.pdf`;
+    const numero = data.numeroOrden? data.numeroOrden : data.numeroAutorizacion
+    const nombreArchivo = `${data.integrante + ' - ' + numero || 'comprobante'}.pdf`;
     doc.save(nombreArchivo);
   };
 
