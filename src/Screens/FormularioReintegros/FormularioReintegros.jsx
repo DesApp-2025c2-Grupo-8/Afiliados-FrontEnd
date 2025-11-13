@@ -9,6 +9,14 @@ import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
 const FormularioReintegros = () => {
     useEffect(() => {
         document.title = 'Solicitar Reintegro - Medicina Integral'
+
+        fetch('http://localhost:3000/prestadores')
+            .then(response => response.json())
+            .then(data => {
+                const medicos = data.filter(m => m.tipo === 'Médico');
+                setPrestadores(medicos);
+            })
+            .catch(error => console.error('Error:', error))
         if (!dataAfiliado) {
             navigate("/login");
             }
@@ -18,10 +26,12 @@ const FormularioReintegros = () => {
     const numeroAfiliado = dataAfiliado?.numeroAfiliado;
     const esTitular = dataAfiliado?.rol === "TITULAR";
 
+    const [prestadores, setPrestadores] = useState([])
+
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString(),
         fechaDePrestacion: "",
-        numeroAfiliado: numeroAfiliado, // Este valor debería ser dinámico según el usuario logueado
+        numeroAfiliado: numeroAfiliado,
         integrante: "",
         medico: "",
         especialidad: "",
@@ -108,9 +118,18 @@ const FormularioReintegros = () => {
     const handleConfirmar = () => {
         console.log("Enviando...");
         setModalConfirmar(false)
-        // setPaso(2)
         navigate("/consultar-reintegros")
     }
+
+    const especialidadesIniciales = [...new Set(prestadores.map(p => p.especialidad))];
+
+    const medicosFiltrados = prestadores
+        .filter(p => p.especialidad === data.especialidad)
+        .map(p => p.nombre);
+
+    const ubicacionesDelMedico = prestadores
+        .find(p => p.nombre === data.medico)?.ubicacion || [];
+
 
     return (
         <div className={styles.fondo}>
@@ -159,24 +178,8 @@ const FormularioReintegros = () => {
                             </Form.Group>
 
                             <Row className="mb-3">
-                                <Form.Group as={Col} md={6} controlId="medico">
-                                    <Form.Label>Médico<span className={styles.oblgatorio}>*</span></Form.Label>
-                                    <Form.Select
-                                        name="medico"
-                                        value={data.medico}
-                                        onChange={handleChange}
-                                        required
-                                    >
-                                        <option value="">Seleccione un médico</option>
-                                        <option value="Dr. Juan">Dr. Juan</option>
-                                        <option value="Dr. Pepe">Dr. Pepe</option>
-                                        <option value="Dra. Fulana">Dra. Fulana</option>
-
-                                    </Form.Select>
-                                    <span className={styles.oblgatorio}>{errores.includes("medico should not be empty") ? "Ingrese un médico" : ""}</span>
-                                </Form.Group>
                                 <Form.Group as={Col} md={6} controlId="especialidad">
-                                    <Form.Label>Especialidad<span className={styles.oblgatorio}>*</span></Form.Label>
+                                   <Form.Label>Especialidad<span className={styles.oblgatorio}>*</span></Form.Label>
                                     <Form.Select
                                         name="especialidad"
                                         value={data.especialidad}
@@ -184,13 +187,28 @@ const FormularioReintegros = () => {
                                         required
                                     >
                                         <option value="">Seleccione una especialidad</option>
-                                        <option value="Cirujano">Cirujano</option>
-                                        <option value="Neurólogo">Neurólogo</option>
-                                        <option value="Odontólogo">Odontólogo</option>
-                                        <option value="Traumatólogo">Traumatólogo</option>
+                                        {especialidadesIniciales.map((unaEspecialidad, idx) => (
+                                            <option key={idx} value={unaEspecialidad}>{unaEspecialidad}</option>
+                                        ))}
 
                                     </Form.Select>
                                     <span className={styles.oblgatorio}>{errores.includes("especialidad should not be empty") ? "Seleccione una especialidad" : ""}</span>
+                                </Form.Group>
+                                <Form.Group as={Col} md={6} controlId="medico">
+                                     <Form.Label>Médico<span className={styles.oblgatorio}>*</span></Form.Label>
+                                    <Form.Select
+                                        name="medico"
+                                        value={data.medico}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Seleccione un médico</option>
+                                        {medicosFiltrados.map((unMedico, idx) => (
+                                            <option key={idx} value={unMedico}>{unMedico}</option>
+                                        ))}
+
+                                    </Form.Select>
+                                    <span className={styles.oblgatorio}>{errores.includes("medico should not be empty") ? "Ingrese un médico" : ""}</span>
                                 </Form.Group>
                             </Row>
 
@@ -203,10 +221,11 @@ const FormularioReintegros = () => {
                                     required
                                 >
                                     <option value="">Seleccione el lugar de atención</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="D">D</option>
+                                    {ubicacionesDelMedico.map((ubicacion, idx) => (
+                                        <option key={idx} value={`${ubicacion.partido} - ${ubicacion.direccion}`}>
+                                            {ubicacion.partido} - {ubicacion.direccion}
+                                        </option>
+                                    ))}
 
                                 </Form.Select>
                                 <span className={styles.oblgatorio}>{errores.includes("lugarDeAtencion should not be empty") ? "Seleccione un lugar de atención" : ""}</span>
@@ -296,7 +315,7 @@ const FormularioReintegros = () => {
                                     <Form.Group>
                                         <Form.Label>CBU<span className={styles.oblgatorio}>*</span></Form.Label>
                                             <Form.Control
-                                                type="text"
+                                                type="number"
                                                 name="cbu"
                                                 value={data.datosFactura.cbu}
                                                 onChange={handleChangeFactura}
