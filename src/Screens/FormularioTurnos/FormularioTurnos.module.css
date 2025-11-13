@@ -48,6 +48,21 @@
     justify-content: center;
     gap: 1.5rem;
     margin-top: 1rem;
+    align-items: stretch;
+}
+
+.cardResultado {
+    display: flex; 
+    flex-direction: column;
+    max-width: 450px; 
+    width: 100%;
+}
+
+.cardResultado > div { 
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
 }
 
 .cardPaso3 {
