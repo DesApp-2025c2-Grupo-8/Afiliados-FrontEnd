@@ -6,8 +6,10 @@ import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom";
 
-import { useNumeroAfiliado } from '../../context/NumeroAfiliado'; 
+// import { useNumeroAfiliado } from '../../context/NumeroAfiliado'; 
+import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 
 
 const periodosOpciones = [
@@ -32,8 +34,13 @@ const cardData = {
 
 
 const ConsultarTurnos = () => {
-    const { numeroAfiliado } = useNumeroAfiliado();
+    const navigate = useNavigate();
     
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+
+    const esTitular = dataAfiliado?.rol === 'TITULAR';
+
     const [listaTurnos, setListaTurnos] = useState([]);
     const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState([]);
     const [filtroAntiguos, setFiltroAntiguos] = useState(false);
@@ -138,50 +145,131 @@ const ConsultarTurnos = () => {
     }, [listaTurnos, esTurnoAntiguo, obtenerFechaDelPeriodoSeleccionado]);
 
 
-    useEffect(() => {
-        document.title = 'Consulta de Turnos - Medicina Integral';
 
-        const fetchTurnos = async () => {
-            if (!numeroAfiliado) return
-            try {
-                const response = await fetch(`http://localhost:3000/turnos/consulta/${numeroAfiliado}`);
-                
-                if (!response.ok) {
-                    setListaTurnos([])
-                    setListaTurnosFiltrados([])
-                    return;
-                }
-                const data = await response.json()
-                
-                const dataLimpia = data.map(turno => {
-                    let lugarDeAtencionString = 'N/D';
 
-                    if (Array.isArray(turno.lugarDeAtencion) && turno.lugarDeAtencion.length > 0) {
-                        const primeraUbicacion = turno.lugarDeAtencion[0];
+    // useEffect(() => {
+    //     document.title = 'Consulta de Turnos - Medicina Integral';
+    //     const fetchTurnos = async () => {
+    //         if (!numeroAfiliado) return
+    //         try {
+    //             const response = await fetch(`http://localhost:3000/turnos/consulta/${numeroAfiliado}`);
+                
+    //             if (!response.ok) {
+    //                 setListaTurnos([])
+    //                 setListaTurnosFiltrados([])
+    //                 return;
+    //             }
+    //             const data = await response.json()
+                
+    //             const dataLimpia = data.map(turno => {
+    //                 let lugarDeAtencionString = 'N/D';
+
+    //                 if (Array.isArray(turno.lugarDeAtencion) && turno.lugarDeAtencion.length > 0) {
+    //                     const primeraUbicacion = turno.lugarDeAtencion[0];
                         
-                        lugarDeAtencionString = `${primeraUbicacion.partido} (${primeraUbicacion.direccion})`;
-                    }
-                    return {
-                        ...turno,
-                        lugarDeAtencion: lugarDeAtencionString
-                    };
-                });
-                const turnosOrdenados = [...dataLimpia].sort((a, b) => {
-                    const dateA = new Date(a.fecha);
-                    const dateB = new Date(b.fecha);
-                    return dateB.getTime() - dateA.getTime(); 
-                })
+    //                     lugarDeAtencionString = `${primeraUbicacion.partido} (${primeraUbicacion.direccion})`;
+    //                 }
+    //                 return {
+    //                     ...turno,
+    //                     lugarDeAtencion: lugarDeAtencionString
+    //                 };
+    //             });
+    //             const turnosOrdenados = [...dataLimpia].sort((a, b) => {
+    //                 const dateA = new Date(a.fecha);
+    //                 const dateB = new Date(b.fecha);
+    //                 return dateB.getTime() - dateA.getTime(); 
+    //             })
                 
-                setListaTurnos(turnosOrdenados);
+    //             setListaTurnos(turnosOrdenados);
                 
-            } catch (error) {
-                console.error('Error al obtener turnos:', error);
-                setListaTurnos([])
-            } 
-        }
-        fetchTurnos()
-    }, [numeroAfiliado]);
+    //         } catch (error) {
+    //             console.error('Error al obtener turnos:', error);
+    //             setListaTurnos([])
+    //         } 
+    //     }
+    //     fetchTurnos()
+    // }, [numeroAfiliado]);
 
+
+
+
+    useEffect(() => {
+  document.title = 'Consulta de Turnos - Medicina Integral';
+  if (!dataAfiliado) {
+                navigate("/login");
+            }
+
+  const fetchTurnos = async () => {
+    if (!numeroAfiliado) return;
+
+    try {
+      let turnosTotales = [];
+
+      // Función auxiliar para traer y limpiar turnos de un afiliado
+      const obtenerTurnosAfiliado = async (numAfiliado) => {
+        const response = await fetch(`http://localhost:3000/turnos/consulta/${numAfiliado}`);
+        if (!response.ok) return [];
+
+        const data = await response.json();
+
+        const dataLimpia = data.map((turno) => {
+          let lugarDeAtencionString = 'N/D';
+
+          if (Array.isArray(turno.lugarDeAtencion) && turno.lugarDeAtencion.length > 0) {
+            const primeraUbicacion = turno.lugarDeAtencion[0];
+            lugarDeAtencionString = `${primeraUbicacion.partido} (${primeraUbicacion.direccion})`;
+          }
+
+          return {
+            ...turno,
+            lugarDeAtencion: lugarDeAtencionString,
+          };
+        });
+
+        return dataLimpia;
+      };
+
+      // Primero traemos los turnos del afiliado actual
+      const turnosAfiliado = await obtenerTurnosAfiliado(numeroAfiliado);
+      turnosTotales.push(...turnosAfiliado);
+
+      // Si es titular, también traer los turnos del grupo familiar
+      if (esTitular && dataAfiliado?.grupoFamiliar?.length > 0) {
+        const promesasGrupo = dataAfiliado.grupoFamiliar.map((afiliado) =>
+          obtenerTurnosAfiliado(afiliado.numeroAfiliado)
+        );
+
+        const resultadosGrupo = await Promise.all(promesasGrupo);
+        resultadosGrupo.forEach((turnos) => {
+          turnosTotales.push(...turnos);
+        });
+      }
+
+      // Ordenar todos los turnos juntos por fecha (más reciente primero)
+      const turnosOrdenados = [...turnosTotales].sort((a, b) => {
+        const dateA = new Date(a.fecha);
+        const dateB = new Date(b.fecha);
+        return dateB.getTime() - dateA.getTime();
+      });
+
+      setListaTurnos(turnosOrdenados);
+      setListaTurnosFiltrados(turnosOrdenados);
+    } catch (error) {
+      console.error('Error al obtener turnos:', error);
+      setListaTurnos([]);
+      setListaTurnosFiltrados([]);
+    }
+  };
+
+  fetchTurnos();
+}, [numeroAfiliado, esTitular, dataAfiliado]);
+
+
+
+
+
+
+    
     useEffect(() => {
         aplicarFiltros(filtroAntiguos, filtroPeriodo, filtroBusqueda);
     }, [listaTurnos, aplicarFiltros, filtroAntiguos, filtroPeriodo, filtroBusqueda]);

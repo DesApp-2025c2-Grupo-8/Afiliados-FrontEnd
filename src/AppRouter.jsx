@@ -1,19 +1,15 @@
-import { Route, Routes } from "react-router-dom";
-
-
-import { Box } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Home from "./Screens/Home/Home";
 import Login from "./Screens/Login/Login";
-import Registro from './Screens/Registrarse/Registrate';
+import Registro from "./Screens/Registrarse/Registrate";
 import FormRecetas from "./Screens/FormRecetas/FormRecetas";
 import ConsultarRecetas from "./Screens/ConsultarRecetas/ConsultarRecetas";
 import CartillaPrestadores from "./Screens/CartillaPrestadores/CartillaPrestadores";
 import ConsultarAutorizaciones from "./Screens/ConsultarAutorizaciones/ConsultarAutorizaciones";
 import ConsultarReintegros from "./Screens/ConsultarReintegros/ConsultarReintegros";
-
+import FormAutorizaciones from "./Screens/FormAutorizaciones/FormAutorizaciones";
 import NotFound from "./Screens/NotFound/NotFound";
 import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
 import Perfil from "./Screens/Perfil/Perfil";
@@ -21,9 +17,15 @@ import FormularioReintegros from "./Screens/FormularioReintegros/FormularioReint
 import FormularioTurnos from "./Screens/FormularioTurnos/FormularioTurnos";
 
 export function AppRouter() {
+  const location = useLocation();
+
+  // Rutas donde no se deben mostrar Header y Footer, si ven una mas agreguen aca
+  const hideLayout = ["/login", "/Login", "/registro", "/Registro"].includes(location.pathname);
+
   return (
     <>
-      <Header/>
+      {!hideLayout && <Header />}
+
       <main className="main">
         <Routes>
           {/* <Route path='/'/> */}
@@ -34,7 +36,7 @@ export function AppRouter() {
           <Route path='/cargar-receta' Component={FormRecetas}/>
           <Route path='/consultar-recetas' Component={ConsultarRecetas}/>
           <Route path='/consultar-turnos' Component={ConsultarTurnos}/>
-          {/* <Route path='/cargar-autorizacion' Component={}/> */}
+          <Route path='/cargar-autorizacion' Component={FormAutorizaciones}/>
           <Route path='/consultar-autorizaciones' Component={ConsultarAutorizaciones}/>
           <Route path='/solicitar-reintegro' Component={FormularioReintegros}/>
           <Route path='/consultar-reintegros' Component={ConsultarReintegros}/>
@@ -46,7 +48,8 @@ export function AppRouter() {
           <Route path="/*" Component={NotFound}></Route>
         </Routes>
       </main>
-      <Footer/>
+
+      {!hideLayout && <Footer />}
     </>
   );
 }

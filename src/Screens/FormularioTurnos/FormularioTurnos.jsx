@@ -4,7 +4,10 @@ import styles from './FormularioTurnos.module.css';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import { useNavigate } from "react-router-dom";
 import usuarios from "../../db/usuarios";
-import { useNumeroAfiliado } from "../../context/NumeroAfiliado";
+
+import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
+
+
 
 const formatoFecha = (fechaISO) => {
     if (!fechaISO) return '';
@@ -28,14 +31,15 @@ const datosFormInicial = {
 
 
 const FormularioTurnos = () => {
-
-    const { numeroAfiliado } = useNumeroAfiliado()
-    const esTitular = numeroAfiliado.toString().endsWith("01")
-
-
-    const [datosFormulario, setDatosFormulario]= useState(datosFormInicial)
-
-
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+    
+    const esTitular = dataAfiliado?.rol === 'TITULAR';
+    
+    
+    const [datosFormulario, setDatosFormulario] = useState(datosFormInicial)
+    
+    
     const [data, setData] = useState({
         numeroAfiliado: numeroAfiliado,
         integrante: "",
@@ -43,7 +47,7 @@ const FormularioTurnos = () => {
         medico: "",
         lugarDeAtencion: "",
     })
-
+    
     const [paso, setPaso] = useState(1);
     const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
     const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
@@ -54,55 +58,58 @@ const FormularioTurnos = () => {
     const [turnoConfirmado, setTurnoConfirmado] = useState(null);
 
     const navigate = useNavigate()
-
-    const fetchOpciones = async() => {
+    
+    const fetchOpciones = async () => {
         try {
             const response = await fetch("http://localhost:3000/turnos/opciones")
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            const text = await response.text(); 
+            
+            const text = await response.text();
             if (!text) {
-                 throw new Error("Respuesta vacía del servidor.");
+                throw new Error("Respuesta vacía del servidor.");
             }
             
-            const result = JSON.parse(text); 
+            const result = JSON.parse(text);
             setDatosFormulario(result)
         } catch (error) {
             console.error("Error al cargar las opciones", error)
-            setDatosFormulario(datosFormInicial); 
+            setDatosFormulario(datosFormInicial);
         }
     }
-
+    
     useEffect(() => {
         document.title = 'Solicitud de Turno - Medicina Integral'
+        if (!dataAfiliado) {
+                    navigate("/login");
+                }
 
-        if(numeroAfiliado !== data.numeroAfiliado){
-            setData(prev =>({...prev, numeroAfiliado: numeroAfiliado}))
+        if (numeroAfiliado !== data.numeroAfiliado) {
+            setData(prev => ({ ...prev, numeroAfiliado: numeroAfiliado }))
         }
-        
+
         fetchOpciones()
 
     }, [numeroAfiliado, data.numeroAfiliado])
-
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setData(prev => ({...prev, [name]: value}))
-        if(value) {
-            setErrores(prev => ({...prev, [name]: ""}))
+        setData(prev => ({ ...prev, [name]: value }))
+        if (value) {
+            setErrores(prev => ({ ...prev, [name]: "" }))
         }
     }
-
+    
     const handleSiguiente = (event) => {
         event.preventDefault();
         const nuevosErrores = {}
 
-        if(!data.integrante){nuevosErrores.integrante = "Seleccione un integrante"}
-        if(!data.especialidad){nuevosErrores.especialidad = "Seleccione una especialidad"}
+        if (!data.integrante) { nuevosErrores.integrante = "Seleccione un integrante" }
+        if (!data.especialidad) { nuevosErrores.especialidad = "Seleccione una especialidad" }
 
-        if(Object.keys(nuevosErrores).length >0){
+        if (Object.keys(nuevosErrores).length > 0) {
             setErrores(nuevosErrores)
             return;
         }
@@ -113,29 +120,29 @@ const FormularioTurnos = () => {
         event.preventDefault()
 
         const nuevosErrores = {}
-        if(!data.integrante){nuevosErrores.integrante = "Seleccione un integrante"}
-        if(!data.especialidad){nuevosErrores.especialidad = "Seleccione una especialidad"}
+        if (!data.integrante) { nuevosErrores.integrante = "Seleccione un integrante" }
+        if (!data.especialidad) { nuevosErrores.especialidad = "Seleccione una especialidad" }
 
-        if(Object.keys(nuevosErrores).length >0){
+        if (Object.keys(nuevosErrores).length > 0) {
             setErrores(nuevosErrores)
             return;
         }
         try {
             const response = await fetch("http://localhost:3000/turnos/buscar", {
                 method: "POST",
-                headers:{
+                headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     especialidad: data.especialidad,
                     medico: data.medico || null,
-                    lugarDeAtencion: data.lugarDeAtencion || null, 
+                    lugarDeAtencion: data.lugarDeAtencion || null,
                 })
             })
-            
+
             if (!response.ok) {
                 if (response.status === 404) {
-                    setResultadosBusqueda([]); 
+                    setResultadosBusqueda([]);
                     setPaso(3);
                     return;
                 }
@@ -147,7 +154,7 @@ const FormularioTurnos = () => {
         } catch (error) {
             console.error('Error: ', error)
             setResultadosBusqueda([])
-            setPaso(3) 
+            setPaso(3)
         }
     }
 
@@ -162,24 +169,24 @@ const FormularioTurnos = () => {
 
     const handleSeleccionarFechaHora = (unTurno) => {
         const idTurno = unTurno._id || unTurno.profesional
-        if(!idTurno){ return }
-        
+        if (!idTurno) { return }
+
         const ubicacionArray = Array.isArray(unTurno.direccion) ? unTurno.direccion : [];
         const disponibilidadReal = Array.isArray(unTurno.disponibilidad) ? unTurno.disponibilidad : [];
 
-        const direccionString = 
+        const direccionString =
             ubicacionArray.length > 0
-            ? `${ubicacionArray[0].direccion}, ${ubicacionArray[0].partido}`
-            : 'Dirección no disponible';
+                ? `${ubicacionArray[0].direccion}, ${ubicacionArray[0].partido}`
+                : 'Dirección no disponible';
 
-        const ubicacionParaBackend = 
+        const ubicacionParaBackend =
             ubicacionArray.length > 0
-            ? { 
-                partido: ubicacionArray[0].partido, 
-                direccion: ubicacionArray[0].direccion 
-              } 
-            : { partido: 'Desconocido', direccion: 'Desconocida' }; 
-            
+                ? {
+                    partido: ubicacionArray[0].partido,
+                    direccion: ubicacionArray[0].direccion
+                }
+                : { partido: 'Desconocido', direccion: 'Desconocida' };
+
         const primerDia = disponibilidadReal.find(d => d.hora.length > 0);
         const fechaInicial = primerDia?.fecha || null;
         const horaInicial = primerDia?.hora[0] || null;
@@ -187,31 +194,31 @@ const FormularioTurnos = () => {
         setTurnoSeleccionado({
             ...unTurno,
             id: idTurno,
-            disponibilidad: disponibilidadReal, 
-            direccion: direccionString, 
-            dataUbicacionBackend: ubicacionParaBackend, 
-            fechaSeleccionada: fechaInicial, 
-            horaSeleccionada: horaInicial 
+            disponibilidad: disponibilidadReal,
+            direccion: direccionString,
+            dataUbicacionBackend: ubicacionParaBackend,
+            fechaSeleccionada: fechaInicial,
+            horaSeleccionada: horaInicial
         });
         setModalFechaHora(true);
     }
 
     const handleFechaHoraChange = (event) => {
         const { name, value } = event.target;
-        if(!turnoSeleccionado){return;}
+        if (!turnoSeleccionado) { return; }
 
         let horaSeleccionada = turnoSeleccionado.horaSeleccionada;
         let fechaSeleccionada = turnoSeleccionado.fechaSeleccionada
 
-        if(name==='fecha'){
-            const disponibilidadFecha = turnoSeleccionado.disponibilidad.find(dia => dia.fecha ===value);
+        if (name === 'fecha') {
+            const disponibilidadFecha = turnoSeleccionado.disponibilidad.find(dia => dia.fecha === value);
             fechaSeleccionada = value
             horaSeleccionada = disponibilidadFecha && disponibilidadFecha.hora.length > 0 ? disponibilidadFecha.hora[0] : null
-        }else if(name==='hora'){
+        } else if (name === 'hora') {
             horaSeleccionada = value
         }
 
-        setTurnoSeleccionado(prev =>({
+        setTurnoSeleccionado(prev => ({
             ...prev,
             fechaSeleccionada: fechaSeleccionada,
             horaSeleccionada: horaSeleccionada
@@ -219,15 +226,15 @@ const FormularioTurnos = () => {
     }
 
 
-    const handleConfirmarTurno = async() => {
-        if(!turnoSeleccionado?.fechaSeleccionada || !turnoSeleccionado.horaSeleccionada) return;
-        
+    const handleConfirmarTurno = async () => {
+        if (!turnoSeleccionado?.fechaSeleccionada || !turnoSeleccionado.horaSeleccionada) return;
+
         const turnoParaGuardar = {
-            numeroAfiliado: Number(data.numeroAfiliado), 
+            numeroAfiliado: Number(data.numeroAfiliado),
             integrante: data.integrante,
             especialidad: data.especialidad,
             medico: turnoSeleccionado.profesional,
-            lugarDeAtencion: [turnoSeleccionado.dataUbicacionBackend], 
+            lugarDeAtencion: [turnoSeleccionado.dataUbicacionBackend],
             fecha: turnoSeleccionado.fechaSeleccionada,
             hora: turnoSeleccionado.horaSeleccionada,
         }
@@ -259,7 +266,7 @@ const FormularioTurnos = () => {
         }
     }
 
-    const handleConfirmacionFinal = () =>{
+    const handleConfirmacionFinal = () => {
         setModalConfirmar(false)
         navigate("/consultar-turnos");
     }
@@ -381,27 +388,75 @@ const FormularioTurnos = () => {
                                         <option key={partido} value={partido}>
                                             {partido}
                                         </option>
-                                    ))
-                                }
-                            </Form.Select>
-                        </Form.Group>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
 
-                        <div className={styles.datos}>
-                            <p><strong>Integrante: </strong>{data.integrante}</p>
-                            <p><strong>Especialidad: </strong>{data.especialidad}</p>
-                        </div>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Lugar de Atención (Opcional)</Form.Label>
+                                <Form.Select
+                                    name="lugarDeAtencion"
+                                    value={data.lugarDeAtencion}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Seleccione un lugar</option>
+                                    {
+                                        lugaresUnicos.map((partido) => (
+                                            <option key={partido} value={partido}>
+                                                {partido}
+                                            </option>
+                                        ))
+                                    }
+                                </Form.Select>
+                            </Form.Group>
 
-                        <div className={styles.botones}>
-                            <Button variant="secondary" type="button" onClick={()=>setPaso(1)}>Anterior</Button>
-                            <Button type="submit" className={styles.botonBuscar}>Buscar</Button>
+                            <div className={styles.datos}>
+                                <p><strong>Integrante: </strong>{data.integrante}</p>
+                                <p><strong>Especialidad: </strong>{data.especialidad}</p>
+                            </div>
+
+                            <div className={styles.botones}>
+                                <Button variant="secondary" type="button" onClick={() => setPaso(1)}>Anterior</Button>
+                                <Button type="submit" className={styles.botonBuscar}>Buscar</Button>
+                            </div>
+                        </Form>
+                    )}
+                </div>
+                {paso === 3 && (
+                    <div className={styles.resultadosContainer}>
+                        <div className={styles.botonVolverContainer}>
+                            <Button variant="secondary" onClick={handleVolverBusqueda}>Volver a la búsqueda</Button>
                         </div>
-                    </Form>
-                )}
-            </div>
-            {paso===3 && (
-                <div className={styles.resultadosContainer}>
-                    <div className={styles.botonVolverContainer}>
-                        <Button variant="secondary" onClick={handleVolverBusqueda}>Volver a la búsqueda</Button>
+                        <div className={styles.cardsContainer}>
+                            {resultadosBusqueda.length > 0 ? (
+                                resultadosBusqueda.map((turno) => {
+
+                                    const ubicacionArray = Array.isArray(turno.direccion) ? turno.direccion : [];
+                                    const direccionString =
+                                        ubicacionArray.length > 0
+                                            ? `${ubicacionArray[0].direccion}, ${ubicacionArray[0].partido}`
+                                            : 'Dirección no disponible';
+
+                                    const turnoRender = {
+                                        ...turno,
+                                        direccion: direccionString,
+                                        telefonos: String(turno.telefonos)
+                                    };
+
+                                    return (
+                                        <div key={turno.id || turno._id || turno.profesional} className="mb-4" style={{ maxWidth: '450px', width: '100%' }}>
+                                            <CardDinamica
+                                                data={turnoRender}
+                                                header={`Turno en ${turnoRender.direccion}`}
+                                                color={'aceptada'}
+                                                camposCard={camposCardTurno}
+                                                tieneContenidoExtra={getContenidoExtra(turnoRender)}
+                                            />
+                                        </div>
+                                    )
+                                })
+                            ) : (<p className="text-center">No se encontraron turnos disponibles con los criterios seleccionados.</p>)}
+                        </div>
                     </div>
                     <div className={styles.cardsContainer}>
                         {resultadosBusqueda.length > 0 ? (
@@ -490,13 +545,8 @@ const FormularioTurnos = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="danger" onClick={() => setModalFechaHora(false)}>Cancelar</Button>
-                        <Button 
-                            variant="success"
-                            onClick={handleConfirmarTurno} 
-                            disabled={!turnoSeleccionado.fechaSeleccionada || !turnoSeleccionado.horaSeleccionada}
-                        > Confirmar Turno
-                        </Button>
+                        <Button onClick={() => setModalCancelar(false)} style={{ backgroundColor: '#24979B', border: 'none' }}>Volver</Button>
+                        <Button onClick={handleCancelar} style={{ backgroundColor: '#E64F4F', border: 'none' }}>Continuar</Button>
                     </Modal.Footer>
                     </>
                 )}
