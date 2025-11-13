@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import prestadores from '../../db/prestadores.js'
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import FormPrestadores from '../../components/FormPrestadores/FormPrestadores.jsx'
 import styles from './CartillaPrestadores.module.css'
@@ -14,10 +13,10 @@ const cardData = {
     camposCard: [
         // Campo: es el nombre en negrita de la fila
         // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
-        { campo: 'Dirección', propiedad: 'direccion' },
+        { campo: 'Dirección', propiedad: 'ubicacion.direccion' },
         { campo: 'Teléfonos', propiedad: 'telefono' },
         { campo: 'Especialidad', propiedad: 'especialidad' },
-        { campo: 'Tipo de prestador', propiedad: 'tipoDePrestador' }
+        { campo: 'Tipo de prestador', propiedad: 'tipo' }
     ]
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
 };
@@ -25,27 +24,30 @@ const cardData = {
 const cartillaPrestadores = () => {
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
     const navigate = useNavigate();
-    useEffect( () => {
+    useEffect(() => {
         document.title = 'Cartilla de Prestadores - Medicina Integral'
         if (!dataAfiliado) {
-                    navigate("/login");
-                }
+            navigate("/login");
+        }
+
+        fetch('http://localhost:3000/prestadores')
+        .then( response => {
+            if(!response.ok) throw new Error('Error en la obtener los prestadores')
+            return response.json()
+        })
+        .then( data => {
+            setPrestadores(data)
+        }).catch( error => console.error("Error: ", error))
     }, []);
 
-    const [especialidad, setEspecialidad] = useState('')
+    const [prestadores, setPrestadores] = useState([])
+    const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState('')
+    const [ubicaciones, setUbicaciones] = useState([])
+    const [ubicacionSeleccionada, setUbicacionSeleccionada] = useState('')
     const [resultado, setResultado] = useState(prestadores)
 
     const manejarResultadoBusqueda = (resultados) => {
         setResultado(resultados)
-    }
-
-    const cambiarEspecialidad = (value) => setEspecialidad(value)
-
-    const buscarPrestadores = (e) => {
-        e.preventDefault()
-
-        const prestadoresEncontrados = prestadores.filter((prestador) => prestador.especialidad === especialidad)
-        setResultado(prestadoresEncontrados)
     }
 
     return (
@@ -53,7 +55,7 @@ const cartillaPrestadores = () => {
             <div className={styles.containerCartillaPrestadores}>
                 <h1 className={styles.tituloPrestadores}>Cartilla de Prestadores</h1>
                 <section className='conteinerFormPrestadores'>
-                    <FormPrestadores prestadores={prestadores} onBuscar={manejarResultadoBusqueda} buscarPrestadores={buscarPrestadores} especialidad={cambiarEspecialidad} />
+                    <FormPrestadores prestadores={prestadores} onBuscar={manejarResultadoBusqueda}  />
                 </section>
 
                 <section className={styles.containerResultadosPrestadores}>
@@ -64,12 +66,12 @@ const cartillaPrestadores = () => {
                             {...cardData}
 
                             //Estos son los que hay que modificar segun la data a mostrar 
-                            key={prestador.id}          //La key del componente (debe ser un valor único!!)
+                            key={prestador._id}          //La key del componente (debe ser un valor único!!)
                             data={prestador}            //Elemento actual en la iteración del map
                             header={prestador.nombre}   //El título de la card
-                        />                
+                        />
                     ))) : (
-                        <p>No se encontraron resultados</p>
+                        <p className={styles.parrafo}>No se encontraron resultados</p>
                     )}
                 </section>
             </div>

@@ -8,39 +8,76 @@ import './FormPrestadores.css'
 
 
 
-const FormPrestadores = (props) => {
+const FormPrestadores = ({ prestadores, onBuscar }) => {
+    const [nombre, setNombre] = useState("")
+    const [especialidad, setEspecialidad] = useState("")
+    const [ubicacion, setUbicacion] = useState("")
+    const [tipoPrestador, setTipoPrestador] = useState("")
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        const resultadosFiltrados = prestadores.filter((p) => {
+
+            const coincideNombre =
+                nombre === "" || p.nombre.toLowerCase().includes(nombre.toLowerCase())
+
+            const coincideEspecialidad =
+                especialidad === "" || p.especialidad === especialidad
+
+            const coincideUbicacion =
+                ubicacion === "" ||
+                (Array.isArray(p.ubicacion) &&
+                    p.ubicacion.some((u) => u.toLowerCase().includes(ubicacion.toLowerCase())))
+
+            const coincideTipo =
+                tipoPrestador === "" || p.tipo === tipo
+
+            return coincideNombre && coincideEspecialidad && coincideUbicacion && coincideTipo
+        })
+
+        onBuscar(resultadosFiltrados)
+    }
+
+    const especialidadesUnicas = [...new Set(prestadores.map((p) => p.especialidad))]
+    const tiposUnicos = [...new Set(prestadores.map((p) => p.tipo))]
 
     return (
         <>
-            <Form onSubmit={(e) => props.buscarPrestadores(e)} className="formPrestadores" >
+            <Form onSubmit={handleSubmit} className="formPrestadores" >
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formNombrePrestador">
                         <Form.Label>Buscar por nombre</Form.Label>
-                        <Form.Control type="text" placeholder="Juan Gomez / Centro Medico BA" />
+                        <Form.Control type="text" placeholder="Juan Gomez / Centro Medico BA" value={nombre} onChange={(e) => setNombre(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formEspecialidadPrestador">
-                        <Form.Label>Especialidad<span style={{color: 'red'}}>*</span></Form.Label>
-                        <Form.Select onChange={(e) => props.especialidad(e.target.value)} defaultValue="" >
-                            <option className="options" value={"Cardiología"}>Cardiología</option>
-                            <option className="options" value={"Diabetología"}>Diabetología</option>
-                            <option className="options" value={"Psicología"}>Psicología</option>
+                        <Form.Label>Especialidad<span style={{ color: 'red' }}>*</span></Form.Label>
+                        <Form.Select value={especialidad} onChange={(e) => setEspecialidad(e.target.value)}>
+                            <option value="">Seleccione una Especialidad</option>
+                            {especialidadesUnicas.map((esp) => (
+                                <option key={esp} value={esp}> {esp}</option>
+                            ))}
+
                         </Form.Select>
                     </Form.Group>
                 </Row>
 
                 <Form.Group className="mb-3" controlId="formUbicacionPrestador">
                     <Form.Label>Ubicación</Form.Label>
-                    <Form.Control placeholder="1234 Main St" />
+                    <Form.Control type="text" value={ubicacion} onChange={(e) => setUbicacion(e.target.value)} />
                 </Form.Group>
 
                 <Row className="mb-3">
 
                     <Form.Group as={Col} controlId="formTipoPrestador">
                         <Form.Label>Tipo de Prestador</Form.Label>
-                        <Form.Select defaultValue="Tipo de Prestador">
-                            <option className="options">Tipo de Prestador</option>
-                            <option className="options">...</option>
+                        <Form.Select value={tipoPrestador} onChange={(e) => setTipoPrestador(e.target.value)}>
+                            <option value="">Seleccionar tipo</option>
+                            {tiposUnicos.map((tipo) => (
+                                <option key={tipo} value={tipo}>{tipo}</option>
+                            ))}
+
                         </Form.Select>
                     </Form.Group>
 

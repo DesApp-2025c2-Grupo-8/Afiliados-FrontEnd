@@ -27,6 +27,9 @@
   background-position: center;
   padding: 100px 0px;
 }
+.parrafo{
+  margin: auto;
+}
 
 @media (max-width: 768px) {
   .containerResultadosPrestadores {
