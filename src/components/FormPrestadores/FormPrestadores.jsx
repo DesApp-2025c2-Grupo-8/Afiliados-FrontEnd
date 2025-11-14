@@ -21,7 +21,8 @@ const FormPrestadores = (props) => {
 
                     <Form.Group as={Col} controlId="formEspecialidadPrestador">
                         <Form.Label>Especialidad<span style={{color: 'red'}}>*</span></Form.Label>
-                        <Form.Select onChange={(e) => props.especialidad(e.target.value)} defaultValue="" >
+                        <Form.Select onChange={(e) => props.especialidad(e.target.value)} defaultValue="">
+                            <option className="options" value={""}>Seleccionar</option>
                             <option className="options" value={"Cardiología"}>Cardiología</option>
                             <option className="options" value={"Diabetología"}>Diabetología</option>
                             <option className="options" value={"Psicología"}>Psicología</option>

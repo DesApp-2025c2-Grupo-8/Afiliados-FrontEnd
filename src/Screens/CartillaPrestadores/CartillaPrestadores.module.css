@@ -31,6 +31,10 @@
   margin: auto;
 }
 
+.noResultados{
+  margin:auto;
+}
+
 @media (max-width: 768px) {
   .containerResultadosPrestadores {
     margin: 1rem;

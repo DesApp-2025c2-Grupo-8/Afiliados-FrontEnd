@@ -25,10 +25,10 @@ const RUTAS = [
         ruta: '/cartilla-prestadores',
         nombre: 'Cartilla prestadores'
     },
-    {
-        ruta: '/contacto',
-        nombre: 'Contacto'
-    },
+    // {
+    //     ruta: '/contacto',
+    //     nombre: 'Contacto'
+    // },
     {
         ruta: '/perfil',
         nombre: 'Perfil'
