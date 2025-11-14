@@ -69,7 +69,7 @@ const cartillaPrestadores = () => {
                             header={prestador.nombre}   //El título de la card
                         />                
                     ))) : (
-                        <p>No se encontraron resultados</p>
+                        <p className={styles.noResultados}>No se encontraron resultados</p>
                     )}
                 </section>
             </div>

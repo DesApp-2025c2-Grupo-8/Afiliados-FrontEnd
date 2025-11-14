@@ -64,8 +64,8 @@ const AtajosSolicitudes = () => {
     <section className='atajos-solicitudes'>
       <div className='atajos-accion'>
         <h2 className='titulo-atajos-accion'>Atajos de acción</h2>
-        <Link className='btn-accion'> <PiPulse /> Nueva autorización</Link>
-        <Link className='btn-accion'> <LuDollarSign /> Solicitar reintegro</Link>
+        <Link to="/cargar-autorizacion" className='btn-accion'> <PiPulse /> Nueva autorización</Link>
+        <Link to="/solicitar-reintegro" className='btn-accion'> <LuDollarSign /> Solicitar reintegro</Link>
         <Link to="/cargar-receta" className='btn-accion'> <BsClipboard2Plus /> Cargar receta</Link>
       </div>
       <div className='solicitudes-estado'>

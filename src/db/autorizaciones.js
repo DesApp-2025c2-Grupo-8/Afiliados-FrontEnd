@@ -228,7 +228,7 @@ const autorizaciones = [
         estado: 'Observación',
         integrante: 'Santiago Solari',
         medico: 'Dr. Juan Perez',
-        fechaPrevista: '2025-07-15',
+        fechaPrevista: '2025-11-15',
         lugar: 'Hospital Central',
     },
     {
@@ -236,7 +236,7 @@ const autorizaciones = [
         estado: 'Aceptada',
         integrante: 'Lucía Fernández',
         medico: 'Dr. Pablo Torres',
-        fechaPrevista: '2025-09-01',
+        fechaPrevista: '2025-11-10',
         lugar: 'Hospital Central',
     },
 ];
