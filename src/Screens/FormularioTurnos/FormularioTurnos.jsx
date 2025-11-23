@@ -495,12 +495,10 @@ const FormularioTurnos = () => {
                                 </Col>
                             </Row>
                             
-
-
-<p className="mt-3 text-success">Turno preseleccionado: **{formatoFecha(turnoSeleccionado.fechaSeleccionada)}** a las **{turnoSeleccionado.horaSeleccionada}**</p>
+                            <p className="mt-3 text-success">Turno preseleccionado: **{formatoFecha(turnoSeleccionado.fechaSeleccionada)}** a las **{turnoSeleccionado.horaSeleccionada}**</p>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className={styles.modalFooter}>
                         <Button variant="danger" onClick={() => setModalFechaHora(false)}>Cancelar</Button>
                         <Button 
                             variant="success"
@@ -518,9 +516,9 @@ const FormularioTurnos = () => {
                     El turno ha sido solicitado correctamente. <br /> 
                     {turnoConfirmado && (
                         <>
-                            Se ha confirmado el turno para el **día {formatoFecha(turnoConfirmado.fecha)}** a las **{turnoConfirmado.hora}**.
-                            <br/>
-                            Con el Dr/a. **{turnoConfirmado.medico}**.
+                            Se ha confirmado el turno para el día {formatoFecha(turnoConfirmado.fecha)} a las {turnoConfirmado.hora}.
+                            <br />
+                            En la especialidad {turnoConfirmado.especialidad} con el Dr/a. {turnoConfirmado.medico}.
                         </>
                     )}
                 </Modal.Body>
