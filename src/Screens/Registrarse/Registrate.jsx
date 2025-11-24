@@ -37,6 +37,11 @@ const Registro = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  //verificar que sea mayor de 15 años
+  if (new Date().getFullYear() - new Date(formData.fechaNacimiento).getFullYear() <= 16) {
+    setMensaje("Para registrarte tenes que tener 16 años o mas.");
+    return;
+  }
 
   if (formData.password !== formData.confirmPassword) {
     setMensaje("Las contraseñas no coinciden.");
@@ -62,7 +67,7 @@ const handleSubmit = async (e) => {
 
     if (response.ok) {
       setMensaje("Registro exitoso. Redirigiendo al login...");
-      setTimeout(() => navigate("/login"), 2000);
+      navigate("/login")
     } else {
       setMensaje(result.message || "Error al registrarse.");
     }

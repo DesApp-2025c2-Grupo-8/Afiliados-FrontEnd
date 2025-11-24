@@ -1,111 +1,110 @@
-import React, {useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
-
-// import { useNumeroAfiliado } from '../../context/NumeroAfiliado'; 
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 
-
 const periodosOpciones = [
-    'Último año',
-    'Últimos seis meses',
-    'Últimos tres meses',
-    'Último mes',
-    'Últimas dos semanas',
-    'Última semana'
+  'Último año',
+  'Últimos seis meses',
+  'Últimos tres meses',
+  'Último mes',
+  'Últimas dos semanas',
+  'Última semana',
 ];
 
 const cardData = {
-    color: 'observacion',
-    camposCard: [
-        { campo: 'Integrante', propiedad: 'integrante' },
-        { campo: 'Hora', propiedad: 'hora' },
-        { campo: 'Especialidad', propiedad: 'especialidad' },
-        { campo: 'Lugar de Atención', propiedad: 'lugarDeAtencion' }
-    ],
-
+  color: 'observacion',
+  camposCard: [
+    { campo: 'Integrante', propiedad: 'integrante' },
+    { campo: 'Hora', propiedad: 'hora' },
+    { campo: 'Especialidad', propiedad: 'especialidad' },
+    { campo: 'Lugar de Atención', propiedad: 'lugarDeAtencion' },
+  ],
 };
 
-
 const ConsultarTurnos = () => {
-    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
-        const numeroAfiliado = dataAfiliado.numeroAfiliado;
+  const navigate = useNavigate();
+  const { dataAfiliado } = useAfiliadoDatos();
+  const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+  const esTitular = dataAfiliado?.rol === 'TITULAR';
 
-    const esTitular = dataAfiliado.rol === 'TITULAR';
+  const [listaTurnos, setListaTurnos] = useState([]);
+  const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState([]);
+  const [filtroAntiguos, setFiltroAntiguos] = useState(false);
+  const [filtroPeriodo, setFiltroPeriodo] = useState('');
+  const [filtroBusqueda, setFiltroBusqueda] = useState('');
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
+
+  const obtenerFechaDelPeriodoSeleccionado = useCallback((periodo) => {
+    const hoy = new Date();
+    let fecha = new Date(hoy);
+
+    console.log(hoy);
+    console.log(fecha);
     
-    const [listaTurnos, setListaTurnos] = useState([]);
-    const [listaTurnosFiltrados, setListaTurnosFiltrados] = useState([]);
-    const [filtroAntiguos, setFiltroAntiguos] = useState(false);
-    const [filtroPeriodo, setFiltroPeriodo] = useState('');
-    const [filtroBusqueda, setFiltroBusqueda] = useState('');
-    const [mostrarModal, setMostrarModal] = useState(false);
-    const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
-
-    const obtenerFechaDelPeriodoSeleccionado = useCallback((periodo) => {
-        const hoy = new Date();
-        let fecha = new Date(hoy);
-
-        switch(periodo){
-            case 'Último año':
-                fecha.setFullYear(fecha.getFullYear() - 1);
-                break;
-            case 'Últimos seis meses':
-                fecha.setMonth(fecha.getMonth() - 6);
-                break;
-            case 'Últimos tres meses':
-                fecha.setMonth(fecha.getMonth() - 3);
-                break;
-            case 'Último mes':
-                fecha.setMonth(fecha.getMonth() - 1);
-                break;
-            case 'Últimas dos semanas':
-                fecha.setDate(fecha.getDate() - 14);
-                break;
-            case 'Última semana':
-                fecha.setDate(fecha.getDate() - 7);
-                break;
-            default:
-                return new Date(0).toISOString().slice(0,10); 
-        }
-
-        return fecha.toISOString().slice(0,10);
-    }, [])
-
-    const formatearFecha = (fecha) => {
-        if(!fecha || typeof fecha !== 'string') return fecha;
-
-        const partes = fecha.split('-'); 
-        if (partes.length === 3) {
-            return `${partes[2]}-${partes[1]}-${partes[0]}`;
-        }
-        return fecha
+    switch (periodo) {
+      case 'Último año':
+        fecha.setFullYear(fecha.getFullYear() - 1);
+        break;
+      case 'Últimos seis meses':
+        fecha.setMonth(fecha.getMonth() - 6);
+        break;
+      case 'Últimos tres meses':
+        fecha.setMonth(fecha.getMonth() - 3);
+        break;
+      case 'Último mes':
+        fecha.setMonth(fecha.getMonth() - 1);
+        break;
+      case 'Últimas dos semanas':
+        fecha.setDate(fecha.getDate() - 14);
+        break;
+      case 'Última semana':
+        fecha.setDate(fecha.getDate() - 7);
+        break;
+      default:
+        return new Date(0).toISOString().slice(0, 10);
     }
 
-    // funcion para definir una fecha local
-    const fechaLocal = (date) => {
-        const y = date.getFullYear();
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        return `${y}-${m}-${d}`;
+    return fecha.toISOString().slice(0, 10);
+  }, []);
+
+  const formatearFecha = (fecha) => {
+    if (!fecha || typeof fecha !== 'string') return fecha;
+    const partes = fecha.split('-');
+    if (partes.length === 3) {
+      return `${partes[2]}-${partes[1]}-${partes[0]}`;
     }
+    return fecha;
+  };
 
-    const esTurnoAntiguo = useCallback((turno) => {
-        const hoy = fechaLocal(new Date()); // Usar fecha local
-        const horaHoy = new Date().toTimeString().slice(0,5);
+  const fechaLocal = (date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  };
 
-        if(turno.fecha < hoy){
-            return true;
-        }else if(turno.fecha === hoy){
-            return turno.hora <= horaHoy
-        }
+  const esTurnoAntiguo = useCallback((turno) => {
+    const hoy = fechaLocal(new Date());
+    const horaHoy = new Date().toTimeString().slice(0, 5);
 
-        return false; 
-    }, [])
+    if (turno.fecha < hoy) {
+      return true;
+    } else if (turno.fecha === hoy) {
+      return turno.hora <= horaHoy;
+    }
+    return false;
+  }, []);
+
+  const aplicarFiltros = useCallback(
+    (antiguos, periodo, busqueda) => {
+      let turnosFiltrados = listaTurnos.slice();
 
     const aplicarFiltros = useCallback((antiguos, periodo, busqueda) => {
         let turnosFiltrados = listaTurnos.slice();
@@ -257,42 +256,29 @@ const ConsultarTurnos = () => {
       fetchTurnos();
     }, [numeroAfiliado, esTitular, dataAfiliado]);
 
-    
-    useEffect(() => {
-        aplicarFiltros(filtroAntiguos, filtroPeriodo, filtroBusqueda);
-    }, [listaTurnos, aplicarFiltros, filtroAntiguos, filtroPeriodo, filtroBusqueda]);
+    fetchTurnos();
 
-    const handleAbrirModal = (turno) => {
-        setTurnoSeleccionado(turno)
-        setMostrarModal(true)
-    }
+    return () => {
+      abortado = true; // evita que setState corra después del desmontaje
+    };
+  }, [numeroAfiliado, esTitular, dataAfiliado, navigate]);
 
-    const handleCancelarTurno = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:3000/turnos/cancelar/${id}`, {
-                method: "PATCH",
-                headers: { 'Content-Type': 'application/json'},
-            })
-            await response.json()
-            
-            const turnosActualizados = listaTurnos.filter(t => t._id !== id);
-            setListaTurnos(turnosActualizados); 
-            setMostrarModal(false)
-            setTurnoSeleccionado(null);
-        } catch (error) {
-            console.error('Error al cancelar el turno: ', error);
-            setMostrarModal(false)
-            setTurnoSeleccionado(null)
-        }
-    }
+  useEffect(() => {
+    aplicarFiltros(filtroAntiguos, filtroPeriodo, filtroBusqueda);
+  }, [listaTurnos, aplicarFiltros, filtroAntiguos, filtroPeriodo, filtroBusqueda]);
 
-    const handleBusqueda = (texto) => {
-        setFiltroBusqueda(texto);
-    }
+  const handleAbrirModal = (turno) => {
+    setTurnoSeleccionado(turno);
+    setMostrarModal(true);
+  };
 
-    const handleFiltrarPorPeriodo = (periodo) => {
-        setFiltroPeriodo(periodo);
-    }
+  const handleCancelarTurno = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/turnos/cancelar/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      await response.json();
 
     const handleFiltrarPorAntiguos = (isChecked) => {
         setFiltroAntiguos(isChecked);
@@ -300,13 +286,16 @@ const ConsultarTurnos = () => {
             setFiltroPeriodo('');
         }
     }
+  };
 
-    
-    const limpiarFiltros = () => {
-        setFiltroAntiguos(false);
-        setFiltroPeriodo('');
-        setFiltroBusqueda('');
-    }
+  const handleBusqueda = (texto) => setFiltroBusqueda(texto);
+  const handleFiltrarPorPeriodo = (periodo) => setFiltroPeriodo(periodo);
+  const handleFiltrarPorAntiguos = (isChecked) => setFiltroAntiguos(isChecked);
+  const limpiarFiltros = () => {
+    setFiltroAntiguos(false);
+    setFiltroPeriodo('');
+    setFiltroBusqueda('');
+  };
 
     return(
         <>
@@ -389,36 +378,94 @@ const ConsultarTurnos = () => {
                     </section>
                 </div>
             </div>
+            <div className={styles.botonAntiguosContainer}>
+              <label className={styles.botonAntiguos}>
+                <input
+                  type="checkbox"
+                  checked={filtroAntiguos}
+                  onChange={(e) => handleFiltrarPorAntiguos(e.target.checked)}
+                />
+                Turnos pasados
+              </label>
+            </div>
+            <hr />
+            <FiltrosCards
+              label={'Período'}
+              default={'TODO'}
+              opciones={periodosOpciones}
+              valorActual={filtroPeriodo}
+              filtrarAlSeleccionar={handleFiltrarPorPeriodo}
+              borrarFiltro={() => handleFiltrarPorPeriodo('')}
+            />
+            <hr />
+            <h3>{listaTurnosFiltrados.length} turno(s) encontrados</h3>
+          </section>
 
-            {mostrarModal && turnoSeleccionado &&(
-                <div className={styles.modalContainer}>
-                    <div className={styles.modalBox}>
-                        <div className={styles.modalHeader}>
-                            <h2>Cancelar Turno</h2>
-                        </div>
-                        <p className={styles.modalBody}>
-                            ¿Deseas cancelar el turno para <strong>{turnoSeleccionado.integrante}</strong> el día <strong>{formatearFecha(turnoSeleccionado.fecha)} - {turnoSeleccionado.hora}</strong>?
-                        </p>
-                        
-                        <div className={styles.modalFooter}>
-                            <button className={styles.botonVolver}
-                                onClick={() => {
-                                    setMostrarModal(false)
-                                    setTurnoSeleccionado(null)
-                                }}>
-                                Volver
-                            </button>
-                            <button className={styles.botonCancelarTurno}
-                                onClick={() => handleCancelarTurno(turnoSeleccionado._id)} 
-                            >
-                                Cancelar Turno
-                            </button>
-                        </div>
-                    </div>
-                </div>
+          <section className={styles.turnosContainer}>
+            {listaTurnosFiltrados.length === 0 ? (
+              <h2>No existen turnos con los filtros ingresados</h2>
+            ) : (
+              listaTurnosFiltrados.map((unTurno, idx) => (
+                <CardDinamica
+                  {...cardData}
+                  data={unTurno}
+                  header={`Fecha de Turno: ${formatearFecha(unTurno.fecha)}`}
+                  key={idx}
+                  tieneContenidoExtra={
+                    !esTurnoAntiguo(unTurno) ? (
+                      <button
+                        className={styles.botonAbrirModal}
+                        onClick={() => handleAbrirModal(unTurno)}
+                      >
+                        Cancelar Turno
+                      </button>
+                    ) : null
+                  }
+                />
+              ))
             )}
-        </>
-    )
+          </section>
+        </div>
+      </div>
+
+      {mostrarModal && turnoSeleccionado && (
+        <div className={styles.modalContainer}>
+          <div className={styles.modalBox}>
+            <div className={styles.modalHeader}>
+              <h2>Cancelar Turno</h2>
+            </div>
+            <p className={styles.modalBody}>
+              ¿Deseas cancelar el turno para{' '}
+              <strong>{turnoSeleccionado.integrante}</strong> el día{' '}
+              <strong>
+                {formatearFecha(turnoSeleccionado.fecha)} -{' '}
+                {turnoSeleccionado.hora}
+              </strong>
+              ?
+            </p>
+
+            <div className={styles.modalFooter}>
+              <button
+                className={styles.botonVolver}
+                onClick={() => {
+                  setMostrarModal(false);
+                  setTurnoSeleccionado(null);
+                }}
+              >
+                Volver
+              </button>
+              <button
+                className={styles.botonCancelarTurno}
+                onClick={() => handleCancelarTurno(turnoSeleccionado._id)}
+              >
+                Cancelar Turno
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default ConsultarTurnos;

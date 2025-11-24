@@ -10,8 +10,8 @@ const Perfil = () => {
     const camposCard = [
         { campo: 'Fecha de nacimiento', propiedad: 'fechaNacimiento', esFecha: true },
         { campo: 'N° Afiliado', propiedad: 'numeroAfiliado' },
-        { campo: 'Teléfono', propiedad: 'telefono' },
-        { campo: 'Email', propiedad: 'email' },
+        // { campo: 'Teléfono', propiedad: 'telefono' },
+        // { campo: 'Email', propiedad: 'email' },
     ]
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
 
@@ -39,8 +39,8 @@ const Perfil = () => {
         
     }, [nroAfiliado, navigate]);
 
-    //cambiar por lo que venga del fetch
-    const grupoFamiliar = dataAfiliado.grupoFamiliar || [];
+
+    const grupoFamiliar = dataAfiliado?.grupoFamiliar || [];
     const edad = Math.floor((new Date() - new Date(usuario.fechaNacimiento)) / (365.25 * 24 * 60 * 60 * 1000));
 
     return (
@@ -69,6 +69,7 @@ const Perfil = () => {
                             <p><strong>Plan Medico:</strong> {usuario.planMedico}</p>
                         </article>
                     </div>
+                    <button className={styles.btnCerrarSesion} onClick={handleCerrarSesion}>Cerrar Sesión</button>
                 </section>
                 <section className={styles.seccionGrupoFamiliar + " " + (grupoFamiliar.length < 1 ? styles.sinGrupoFamiliar : "")}>
                     <h2>Grupo Familiar</h2>
@@ -88,7 +89,7 @@ const Perfil = () => {
                         }
 
                     </div>
-                    <button onClick={handleCerrarSesion}>Cerrar Sesón</button>
+                    
                 </section>
                 
             </div>

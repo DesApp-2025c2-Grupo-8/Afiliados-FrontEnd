@@ -230,7 +230,7 @@ const reintegros = [
     {
         id: '0034',
         fechaDeCarga: '2025-10-05',
-        fechaDePrestacion: '2025-10-04',
+        fechaDePrestacion: '2025-11-11',
         integrante: 'Cachavacha',
         medico: 'Dr. Roberto García',
         especialidad: 'Cirujano',

@@ -20,7 +20,7 @@ export function AppRouter() {
   const location = useLocation();
 
   // Rutas donde no se deben mostrar Header y Footer, si ven una mas agreguen aca
-  const hideLayout = ["/login", "/registro"].includes(location.pathname);
+  const hideLayout = ["/login", "/Login", "/registro", "/Registro"].includes(location.pathname);
 
   return (
     <>
