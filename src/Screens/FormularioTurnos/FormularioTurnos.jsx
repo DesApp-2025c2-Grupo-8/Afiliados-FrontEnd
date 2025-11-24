@@ -311,46 +311,48 @@ const FormularioTurnos = () => {
                 <h4 className={styles.titulo}>Solicitud de Turno</h4>
 
                 {paso ===1 && (
-                    <Form onSubmit={handleSiguiente}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Integrante <span className={styles.obligatorio}>*</span></Form.Label>
-                            <Form.Select
-                                name="integrante"
-                                value={data.integrante}
-                                onChange={handleChange}
-                                isInvalid={!!errores.integrante}
-                            >
-                                <option value="">Seleccione un integrante</option>
-                                 {
-                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
-                                    }
+                    <Form onSubmit={handleSiguiente} >
+                        <div className={styles.paso1}>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Integrante <span className={styles.obligatorio}>*</span></Form.Label>
+                                <Form.Select
+                                    name="integrante"
+                                    value={data.integrante}
+                                    onChange={handleChange}
+                                    isInvalid={!!errores.integrante}
+                                >
+                                    <option value="">Seleccione un integrante</option>
                                     {
-                                        dataAfiliado?.grupoFamiliar.map((usuario) =>
-                                            //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
-                                            esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
-                                                ""
-                                        )}
-                                         <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">{errores.integrante}</Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Especialidad <span className={styles.obligatorio}>*</span></Form.Label>
-                            <Form.Select
-                                name="especialidad"
-                                value={data.especialidad}
-                                onChange={handleChange}
-                                isInvalid={!!errores.especialidad}
-                            >
-                                <option value="">Seleccione una especialidad</option>
-                                {datosFormulario.especialidades.map((especialidad) => (
-                                    <option key={especialidad} value={especialidad}>
-                                        {especialidad}
-                                    </option>
-                                ))}
-                            </Form.Select>
-                            <Form.Control.Feedback type="invalid">{errores.especialidad}</Form.Control.Feedback>
-                        </Form.Group>
+                                            console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
+                                        }
+                                        {
+                                            dataAfiliado?.grupoFamiliar.map((usuario) =>
+                                                //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
+                                                esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
+                                                    ""
+                                            )}
+                                            <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">{errores.integrante}</Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Especialidad <span className={styles.obligatorio}>*</span></Form.Label>
+                                <Form.Select
+                                    name="especialidad"
+                                    value={data.especialidad}
+                                    onChange={handleChange}
+                                    isInvalid={!!errores.especialidad}
+                                >
+                                    <option value="">Seleccione una especialidad</option>
+                                    {datosFormulario.especialidades.map((especialidad) => (
+                                        <option key={especialidad} value={especialidad}>
+                                            {especialidad}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                                <Form.Control.Feedback type="invalid">{errores.especialidad}</Form.Control.Feedback>
+                            </Form.Group>
+                        </div>
                         <div className={styles.botones}>
                             <Button type="button" onClick={cancelar} className={styles.botonCancelar}>Cancelar</Button>
                             <Button type="submit" className={styles.botonSiguiente}>Siguiente</Button>
@@ -413,16 +415,15 @@ const FormularioTurnos = () => {
                     <div className={styles.cardsContainer}>
                         {resultadosBusqueda.length > 0 ? (
                             resultadosBusqueda.map((turno) => {
-
                                 const ubicacionArray = Array.isArray(turno.direccion) ? turno.direccion : [];
-                                const direccionString = 
-                                    ubicacionArray.length > 0
-                                    ? `${ubicacionArray[0].direccion}, ${ubicacionArray[0].partido}`
-                                    : 'Dirección no disponible';
+                                const ubicacion = ubicacionArray.length > 0 ? ubicacionArray[0] : null;
+
+                                const partido = ubicacion ? ubicacion.partido : 'Ubicación no disponible';
+                                const direccionSimple = ubicacion ? ubicacion.direccion : 'Dirección no disponible';
 
                                 const turnoRender = {
                                     ...turno,
-                                    direccion: direccionString, 
+                                    direccion: direccionSimple, 
                                     telefonos: String(turno.telefonos) 
                                 };
 
@@ -430,7 +431,7 @@ const FormularioTurnos = () => {
                                     <div key={turno.id || turno._id || turno.profesional} className={`${styles.cardResultado} mb-4`}>
                                         <CardDinamica
                                             data={turnoRender} 
-                                            header={`Turno en ${turnoRender.direccion}`}
+                                            header={`Turno en ${partido}`} 
                                             color={'aceptada'}
                                             camposCard={camposCardTurno}
                                             tieneContenidoExtra={getContenidoExtra(turnoRender)}
@@ -495,12 +496,10 @@ const FormularioTurnos = () => {
                                 </Col>
                             </Row>
                             
-
-
-<p className="mt-3 text-success">Turno preseleccionado: **{formatoFecha(turnoSeleccionado.fechaSeleccionada)}** a las **{turnoSeleccionado.horaSeleccionada}**</p>
+                            <p className="mt-3 text-success">Turno preseleccionado: **{formatoFecha(turnoSeleccionado.fechaSeleccionada)}** a las **{turnoSeleccionado.horaSeleccionada}**</p>
                         </Form>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className={styles.modalFooter}>
                         <Button variant="danger" onClick={() => setModalFechaHora(false)}>Cancelar</Button>
                         <Button 
                             variant="success"
@@ -515,12 +514,11 @@ const FormularioTurnos = () => {
             <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
 
                 <Modal.Body> 
-                    El turno ha sido solicitado correctamente. <br /> 
                     {turnoConfirmado && (
                         <>
-                            Se ha confirmado el turno para el **día {formatoFecha(turnoConfirmado.fecha)}** a las **{turnoConfirmado.hora}**.
-                            <br/>
-                            Con el Dr/a. **{turnoConfirmado.medico}**.
+                            Se ha solicitado el turno para el día {formatoFecha(turnoConfirmado.fecha)} a las {turnoConfirmado.hora}.
+                            <br />
+                            En la especialidad: {turnoSeleccionado.especialidad}.
                         </>
                     )}
                 </Modal.Body>
