@@ -1,7 +1,7 @@
 .registroContainer {
-  /* position: relative; */
   width: 100%;
-  padding: 150px 0;
+  min-height: 100vh;
+  padding: 100px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,37 +11,39 @@
   background-position: center;
 }
 
-.justifyContentCenter{
-  width: 70%;
-  min-width: 600px;
+.justifyContentCenter {
+  width: 100%;
   max-width: 800px;
+  margin: 0 auto;
 }
 
-.colCenter{
+
+.colCenter {
   width: 100%;
 }
 
-.formRegistro{
+
+.formRegistro {
   display: flex;
   flex-wrap: wrap;
-  /* gap: 12px; */
   justify-content: space-between;
+  gap: 12px;
 }
 
-.formGroup{
-  padding: 0 10px;
-  width: 50%;
+.formGroup {
+  width: 48%;
+  padding: 0 5px;
 }
 
-.formGroupFecha{
-  padding: 0 10px;
+.formGroupFecha {
   width: 100%;
+  padding: 0 5px;
 }
 
 .registroBox {
   background-color: #ffffff;
   padding: 2rem;
-  min-width: 100%;
+  width: 100%;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -83,9 +85,20 @@
   text-decoration: underline;
 }
 
+
+@media (max-width: 768px) {
+  .registroContainer {
+    padding: 80px 20px;
+  }
+
+  .formGroup {
+    width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
   .registroBox {
-    padding: 1.5rem;
+    padding: 1.4rem;
   }
 
   .registroBox h2 {
