@@ -8,7 +8,39 @@ import './FormPrestadores.css'
 
 
 
-const FormPrestadores = (props) => {
+const FormPrestadores = ({ prestadores, onBuscar }) => {
+    const [nombre, setNombre] = useState("")
+    const [especialidad, setEspecialidad] = useState("")
+    const [ubicacion, setUbicacion] = useState("")
+    const [tipoPrestador, setTipoPrestador] = useState("")
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        const resultadosFiltrados = prestadores.filter((p) => {
+
+            const coincideNombre =
+                nombre === "" || p.nombre.toLowerCase().includes(nombre.toLowerCase())
+
+            const coincideEspecialidad =
+                especialidad === "" || p.especialidad === especialidad
+
+            const coincideUbicacion =
+                ubicacion === "" ||
+                (Array.isArray(p.ubicacion) &&
+                    p.ubicacion.some((u) => u.toLowerCase().includes(ubicacion.toLowerCase())))
+
+            const coincideTipo =
+                tipoPrestador === "" || p.tipo === tipo
+
+            return coincideNombre && coincideEspecialidad && coincideUbicacion && coincideTipo
+        })
+
+        onBuscar(resultadosFiltrados)
+    }
+
+    const especialidadesUnicas = [...new Set(prestadores.map((p) => p.especialidad))]
+    const tiposUnicos = [...new Set(prestadores.map((p) => p.tipo))]
 
     return (
         <>

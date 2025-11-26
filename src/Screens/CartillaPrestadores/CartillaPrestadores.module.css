@@ -123,6 +123,9 @@
 .noResultados{
   margin:auto;
 }
+.parrafo{
+  margin: auto;
+}
 
 @media (max-width: 768px) {
   .tituloResultadosPrestadores {

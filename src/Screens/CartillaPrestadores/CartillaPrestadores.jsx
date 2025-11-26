@@ -24,11 +24,20 @@ const cardData = {
 const cartillaPrestadores = () => {
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
     const navigate = useNavigate();
-    useEffect( () => {
+    useEffect(() => {
         document.title = 'Cartilla de Prestadores - Medicina Integral'
         if (!dataAfiliado) {
-                    navigate("/login");
-                }
+            navigate("/login");
+        }
+
+        fetch('http://localhost:3000/prestadores')
+        .then( response => {
+            if(!response.ok) throw new Error('Error en la obtener los prestadores')
+            return response.json()
+        })
+        .then( data => {
+            setPrestadores(data)
+        }).catch( error => console.error("Error: ", error))
     }, []);
 
     const [prestadores, setPrestadores] = useState([])
