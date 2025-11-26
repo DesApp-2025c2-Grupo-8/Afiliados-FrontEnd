@@ -1,32 +1,94 @@
 .containerResultadosPrestadores {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  border-radius: 8px;
-  gap: 1rem;
-  margin: 5rem;
-  padding: 1rem;
+  justify-content: center;
+  gap: 25px;
+  padding-bottom: 60px;
 }
 
-.tituloResultadosPrestadores{
-  width: 100%;
+.tituloResultadosPrestadores {
+  position: relative;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #007b8f;
   text-align: center;
-  margin-bottom: 1rem;
+  padding-bottom: 10px;
+  width: fit-content;
+}
+
+.tituloResultadosPrestadores::after {
+  content: "";
+  width: 90px;
+  height: 4px;
+  background: #1a8d92;
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+.containerTituloPrestadores {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
 .tituloPrestadores {
-  width: 100%;
+  background: #ffffffee;
+  padding: 18px 40px;
+  border-radius: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007b8f;
   text-align: center;
-  margin-bottom: 1rem;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.containerTituloSub {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 50px auto 10px;
 }
 
 .containerCartillaPrestadores {
   width: 100%;
-  background-image: url("@assets/images/fondoPrestadores.png");
   background-size: cover;
   background-position: center;
   padding: 100px 0px;
+  --s: 300px;
+  /* control the size*/
+  --c1: #ffffff;
+  --c2: #ebebeb;
+
+  --_g: #0000 8%, var(--c1) 0 17%, #0000 0 58%;
+  background:
+    linear-gradient(135deg, #0000 20.5%, var(--c1) 0 29.5%, #0000 0) 0 calc(var(--s)/4),
+    linear-gradient(45deg, var(--_g)) calc(var(--s)/2) 0,
+    linear-gradient(135deg, var(--_g), var(--c1) 0 67%, #0000 0),
+    linear-gradient(45deg, var(--_g), var(--c1) 0 67%, #0000 0 83%, var(--c1) 0 92%, #0000 0),
+    var(--c2);
+  background-size: var(--s) var(--s);
 }
+
+.sinResultados {
+  background: #ffffff;
+  padding: 14px 24px;
+  border-left: 5px solid #1a8d92;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #007b8f;
+  text-align: center;
+  margin: 30px auto;
+  width: fit-content;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
 
 @media (max-width: 768px) {
   .containerResultadosPrestadores {
