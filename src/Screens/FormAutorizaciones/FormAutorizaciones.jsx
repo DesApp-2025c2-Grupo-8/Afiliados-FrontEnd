@@ -276,7 +276,7 @@ const FormAutorizaciones = () => {
             <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
                 <Modal.Body>
                     La Autorización ha sido cargada correctamente. <br />
-                    Nro.Autorizacion: {nroAutorizacion}
+                    N° Orden: {nroAutorizacion}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={handleConfirmar} style={{ backgroundColor: '#24979B', border: 'none' }}>Aceptar</Button>
