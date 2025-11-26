@@ -81,7 +81,7 @@ const cartillaPrestadores = () => {
                 <div className={styles.containerTituloPrestadores}>
                     <h1 className={styles.tituloPrestadores}>Cartilla de Prestadores</h1>
                 </div>
-                <section className='conteinerFormPrestadores'>
+                <section className={styles.conteinerFormPrestadores}>
                     <FormPrestadores
                         prestadores={prestadores}
                         nombre={nombre}
