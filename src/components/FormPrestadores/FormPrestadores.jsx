@@ -44,20 +44,29 @@ const FormPrestadores = ({ prestadores, onBuscar }) => {
 
     return (
         <>
-            <Form onSubmit={handleSubmit} className="formPrestadores" >
+            <Form onSubmit={props.buscarPrestadores} className="formPrestadores" >
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="formNombrePrestador">
                         <Form.Label>Buscar por nombre</Form.Label>
-                        <Form.Control type="text" placeholder="Juan Gomez / Centro Medico BA" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                        <Form.Control
+                            type="text"
+                            placeholder="Juan Gomez / Centro Medico BA"
+                            value={props.nombre}
+                            onChange={(e) => props.setNombre(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formEspecialidadPrestador">
                         <Form.Label>Especialidad<span style={{ color: 'red' }}>*</span></Form.Label>
-                        <Form.Select value={especialidad} onChange={(e) => setEspecialidad(e.target.value)}>
+                        <Form.Select
+                            value={props.especialidadSeleccionada}
+                            onChange={(e) => props.cambiarEspecialidad(e.target.value)}
+                            >
+
                             <option value="">Seleccione una Especialidad</option>
-                            {especialidadesUnicas.map((esp) => (
-                                <option key={esp} value={esp}> {esp}</option>
-                            ))}
+                            {props.prestadores &&
+                                [...new Set(props.prestadores.map(p => p.especialidad))].map((especialidad, index) => (
+                                    <option key={index} value={especialidad}>{especialidad}</option>
+                                ))}
 
                         </Form.Select>
                     </Form.Group>
@@ -65,19 +74,32 @@ const FormPrestadores = ({ prestadores, onBuscar }) => {
 
                 <Form.Group className="mb-3" controlId="formUbicacionPrestador">
                     <Form.Label>Ubicación</Form.Label>
-                    <Form.Control type="text" value={ubicacion} onChange={(e) => setUbicacion(e.target.value)} />
+                    <Form.Select
+                        value={props.ubicacion}
+                        disabled={!props.especialidadSeleccionada}
+                        onChange={(e) => props.setUbicacion(e.target.value)} >
+                        <option value="">Seleccione una Ubicación</option>
+                        {props.ubicaciones.map((ubi, index) => (
+                            <option key={index} value={ubi}>{ubi}</option>
+                        ))}
+
+                    </Form.Select>
                 </Form.Group>
 
                 <Row className="mb-3">
 
                     <Form.Group as={Col} controlId="formTipoPrestador">
                         <Form.Label>Tipo de Prestador</Form.Label>
-                        <Form.Select value={tipoPrestador} onChange={(e) => setTipoPrestador(e.target.value)}>
-                            <option value="">Seleccionar tipo</option>
-                            {tiposUnicos.map((tipo) => (
-                                <option key={tipo} value={tipo}>{tipo}</option>
-                            ))}
+                        <Form.Select 
+                            value={props.tipo}
+                            disabled={!props.especialidadSeleccionada}
+                            onChange={(e) => props.setTipoPrestador(e.target.value)}>
 
+                            <option value="">Seleccione un Tipo de Prestador</option>
+                            {props.tipos.map((tipo, index) => (
+                                <option key={index} value={tipo}>{tipo}</option>
+                            ))}
+                            
                         </Form.Select>
                     </Form.Group>
 

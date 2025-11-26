@@ -23,18 +23,18 @@ const Home = () => {
     const cardsResumen = [
         {
             titulo: "Pendientes de procesamiento",
-            cantidad: 1,
+            cantidad: 4,
             estado: "pendiente",
             icono: "<AiOutlineClockCircle/>"
         },
         {
             titulo: "En observación",
-            cantidad: 0,
+            cantidad: 3,
             estado: "observacion"
         },
         {
             titulo: "Rechazadas",
-            cantidad: 2,
+            cantidad: 1,
             estado: "rechazada"
         },
         {

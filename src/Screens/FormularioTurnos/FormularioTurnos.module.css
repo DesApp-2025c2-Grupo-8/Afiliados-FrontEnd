@@ -6,6 +6,7 @@
     background-size: cover;
     background-position: center;
 }
+
 .obligatorio{
     color: #E64F4F;
 }
@@ -19,13 +20,17 @@
     padding-top: 0;
 }
 
+.container h4{
+    margin-bottom: 30px;
+}
 
 .card {
     background-color: #FFFFFF;
     padding: 2rem;
     border-radius: 12px;
-    max-width: 600px;
+    max-width: 500px;
     width: 100%;
+    height: auto;
     margin:auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
 }
@@ -35,6 +40,18 @@
     justify-content: center;
     gap: 1rem;
     margin-top: 1rem;
+    padding-top: 20px;
+}
+
+.paso1 {
+    padding-bottom: 40px; 
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.paso1 .mb-3 {
+    margin-bottom: 0 !important;
 }
 
 .titulo {
@@ -48,6 +65,22 @@
     justify-content: center;
     gap: 1.5rem;
     margin-top: 1rem;
+    align-items: stretch;
+    width: 100%;
+}
+
+.cardResultado {
+    display: flex; 
+    flex-direction: column;
+    max-width: 450px; 
+    width: 100%;
+}
+
+.cardResultado > div { 
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
 }
 
 .cardPaso3 {
@@ -75,7 +108,6 @@
     padding-top:1rem;
     gap: 0.3rem;
 }
-
 
 .botonVolverContainer {
     text-align: center;
@@ -117,9 +149,115 @@ textarea {
     font-weight: bold;
 }
 
-
 .modalTitle {
    color: white;
    text-align: center;
    width: 100%;
+}
+
+@media (max-width: 900px){
+    .card{
+        max-width: 500px;
+        padding: 1.5rem;
+    }
+
+    .titulo{
+        font-size: 1.6rem;
+    }
+
+    .cardsContainer{
+        gap: 1rem;
+    }
+
+    .cardResultado{
+        max-width: 380px;
+        margin-left: 12px;
+        margin-right: 12px;
+    }
+}
+
+@media (max-width: 768px){
+    .fondo {
+        padding-top: 70px;
+        background-position: top;
+    }
+
+    .container{
+        padding: 0 0.5rem; 
+    }
+
+    .card{
+        padding: 1.1rem;
+        border-radius: 8px;
+    }
+
+    .botones{
+        gap: 0.8rem;
+        flex-direction: column;
+    }
+
+    .botones button{
+        width: 100%;
+    }
+
+    .cardsContainer{
+        align-items: center;
+        flex-direction: column;
+        gap: 0.9rem;
+        width: 100%; 
+    }
+
+    .cardResultado{
+        max-width: 350px; 
+        width: 100%;      
+        margin: 0.5rem auto;
+    }
+
+    .modal .datos{
+        font-size: 0.9rem;
+    }
+
+    .modalHeader{
+        text-align: center;
+    }
+
+    .modalTitle{
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px){
+
+    .cardsContainer{
+        width: 100%;
+        max-width: 95%;        
+        margin: 0 auto;
+        gap: 1rem;
+    }
+
+    .cardResultado{
+        width: 100%;           
+        max-width: 300px;       
+        margin: 0 auto;
+        border-radius: 14px;    
+        padding: 0;
+        overflow: hidden;       
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .cardResultado > div {
+        padding: 1.2rem;        
+        box-sizing: border-box;
+        max-width: 300px;
+    }
+    
+    .cardResultado h5,
+    .cardResultado strong {
+        font-size: 1.1rem;
+    }
+
+    .cardResultado p {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+    }
 }

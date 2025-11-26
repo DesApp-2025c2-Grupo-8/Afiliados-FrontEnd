@@ -262,7 +262,7 @@ const recetas = [
   },
   {
     orden: 1556535,
-    fechaDeCarga: '2025-10-04',
+    fechaDeCarga: '2025-11-11',
     integrante: 'Pepe Argento',
     medicamento: 'Paracetamol',
     cantidad: 10,

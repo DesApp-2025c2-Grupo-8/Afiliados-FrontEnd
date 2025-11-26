@@ -50,7 +50,7 @@ const Login = () => {
     for (const afiliado of grupoFamiliar) {
       try {
         const res = await fetch(
-          `http://localhost:3000/users/numeroAfiliado/${afiliado}`
+          `http://localhost:3000/afiliados/numeroAfiliado/${afiliado}`
         );
         if (res.ok) {
           const info = await res.json();
