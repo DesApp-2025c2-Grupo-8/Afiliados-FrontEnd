@@ -2,45 +2,83 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
+import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
+
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [tipoDoc, setTipoDoc] = useState("");
-  const [nroDoc, setNroDoc] = useState("");
+  const [tipoDocumento, setTipoDocumento] = useState("");
+  const [numeroDocumento, setNumeroDocumento] = useState("");
   const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
 
   useEffect(() => {
     document.title = "Iniciar sesión - Medicina Integral";
+    //si el ususario esta iniciado (hay datos en el context) redirigir al home
+    if (dataAfiliado) {
+      navigate("/");
+    }
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch(
-        `http://localhost:3000/usuarios/${tipoDoc}/${nroDoc}`
-      );
+  try {
+    const response = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tipoDocumento, numeroDocumento, password }),
+    });
 
-      if (!response.ok) {
-        setMensaje("Usuario no encontrado");
-        return;
-      }
+    const data = await response.json();
 
-      const user = await response.json();
-
-      if (user.password === password) {
-        setMensaje("Login exitoso");
-        setTimeout(() => navigate("/"), 1500);
-      } else {
-        setMensaje("Contraseña incorrecta");
-      }
-    } catch (error) {
-      console.error(error);
-      setMensaje("Error al conectar con el servidor");
+    if (!response.ok) {
+      setMensaje(data.message || "Error en la autenticación");
+      return;
     }
-  };
+
+    setMensaje("");
+
+    // 🔹 Obtener grupo familiar completo (si hay)
+    const grupoFamiliar = data.user.grupoFamiliar || [];
+    let grupoCompleto = [];
+
+    for (const afiliado of grupoFamiliar) {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/afiliados/numeroAfiliado/${afiliado}`
+        );
+        if (res.ok) {
+          const info = await res.json();
+          grupoCompleto.push(info);
+        }
+      } catch (error) {
+        console.warn("Error al obtener datos del afiliado:", error);
+      }
+    }
+
+    // 🔹 Crear un solo objeto con el usuario principal y su grupo
+    const userData = {
+      ...data.user,
+      grupoFamiliar: grupoCompleto,
+    };
+
+    setDataAfiliado(userData);
+    sessionStorage.setItem("afiliadoDatos", JSON.stringify(userData));
+
+    console.log("Usuario logueado:", userData);
+    navigate("/");
+
+  } catch (error) {
+    console.error("Error:", error);
+    setMensaje("Error al conectar con el servidor.");
+  }
+};
+
 
   return (
     <div className={styles.loginContainer}>
@@ -50,28 +88,28 @@ const Login = () => {
             <h2>Iniciar Sesión</h2>
 
             <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="tipoDoc">
+              <Form.Group controlId="tipoDocumento">
                 <Form.Label>Tipo Documento</Form.Label>
                 <Form.Select
                   required
-                  value={tipoDoc}
-                  onChange={(e) => setTipoDoc(e.target.value)}
+                  value={tipoDocumento}
+                  onChange={(e) => setTipoDocumento(e.target.value)}
                 >
                   <option value="">Seleccione</option>
-                  <option value="dni">DNI</option>
-                  <option value="pasaporte">Pasaporte</option>
-                  <option value="lc">Libreta Cívica</option>
+                  <option value="DNI">DNI</option>
+                  <option value="PASAPORTE">Pasaporte</option>
+                  <option value="LC">Libreta Cívica</option>
                 </Form.Select>
               </Form.Group>
 
-              <Form.Group controlId="nroDoc">
+              <Form.Group controlId="numeroDocumento">
                 <Form.Label>Nro. Documento</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder="99999999"
                   required
-                  value={nroDoc}
-                  onChange={(e) => setNroDoc(e.target.value)}
+                  value={numeroDocumento}
+                  onChange={(e) => setNumeroDocumento(e.target.value)}
                 />
               </Form.Group>
 

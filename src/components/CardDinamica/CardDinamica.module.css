@@ -40,6 +40,13 @@
   font-weight: 700;
   width: 150px;
   margin: 0px;
+  cursor: pointer;
+}
+
+.botonPDF:active {
+  transform: scale(0.96);
+  background-color: #1d425a;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .tieneContenidoExtra {

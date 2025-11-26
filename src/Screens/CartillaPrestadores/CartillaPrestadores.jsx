@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import CardDinamica from '../../components/CardDinamica/CardDinamica';
 import FormPrestadores from '../../components/FormPrestadores/FormPrestadores.jsx'
 import styles from './CartillaPrestadores.module.css'
+import { useNavigate } from "react-router-dom";
+import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
+
 
 const cardData = {
     // Color: Clase para el color del header de la Card, en idex.css
@@ -19,13 +22,13 @@ const cardData = {
 };
 
 const cartillaPrestadores = () => {
-    useEffect(() => {
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const navigate = useNavigate();
+    useEffect( () => {
         document.title = 'Cartilla de Prestadores - Medicina Integral'
-
-        fetch('http://localhost:3000/prestadores')
-            .then(response => response.json())
-            .then(data => setPrestadores(data))
-            .catch(error => console.error('Error al obtener los prestadores:', error));
+        if (!dataAfiliado) {
+                    navigate("/login");
+                }
     }, []);
 
     const [prestadores, setPrestadores] = useState([])
