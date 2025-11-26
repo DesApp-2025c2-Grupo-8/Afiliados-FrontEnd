@@ -336,7 +336,7 @@ const FormularioReintegros = () => {
                 <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
                     <Modal.Body>
                         El reintegro ha sido solicitado correctamente. <br />
-                        Nro.Orden: {nroOrden}
+                        N° Orden: {nroOrden}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={handleConfirmar} style={{ backgroundColor: '#24979B', border: 'none' }}>Aceptar</Button>
