@@ -1,41 +1,9 @@
-.containerResultadoAutorizaciones {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    border-radius: 8px;
-    gap: 1rem;
-    margin: 5rem;
-    padding: 1rem;
-}
-
-.tituloAutorizaciones {
-    position: relative;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #007b8f;
-    padding-bottom: 10px;
-    width: fit-content;
-    text-align: center;
-}
-
-.tituloAutorizaciones::after {
-    content: "";
-    width: 120px;
-    height: 4px;
-    background: #1a8d92;
-    border-radius: 2px;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-}
-
-.containerConsultarAutorizaciones {
+.pantallaDeConsultaContainer {
+    padding-top: 100px;
     width: 100%;
     background-color: #E3E3E3;
     background-size: cover;
     background-position: center;
-    padding: 100px 0px;
     --s: 300px;
     --c1: #ffffff;
     --c2: #ebebeb;
@@ -50,15 +18,13 @@
     background-size: var(--s) var(--s);
 }
 
-.box {
+.filtrosYResultadosConsulta {
     display: flex;
 }
 
-.botonLimpiarFiltrosContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+.tituloPantallaDeConsulta {
+    flex: 1;
+    text-align: center;
 }
 
 .tituloYBotones {
@@ -73,10 +39,16 @@
     margin-left: 20px;
     flex: 2;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* flex-end si no tiene searchbar */
+    /* padding: 1rem 3rem; */
+    /* gap: 5rem; */
+    /* min-width: fit-content; */
+    /* flex-wrap: wrap; */
+    /* align-items: center;
+    width: 100%; */
 }
 
-.botonCargarAutorizacion {
+.botonCargarYSolicitar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,9 +61,25 @@
     font-weight: 700;
 }
 
-.botonCargarReceta:hover {
+.botonLimpiarFiltros span {
+    margin-left: 10px;
+}
+
+.botonCargarYSolicitar span {
+    margin-left: 10px;
+}
+
+.botonCargarYSolicitar:hover {
     color: #000000;
 }
+
+.botonLimpiarFiltrosContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
 
 .botonLimpiarFiltros {
     margin-top: 10px;
@@ -106,13 +94,13 @@
     padding: 0.5rem;
 }
 
-.botonCargarReceta:active,
+.botonCargarYSolicitar:active,
 .botonLimpiarFiltros:active {
     transform: scale(0.97);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.botonCargarReceta:active {
+.botonCargarYSolicitar:active {
     background-color: #e0e0e0;
 }
 
@@ -120,7 +108,12 @@
     background-color: #808080;
 }
 
-.filtroContainer {
+/* 
+.botonesContainer {
+    justify-content: space-evenly;
+} */
+
+.filtrosConsultaContainer {
     position: sticky;
     top: 80px;
     background-color: #f5f5f5;
@@ -132,12 +125,12 @@
     height: fit-content;
 }
 
-.filtroContainer h2,
-.filtroContainer h3 {
+.filtrosConsultaContainer h2,
+.filtrosConsultaContainer h3 {
     text-align: center;
 }
 
-.autorizacionesContainer {
+.resultadosDeConsultaContainer {
     background-color: #f5f5f5;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
     border-radius: 8px;
@@ -154,7 +147,7 @@
     display: none;
 }
 
-.filtroContainer {
+.filtrosConsultaContainer {
     display: block;
 }
 
@@ -174,7 +167,6 @@
 
 .botonFiltrosMobile {
     display: none;
-    /* Oculto por defecto, solo se muestra en móvil */
     align-items: center;
     justify-content: center;
     background-color: #ffffff;
@@ -187,35 +179,41 @@
     border: none;
     cursor: pointer;
     white-space: nowrap;
-    /* Evita que el texto se rompa */
 }
 
 .botonFiltrosMobile.activo {
     background-color: #e0e0e0;
-    /* Color diferente cuando está activo */
 }
 
-.botonFiltroMovil.activo {
+.botonFiltroMobile.activo {
     background-color: #e0e0e0;
-    /* Color diferente cuando está activo */
 }
 
-.botonFiltroMovil span {
+.botonFiltroMobile span {
     margin-left: 10px;
 }
 
+@media (max-width: 1325px) {
+    .filtrosConsultaContainer {
+        width: 50%;
+    }
+
+    .resultadosDeConsultaContainer {
+        width: 50%;
+    }
+}
 
 @media (max-width: 960px) {
-    .box {
+    .filtrosYResultadosConsulta {
         flex-direction: column;
         align-items: center;
     }
 
-    .tituloAutorizaciones {
+    .tituloPantallaDeConsulta {
         text-align: center;
     }
 
-    .filtroContainer {
+    .filtrosConsultaContainer {
         position: static;
         top: auto;
         margin: 0;
@@ -238,7 +236,7 @@
     }
 
     /* Agregar mas margen a los lados??? */
-    .autorizacionesContainer {
+    .resultadosDeConsultaContainer {
         background-color: transparent;
         box-shadow: none;
         width: 100%;
@@ -246,7 +244,7 @@
         padding: 1rem;
     }
 
-    .resultadoFiltro {
+    .textoResultadosDeConsulta {
         grid-column: span 2;
     }
 }
@@ -264,7 +262,7 @@
 }
 
 @media (max-width: 630px) {
-    .botonCargarAutorizacion span {
+    .botonCargarYSolicitar span {
         display: none;
         margin: 0;
     }
@@ -276,7 +274,7 @@
         justify-content: space-around;
     }
 
-    .botonCargarAutorizacion {
+    .botonCargarYSolicitar {
         position: fixed;
         bottom: 1rem;
         right: 1rem;
@@ -300,15 +298,12 @@
         display: flex;
         margin: 0 auto;
         position: absolute;
-        /* dentro del sidebar */
         top: 10px;
         right: 10px;
         background-color: #2C2C2C;
-        /* color oscuro para contraste */
         color: #ffffff;
         border: none;
         border-radius: 50%;
-        /* forma circular */
         width: 35px;
         height: 35px;
         font-size: 1.2rem;
@@ -322,7 +317,7 @@
     }
 
 
-    .filtroContainer {
+    .filtrosConsultaContainer {
         display: flex;
         flex-direction: column;
         gap: 0;
@@ -337,37 +332,49 @@
         padding: 1rem;
         overflow-y: auto;
         z-index: 2000;
-        display: flex;
-        flex-direction: column;
     }
 
-    .filtroContainer:not(.activo) {
+    .filtrosConsultaContainer:not(.activo) {
         transform: translateY(100%);
         transition: none;
     }
 
-    .filtroContainer.activo {
+    .filtrosConsultaContainer.activo {
         transform: translateY(0);
         transition: transform 0.3s ease-in-out;
     }
 
-    .autorizacionesContainer {
+    .resultadosDeConsultaContainer {
         margin: 0;
         padding: 1rem;
     }
-}
 
-@media (max-width: 450px) {
     .tituloYBotones {
-        padding: 0 3rem;
+        padding: 0 1rem;
     }
 
+    /* ESTO SOLO CAMBIA */
     .botonesContainer {
         flex-direction: column;
         width: 100%;
+        max-width: 400px;
+        /* gap: 1rem; */
     }
 
     .botonFiltrosMobile {
         width: 100%;
     }
 }
+
+/* @media (max-width: 450px) {
+    .botonesContainer {
+        flex-direction: column;
+        width: 100%;
+        max-width: 400px;
+        gap: 1rem;
+    }
+
+    .botonFiltrosMobile {
+        width: 100%;
+    }
+} */

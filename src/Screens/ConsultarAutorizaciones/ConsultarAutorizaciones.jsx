@@ -7,6 +7,7 @@ import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
+import { FaFilter } from 'react-icons/fa';
 
 
 
@@ -69,6 +70,22 @@ const ConsultarAutorizaciones = () => {
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
     const [medicosOpcionales, setMedicosOpcionales] = useState([]);
     const [estadosOpciones, setEstadosOpciones] = useState([]);
+    const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);
+
+    const toggleFiltrosMobile = () => {
+        setFiltrosMobileOpen(!filtrosMobileOpen);
+    }
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 630 && filtrosMobileOpen) {
+                setFiltrosMobileOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [filtrosMobileOpen]);
 
 
     const filtrarPorMedico = (unMedico) => {
@@ -254,26 +271,41 @@ const ConsultarAutorizaciones = () => {
 
     return (
         <>
-            <div className={styles.containerConsultarAutorizaciones}>
-                <section className={styles.tituloYBotones}>
-                    <h1 className={styles.tituloAutorizaciones}>Consultar Autorizaciones</h1>
+            <div className={styles.pantallaDeConsultaContainer}>
+                <div className={styles.tituloYBotones}>
+                    <h1 className={styles.tituloPantallaDeConsulta}>Consultar Autorizaciones</h1>
                     <section className={styles.botonesContainer}>
-                        <button className={styles.botonFiltrosMobile} onClick={toggleFiltrosMobile}> <FaFilter /> </button>
+                        <button
+                            className={styles.botonFiltrosMobile}
+                            onClick={toggleFiltrosMobile}
+                        >
+                            <  FaFilter />
+                        </button>
 
-                        <Link className={styles.botonCargarAutorizacion} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} /><span>Cargar Autorización</span></Link>
+                        <Link className={styles.botonCargarYSolicitar} to={'/cargar-autorizacion'}>
+                            <BsClipboard2Plus />
+                            <span>Cargar Autorización</span>
+                        </Link>
                     </section>
-                </section>
+                </div>
 
-                <div className={styles.box}>
-                    <section className={`${styles.filtroContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
-                        <button className={styles.botonCerrarFiltrosMobile} onClick={toggleFiltrosMobile}> X
+                <div className={styles.filtrosYResultadosConsulta}>
+                    <section className={`${styles.filtrosConsultaContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
+                        <button
+                            className={styles.botonCerrarFiltrosMobile}
+                            onClick={toggleFiltrosMobile}
+                        >
+                            X
                         </button>
                         <div className={styles.tituloFiltros}>
                             <h2>Filtrar Autorizaciones por:</h2>
                             <hr />
                         </div>
                         <div className={styles.botonLimpiarFiltrosContainer}>
-                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{ marginLeft: '10px' }} /></button>
+                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>
+                                <MdCancel />
+                                <span>Limpiar filtros</span>
+                            </button>
                         </div>
                         {filtrosConfig
                             .filter(filtro => filtro.opciones.length > 1)
@@ -281,32 +313,31 @@ const ConsultarAutorizaciones = () => {
                                 <FiltrosCards {...unFiltro} key={unFiltro.label} />
                             ))
                         }
-                        <div className={styles.resultadoFiltro}>
+                        <div className={styles.textoResultadosDeConsulta}>
                             <hr />
                             <h3>{listaAutorizacionesFiltradas.length} Autorizacion(es) encontradas</h3>
                         </div>
                     </section>
 
-                    <section className={styles.autorizacionesContainer}>
-                        {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion) => (
-                            <CardDinamica
-                                {...cardData}
-                                color={colorSegunEstado(autorizacion.estado)}
+                    <section className={styles.resultadosDeConsultaContainer}>
+                        {listaAutorizacionesFiltradas.length === 0 ?
+                            <h2>No existen autorizaciones con los filtros ingresados</h2> :
+                            (listaAutorizacionesFiltradas.map((autorizacion) => (
+                                <CardDinamica
+                                    {...cardData}
+                                    color={colorSegunEstado(autorizacion.estado)}
 
-                                key={autorizacion.numeroAutorizacion}
-                                data={{
-                                    ...autorizacion,
-                                    ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias } : { cantDias: 'N/A' })
-                                }
+                                    key={autorizacion.numeroAutorizacion}
+                                    data={{
+                                        ...autorizacion,
+                                        ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias } : { cantDias: 'N/A' }
 
-                                }
-                                header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
-                                tieneBotonDescarga={autorizacion.estado === 'Aceptada'}
-
-                            />
-                        ))) : (
-                            <p>No se encontraron autorizaciones</p>
-                        )}
+                                        )
+                                    }}
+                                    header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
+                                    tieneBotonDescarga={autorizacion.estado === 'Aceptada'}
+                                />
+                            )))}
                     </section>
                 </div>
             </div>
@@ -317,3 +348,29 @@ const ConsultarAutorizaciones = () => {
 
 
 export default ConsultarAutorizaciones
+
+
+
+/*
+<section className={styles.resultadosDeConsultaContainer}>
+                        {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion) => (
+                            <CardDinamica
+                                {...cardData}
+                                color={colorSegunEstado(autorizacion.estado)}
+
+                                key={autorizacion.numeroAutorizacion}
+                                data={{
+                                    ...autorizacion,
+                                    ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias } : { cantDias: 'N/A' }
+
+                                    )
+                                }}
+                                header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
+                                tieneBotonDescarga={autorizacion.estado === 'Aceptada'}
+
+                            />
+                        ))) : (
+                            <p>No se encontraron autorizaciones</p>
+                        )}
+                    </section>
+ */
