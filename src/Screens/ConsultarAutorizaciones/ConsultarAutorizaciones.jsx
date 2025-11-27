@@ -22,8 +22,8 @@ const cardData = {
         { campo: 'Médico/a', propiedad: 'medico' },
         { campo: 'Fecha de Carga', propiedad: 'fechaDeCarga', esFecha: true },
         { campo: 'Lugar de atención', propiedad: 'direccion' },
-        { campo: 'Observaciones', propiedad: 'observaciones'},
-        { campo: 'Cantidad de Dias', propiedad: 'cantDias'}
+        { campo: 'Observaciones', propiedad: 'observaciones' },
+        { campo: 'Cantidad de Dias', propiedad: 'cantDias' }
     ],
     tieneBotonDescarga: true
 }
@@ -255,40 +255,54 @@ const ConsultarAutorizaciones = () => {
     return (
         <>
             <div className={styles.containerConsultarAutorizaciones}>
-                <section className={styles.botonesContainer}>
+                <section className={styles.tituloYBotones}>
                     <h1 className={styles.tituloAutorizaciones}>Consultar Autorizaciones</h1>
-                    <Link className={styles.botonCargarReceta} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} />Cargar Autorización</Link>
+                    <section className={styles.botonesContainer}>
+                        <button className={styles.botonFiltrosMobile} onClick={toggleFiltrosMobile}> <FaFilter /> </button>
+
+                        <Link className={styles.botonCargarAutorizacion} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} /><span>Cargar Autorización</span></Link>
+                    </section>
                 </section>
 
                 <div className={styles.box}>
-                    <section className={styles.filtroContainer}>
-                        <h2>Filtrar Autorizaciones por:</h2>
-                        <hr />
+                    <section className={`${styles.filtroContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
+                        <button className={styles.botonCerrarFiltrosMobile} onClick={toggleFiltrosMobile}> X
+                        </button>
+                        <div className={styles.tituloFiltros}>
+                            <h2>Filtrar Autorizaciones por:</h2>
+                            <hr />
+                        </div>
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{ marginLeft: '10px' }} /></button>
                         </div>
-                        {filtrosConfig.map(unFiltro => (
-                            <FiltrosCards {...unFiltro} key={unFiltro.label} />
-                        ))}
-                        <hr />
-                        <h3>{listaAutorizacionesFiltradas.length} Autorizacion(es) encontradas</h3>
+                        {filtrosConfig
+                            .filter(filtro => filtro.opciones.length > 1)
+                            .map(unFiltro => (
+                                <FiltrosCards {...unFiltro} key={unFiltro.label} />
+                            ))
+                        }
+                        <div className={styles.resultadoFiltro}>
+                            <hr />
+                            <h3>{listaAutorizacionesFiltradas.length} Autorizacion(es) encontradas</h3>
+                        </div>
                     </section>
 
-                    <section className={styles.recetasContainer}>
-                        {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion, idx) => (
+                    <section className={styles.autorizacionesContainer}>
+                        {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion) => (
                             <CardDinamica
                                 {...cardData}
                                 color={colorSegunEstado(autorizacion.estado)}
 
                                 key={autorizacion.numeroAutorizacion}
-                                data={{...autorizacion,
-                                    ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias} : { cantDias: 'N/A'} )
+                                data={{
+                                    ...autorizacion,
+                                    ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias } : { cantDias: 'N/A' })
                                 }
 
                                 }
                                 header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
-                                tieneBotonDescarga= {autorizacion.estado === 'Aceptada'}
-                                
+                                tieneBotonDescarga={autorizacion.estado === 'Aceptada'}
+
                             />
                         ))) : (
                             <p>No se encontraron autorizaciones</p>
