@@ -8,39 +8,8 @@ import './FormPrestadores.css'
 
 
 
-const FormPrestadores = ({ prestadores, onBuscar }) => {
-    const [nombre, setNombre] = useState("")
-    const [especialidad, setEspecialidad] = useState("")
-    const [ubicacion, setUbicacion] = useState("")
-    const [tipoPrestador, setTipoPrestador] = useState("")
-
-    const handleSubmit = (event) => {
-        event.preventDefault()
-
-        const resultadosFiltrados = prestadores.filter((p) => {
-
-            const coincideNombre =
-                nombre === "" || p.nombre.toLowerCase().includes(nombre.toLowerCase())
-
-            const coincideEspecialidad =
-                especialidad === "" || p.especialidad === especialidad
-
-            const coincideUbicacion =
-                ubicacion === "" ||
-                (Array.isArray(p.ubicacion) &&
-                    p.ubicacion.some((u) => u.toLowerCase().includes(ubicacion.toLowerCase())))
-
-            const coincideTipo =
-                tipoPrestador === "" || p.tipo === tipo
-
-            return coincideNombre && coincideEspecialidad && coincideUbicacion && coincideTipo
-        })
-
-        onBuscar(resultadosFiltrados)
-    }
-
-    const especialidadesUnicas = [...new Set(prestadores.map((p) => p.especialidad))]
-    const tiposUnicos = [...new Set(prestadores.map((p) => p.tipo))]
+const FormPrestadores = (props) => {
+    
 
     return (
         <>
@@ -60,7 +29,7 @@ const FormPrestadores = ({ prestadores, onBuscar }) => {
                         <Form.Select
                             value={props.especialidadSeleccionada}
                             onChange={(e) => props.cambiarEspecialidad(e.target.value)}
-                            >
+                        >
 
                             <option value="">Seleccione una Especialidad</option>
                             {props.prestadores &&
@@ -90,7 +59,7 @@ const FormPrestadores = ({ prestadores, onBuscar }) => {
 
                     <Form.Group as={Col} controlId="formTipoPrestador">
                         <Form.Label>Tipo de Prestador</Form.Label>
-                        <Form.Select 
+                        <Form.Select
                             value={props.tipo}
                             disabled={!props.especialidadSeleccionada}
                             onChange={(e) => props.setTipoPrestador(e.target.value)}>
@@ -99,7 +68,7 @@ const FormPrestadores = ({ prestadores, onBuscar }) => {
                             {props.tipos.map((tipo, index) => (
                                 <option key={index} value={tipo}>{tipo}</option>
                             ))}
-                            
+
                         </Form.Select>
                     </Form.Group>
 
