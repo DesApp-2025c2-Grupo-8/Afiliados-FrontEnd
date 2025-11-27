@@ -119,7 +119,7 @@ const AtajosSolicitudes = (props) => {
             </button>
           </div>
           <div className={styles.periodoResultado}>
-            <p className={styles.tituloPeriodo}>Período:</p>
+            <p className={styles.tituloPeriodo}>- Período -</p>
             <div className={styles.periodoBotones}>
               <button className={(periodoSeleccionado === "ultimaSemana" ? styles.activo : styles.btnPeriodo)} onClick={() => setPeriodoSeleccionado("ultimaSemana")}>Últimos 7 días</button>
               <button className={(periodoSeleccionado === "ultimoMes" ? styles.activo : styles.btnPeriodo)} onClick={() => setPeriodoSeleccionado("ultimoMes",)}>Último mes</button>

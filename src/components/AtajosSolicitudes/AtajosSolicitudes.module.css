@@ -10,9 +10,30 @@
 }
 
 .tituloAtajosAccion {
-    margin-bottom: 30px;
+    color: #007b8f;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007b8f;
+    text-align: center;
+    padding-bottom: 10px;
+    position: relative;
     width: 100%;
+    /* background-color: rebeccapurple; */
 }
+
+.tituloAtajosAccion::after {
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
 
 .btnAccion {
     border-radius: 12px;
@@ -34,7 +55,28 @@
 }
 
 .solicitudesEstado h2 {
-    margin-bottom: 30px;
+    color: #007b8f;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007b8f;
+    text-align: center;
+    padding-bottom: 10px;
+    position: relative;
+    width: 100%;
+    /* background-color: rebeccapurple; */
+}
+
+.solicitudesEstado h2::after {
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
 }
 
 .containerEstadoPeriodo {
@@ -161,6 +203,8 @@
 }
 
 @media (max-width: 768px) {
+
+
     .periodoResultado {
         border-top: 2px solid rgb(197, 197, 197);
         padding-top: 10px;
@@ -206,15 +250,21 @@
     
 
     .solicitudesEstado, .solicitudesEstado h2 {
-        margin: 16px;
+        margin: 16px 0;
     }
-
+.solicitudesEstado h2 {
+    font-size: 1.45em; 
+}
 
     /* boton flotante de accion :P */
 
 
     .tituloAtajosAccion {
         display: none;
+    }
+
+    .atajosSolicitudes{
+        padding-bottom: 0;
     }
 
     .atajosSolicitudes .atajosAccion {

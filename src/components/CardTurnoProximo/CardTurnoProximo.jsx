@@ -13,7 +13,8 @@ const CardTurnoProximo = (props) => {
                 <BsCalendar4/>
             </div>
             <div className={styles.datosTurno}>
-                <h3>{fechaFormateada} - {props.hora} - {props.integrante}</h3>
+                <h3>{fechaFormateada} - {props.hora}</h3>
+                <h3>{props.integrante}</h3>
                 <p>{props.prestador} - {props.tipoConsulta}</p>
             </div>
         </article>
