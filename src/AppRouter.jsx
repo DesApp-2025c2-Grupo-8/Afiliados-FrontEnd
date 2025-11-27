@@ -15,6 +15,7 @@ import ConsultarTurnos from "./Screens/ConsultarTurnos/ConsultarTurnos";
 import Perfil from "./Screens/Perfil/Perfil";
 import FormularioReintegros from "./Screens/FormularioReintegros/FormularioReintegros";
 import FormularioTurnos from "./Screens/FormularioTurnos/FormularioTurnos";
+import Contacto from "./Screens/Contacto/Contacto";
 
 export function AppRouter() {
   const location = useLocation();
@@ -41,7 +42,7 @@ export function AppRouter() {
           <Route path='/solicitar-reintegro' Component={FormularioReintegros}/>
           <Route path='/consultar-reintegros' Component={ConsultarReintegros}/>
           <Route path='/cartilla-prestadores' Component={CartillaPrestadores}/>
-          {/* <Route path='/contacto' Component={}/> */}
+          <Route path='/contacto' Component={Contacto}/>
           <Route path='/perfil' Component={Perfil}/>
           
           {/* El de 404 debe siempre estar a lo último, si agregan páginas haganlo por encima de esta. */}
