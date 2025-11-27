@@ -129,17 +129,20 @@
     .header .navMenus{
         display: none;
     }
-
-
+    
+    
     .burgerMenuBtn {
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 12px;
     }
-
+    
     .navegacionPrincipal{
+        /* background-color: red; */
         flex-wrap: wrap;
+        /* padding: 4px; */
+        /* width: 90%; */
     }
 
 

@@ -1,20 +1,20 @@
-.atajosSolicitudes{
+.atajosSolicitudes {
     width: 60%;
     padding: 20px 0px;
 }
 
-.atajosAccion{
+.atajosAccion {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.tituloAtajosAccion{
+.tituloAtajosAccion {
     margin-bottom: 30px;
     width: 100%;
 }
 
-.btnAccion{
+.btnAccion {
     border-radius: 12px;
     font-size: 22px;
     padding: 8px 16px;
@@ -29,15 +29,15 @@
     font-weight: normal;
 }
 
-.solicitudesEstado{
+.solicitudesEstado {
     margin-top: 40px;
 }
 
-.solicitudesEstado h2{
+.solicitudesEstado h2 {
     margin-bottom: 30px;
 }
 
-.containerEstadoPeriodo{
+.containerEstadoPeriodo {
     background-color: white;
     border-radius: 12px;
     padding: 20px;
@@ -45,7 +45,7 @@
 
 }
 
-.seleccionEstado{
+.seleccionEstado {
     border-radius: 12px;
     overflow: hidden;
     width: 100%;
@@ -53,7 +53,8 @@
     justify-content: space-between;
     margin: auto;
 }
-.btnSeleccionEstado{
+
+.btnSeleccionEstado {
     width: 33%;
     border: none;
     padding: 10px 20px;
@@ -64,23 +65,23 @@
 
 
 
-.periodoResultado{
+.periodoResultado {
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.periodoResultado p{
+.periodoResultado p {
     width: 100%;
     font-size: 20px;
 }
 
-.periodoBotones{
+.periodoBotones {
     width: 33%;
 }
 
-.btnPeriodo{
+.btnPeriodo {
     border: none;
     background-color: #E6E6E6;
     color: #757575;
@@ -91,11 +92,12 @@
     width: 80%;
     text-align: left;
 }
-.periodoEstados{
+
+.periodoEstados {
     width: 66%;
 }
 
-.btnSeleccionEstadoActivo{
+.btnSeleccionEstadoActivo {
     width: 33%;
     border: none;
     padding: 10px 20px;
@@ -105,7 +107,7 @@
     color: white;
 }
 
-.activo{
+.activo {
     border: none;
     color: #757575;
     padding: 10px 20px;
@@ -118,7 +120,7 @@
     color: white;
 }
 
-.btnPeriodo{
+.btnPeriodo {
     border: none;
     background-color: #E6E6E6;
     color: #757575;
@@ -130,8 +132,12 @@
     text-align: left;
 }
 
+.atajosAccionMobile {
+    display: none;
+}
+
 @media (max-width: 1200px) {
-    .btnAccion{
+    .btnAccion {
         width: 100%;
         min-width: 100%;
         max-width: 100%;
@@ -143,46 +149,136 @@
 
 
 @media (max-width: 900px) {
-    .atajosSolicitudes{
-    width: 90%;
-    margin: auto;
+    .atajosSolicitudes {
+        width: 90%;
+        margin: auto;
+    }
 
-}
+    .btnPeriodo,
+    .activo {
+        font-size: 18px;
+    }
 }
 
 @media (max-width: 768px) {
-.periodoResultado{
-    border-top: 2px solid rgb(197, 197, 197);
-    padding-top: 10px;
-    flex-wrap: wrap;
-}
-.tituloPeriodo{
-    text-align: center;
-}
-.periodoBotones{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    
-}
-.seleccionEstado{
-    flex-direction: column;
-    
-}
-.periodoEstados{
-    margin: auto;
-    width: 80%;
-}
+    .periodoResultado {
+        border-top: 2px solid rgb(197, 197, 197);
+        padding-top: 10px;
+        flex-wrap: wrap;
+    }
 
-.btnPeriodo, .activo{
-    width: 100%;
-}
+    .tituloPeriodo {
+        text-align: center;
+    }
 
-.btnSeleccionEstado, .btnSeleccionEstadoActivo{
-    width: 100%;
-    margin: auto;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
+    .periodoBotones {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+    }
+
+    .seleccionEstado {
+        flex-direction: column;
+
+    }
+
+    .periodoEstados {
+        margin: auto;
+        width: 100%;
+    }
+
+    .btnPeriodo,
+    .activo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .btnSeleccionEstado,
+    .btnSeleccionEstadoActivo {
+        width: 100%;
+        margin: auto;
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+
+    
+
+    .solicitudesEstado, .solicitudesEstado h2 {
+        margin: 16px;
+    }
+
+
+    /* boton flotante de accion :P */
+
+
+    .tituloAtajosAccion {
+        display: none;
+    }
+
+    .atajosSolicitudes .atajosAccion {
+        overflow: hidden;
+        background-color: #fff;
+        /* display: none; */
+        position: fixed;
+        border-radius: 12px;
+        z-index: 999;
+        width: 0px;
+        right: 10px;
+        max-width: 0px;
+        bottom: 80px;
+        padding: 0;
+        margin: 0;
+        height: auto;
+        max-height: 198px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    }
+
+    .atajosSolicitudes .atajosAccion.mostrar {
+        /* display: block; */
+        padding: 10px;
+        bottom: 80px;
+        width: 100%;
+        max-width: calc(100% - 20px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+        transition: max-width 0.3s ease-in-out;
+    }
+
+
+    .atajosSolicitudes .alargue {
+        width: 100%;
+        max-width: calc(100% - 20px);
+        margin: auto;
+        border-radius: 12px;
+        transition: max-width 0.3s ease-in-out;
+    }
+
+    .atajosAccionMobile .atajosAccionMobileButton {
+        width: 100%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+        background-color: #457B9D;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        font-size: 40px;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .atajosAccionMobile {
+        border-radius: 50%;
+        display: block;
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        z-index: 1000;
+        overflow: hidden;
+        width: auto;
+        max-width: 100px;
+        transition: max-width 0.3s ease-in-out;
+    }
+
 }

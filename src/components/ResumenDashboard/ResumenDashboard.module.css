@@ -32,6 +32,9 @@
     .resumen .cardsResumen{
         flex-direction: column;
     }
+    .resumen{
+        margin-bottom: 0px;
+    }
 
     
 }

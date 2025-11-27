@@ -37,23 +37,31 @@
 @media (max-width: 1200px) {
     .cardResumen {
         max-width: 48%;
-        /* min-width: 300px; */
-        color: white;
-        border-radius: 12px;
-        padding: 20px 30px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
     }
+    
 }
 @media (max-width: 768px) {
     .cardResumen {
         margin: auto;
         max-width: 90%;
-        /* min-width: 200px; */
-        /* max-width: 300px; */
-        color: white;
-        border-radius: 12px;
-        padding: 20px 30px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+        padding: 0 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .cardResumen .tituloCardResumen{
+        font-size: 20px;
+    }
+
+    .cardResumen .cantidadCardResumen{
+        font-size: 40px;
+    }
+
+    .cardResumen .cantidadCardResumen p{
+        margin: 0;
     }
     
 }
