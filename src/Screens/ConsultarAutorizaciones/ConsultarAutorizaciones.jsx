@@ -275,7 +275,6 @@ const ConsultarAutorizaciones = () => {
                     </section>
 
                     <section className={styles.recetasContainer}>
-                        <h2 className={styles.tituloResultadoAutorizaciones}>Resultados de Búsqueda</h2>
                         {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion, idx) => (
                             <CardDinamica
                                 {...cardData}
