@@ -247,14 +247,16 @@
         margin-bottom: 10px;
     }
 
-    
 
-    .solicitudesEstado, .solicitudesEstado h2 {
+
+    .solicitudesEstado,
+    .solicitudesEstado h2 {
         margin: 16px 0;
     }
-.solicitudesEstado h2 {
-    font-size: 1.45em; 
-}
+
+    .solicitudesEstado h2 {
+        font-size: 1.45em;
+    }
 
     /* boton flotante de accion :P */
 
@@ -263,45 +265,39 @@
         display: none;
     }
 
-    .atajosSolicitudes{
+    .atajosSolicitudes {
         padding-bottom: 0;
     }
 
     .atajosSolicitudes .atajosAccion {
         overflow: hidden;
         background-color: #fff;
-        /* display: none; */
         position: fixed;
         border-radius: 12px;
         z-index: 999;
-        width: 0px;
+        max-width: 0;
         right: 10px;
-        max-width: 0px;
         bottom: 80px;
         padding: 0;
         margin: 0;
         height: auto;
         max-height: 198px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+        transform: translateY(10px);
+        pointer-events: none;
+
+        transition:
+            max-width 0.3s ease-in-out,
+            transform 0.3s ease,
+            padding 0.3s ease;
+        min-width: 0;
     }
 
     .atajosSolicitudes .atajosAccion.mostrar {
-        /* display: block; */
+        max-width: calc(100% - 20px);
         padding: 10px;
-        bottom: 80px;
-        width: 100%;
-        max-width: calc(100% - 20px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
-        transition: max-width 0.3s ease-in-out;
-    }
-
-
-    .atajosSolicitudes .alargue {
-        width: 100%;
-        max-width: calc(100% - 20px);
-        margin: auto;
-        border-radius: 12px;
-        transition: max-width 0.3s ease-in-out;
+        transform: translateY(0);
+        pointer-events: all;
     }
 
     .atajosAccionMobile .atajosAccionMobileButton {
@@ -318,6 +314,14 @@
         transition: all 0.3s ease-in-out;
     }
 
+    .atajosSolicitudes .atajosAccionMobile.alargue {
+        /* width: 100%; */
+        max-width: calc(100% - 20px);
+        margin: auto;
+        border-radius: 12px;
+        transition: max-width 0.33s ease-in-out;
+    }
+
     .atajosAccionMobile {
         border-radius: 50%;
         display: block;
@@ -326,9 +330,16 @@
         bottom: 10px;
         z-index: 1000;
         overflow: hidden;
-        width: auto;
-        max-width: 100px;
-        transition: max-width 0.3s ease-in-out;
+        width: 100%;
+        max-width: 64px;
+        transition: max-width 0.33s ease-in-out, border-radius 0.3s ease-in-out;
     }
+    .atajosSolicitudes .atajosAccionMobile.alargue .atajosAccionMobileButton {
+    width: 100%;
+}
+
+    .atajosSolicitudes .atajosAccion > * {
+  min-width: 0;
+}
 
 }
