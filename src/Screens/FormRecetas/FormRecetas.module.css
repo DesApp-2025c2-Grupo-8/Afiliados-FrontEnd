@@ -19,6 +19,12 @@
     padding-bottom: 2rem;
 }
 
+.fondo,
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 
 .card {
     background-color: #FFFFFF;
@@ -83,11 +89,53 @@ button {
 
 @media (max-width: 768px) {
     .card {
+        padding: 1.5rem;
+    }
+
+    .titulo {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 1.2rem;
+        border-radius: 10px;
+    }
+
+    .titulo {
+        font-size: 1.4rem;
+    }
+
+    select,
+    input,
+    textarea {
+        font-size: 0.95rem;
+    }
+
+    button {
+        margin: 2rem 0 1rem 0;
+    }
+}
+
+@media (max-width: 360px) {
+    .card {
         padding: 1rem;
     }
 
     .titulo {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
+    .container select {
+    background-size: 12px;
+    background-position: right 0.8rem center;
+  }
+
+  option{
+        width: 100%;
+        max-width: 280px;
+        min-width: 200px;
+        font-size: 14px;
+    }
 }

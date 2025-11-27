@@ -11,6 +11,12 @@
     color: #E64F4F;
 }
 
+.fondo,
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -95,11 +101,45 @@ button {
 
 @media (max-width: 768px) {
     .card {
+        padding: 1.5rem;
+    }
+
+    .titulo {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 1.2rem;
+        /* Reduce más el padding en mobile */
+        border-radius: 10px;
+    }
+
+    .titulo {
+        font-size: 1.4rem;
+    }
+
+    select,
+    input,
+    textarea {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .card {
         padding: 1rem;
     }
 
     .titulo {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
+    option{
+        width: 100%;
+        max-width: 280px;
+        min-width: 200px;
+        font-size: 14px;
+    }
 }

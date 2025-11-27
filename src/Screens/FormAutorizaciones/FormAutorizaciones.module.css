@@ -97,6 +97,13 @@ label {
     background-size: 12px;
     background-position: right 0.8rem center;
   }
+
+  option{
+        width: 100%;
+        max-width: 280px;
+        min-width: 200px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) and (min-width: 361px) {
