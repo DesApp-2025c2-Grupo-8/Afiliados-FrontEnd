@@ -550,8 +550,12 @@
     }
 }
 
-/* @media (max-width: 450px) {
-    .botonesContainer {
+@media (max-width: 450px) {
+    .botonAbrirModal {
+        font-size: 1rem;
+    }
+
+    /* .botonesContainer {
         flex-direction: column;
         width: 100%;
         max-width: 400px;
@@ -560,5 +564,5 @@
 
     .botonFiltrosMobile {
         width: 100%;
-    }
-} */
+    } */
+}

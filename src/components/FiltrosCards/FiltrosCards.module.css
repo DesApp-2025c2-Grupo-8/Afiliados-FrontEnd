@@ -1,16 +1,18 @@
-.filtroContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    max-width: 500px;
-}
-
 .selectYBotonContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     gap: 10px;
+}
+
+.filtroContainer {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 500px;
+    z-index: 5000;
 }
 
 .botonLimpiar {
@@ -33,6 +35,7 @@
 
 .select {
     margin: 0;
+    width: 100%;
 }
 
 /* @media (max-width: 960px) {
