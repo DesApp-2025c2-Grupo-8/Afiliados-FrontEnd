@@ -39,12 +39,30 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
   
+
+
   .contactoBox h2 {
+    color: #007b8f;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007b8f;
     text-align: center;
-    margin-bottom: 2rem;
-    font-size: 1.8rem;
-    color: #333;
-  }
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.contactoBox h2::after {
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
   
   .contenido {
     display: flex;
@@ -126,6 +144,14 @@
     .info {
       width: 100%;
     }
+  }
+
+  @media (max-width: 768px) {
+    .contactoBox h2 {
+
+    font-size: 1.6rem;
+
+}
   }
   
   @media (max-width: 480px) {

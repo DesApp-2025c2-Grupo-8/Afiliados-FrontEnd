@@ -428,6 +428,12 @@
 
 }
 
+@media (max-width: 768px) {
+    .tituloPantallaDeConsulta {
+        font-size: 1.6rem;
+    }
+}
+
 @media (max-width: 875px) {
     .tituloYBotones {
         flex-direction: column;
