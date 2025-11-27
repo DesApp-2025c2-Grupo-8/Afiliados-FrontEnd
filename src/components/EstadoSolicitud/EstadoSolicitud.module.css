@@ -26,3 +26,21 @@
     height: 6px;
     border-radius: 4px;
 }
+
+@media (max-width: 768px) {
+    .estadoSolicitud  .tituloEstadoSolicitud{
+        padding-left: 12px;
+    }
+    
+}
+
+@media (max-width: 420px) {
+    .estadoSolicitud .tituloEstadoSolicitud{
+        padding-left: 0;
+        min-width: 70%;
+    }
+    .containerCantidadEstadoSolicitud{
+        width: 30%;
+    }
+    
+}

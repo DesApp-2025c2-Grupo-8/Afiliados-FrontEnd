@@ -146,8 +146,10 @@
     .atajosSolicitudes{
     width: 90%;
     margin: auto;
-
 }
+    .btnPeriodo, .activo{
+       font-size: 18px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -172,11 +174,12 @@
 }
 .periodoEstados{
     margin: auto;
-    width: 80%;
+    width: 100%;
 }
 
 .btnPeriodo, .activo{
     width: 100%;
+    text-align: center;
 }
 
 .btnSeleccionEstado, .btnSeleccionEstadoActivo{
