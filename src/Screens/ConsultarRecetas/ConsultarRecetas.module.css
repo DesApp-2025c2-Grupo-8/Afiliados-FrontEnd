@@ -22,10 +22,30 @@
     display: flex;
 }
 
-.botonesContainer {
+.titulo {
+    flex: 1;
+    text-align: center;
+}
+
+.tituloYBotones {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    width: 100%;
     padding: 1rem 3rem;
+}
+
+.botonesContainer {
+    margin-left: 20px;
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    /* padding: 1rem 3rem; */
+    /* gap: 5rem; */
+    /* min-width: fit-content; */
+    /* flex-wrap: wrap; */
+    /* align-items: center;
+    width: 100%; */
 }
 
 .botonCargarReceta {
@@ -37,8 +57,12 @@
     padding: 10px;
     border-radius: 8px;
     color: #000000;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
+}
+
+.botonCargarReceta span {
+    margin-left: 10px;
 }
 
 .botonCargarReceta:hover{
@@ -106,4 +130,98 @@
     margin: 1rem 3rem 5rem 1rem;
     padding: 1rem;
     width: 100%;
+}
+
+@media (max-width: 960px) {
+  .box {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .titulo {
+    text-align: center;
+  }
+
+  .filtroContainer {
+    margin: 0;
+    margin-bottom: 1rem;
+    width: 90%;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-around;
+    gap: 1rem;
+  }
+
+  .tituloFiltros {
+    grid-column: span 2;
+  }
+
+  .botonLimpiarFiltrosContainer {
+    margin-top: 0;
+    grid-column: span 2;
+    justify-content: center;
+  }
+
+  .recetasContainer {
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .resultadoFiltro {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 875px) {
+  .tituloYBotones {
+    flex-direction: column;
+  }
+
+  .botonesContainer {
+    gap: 2rem;
+    margin: 0;
+        padding: 0;
+  }
+}
+
+@media (max-width: 630px) {
+    .botonCargarReceta span {
+        display: none;
+        margin: 0;
+    }
+
+    .botonesContainer {
+        margin: 0;
+        padding: 0;
+    }
+
+    .botonCargarReceta {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 1000;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .filtroContainer {
+        display: none;
+    }
+    
+    /* .filtroContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .tituloFiltros,
+    .botonLimpiarFiltrosContainer,
+    .resultadoFiltro {
+        grid-column: span 1;
+    } */
 }

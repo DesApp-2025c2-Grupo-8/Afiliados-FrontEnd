@@ -25,3 +25,11 @@
 .select{
     margin: 0;
 }
+
+@media (max-width: 960px) {
+    .selectYBotonContainer {
+        min-width: 215px;
+        width: auto;
+        max-width: 300px;
+    }
+}

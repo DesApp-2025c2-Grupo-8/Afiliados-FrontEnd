@@ -282,20 +282,27 @@ const ConsultarRecetas = () => {
         <>
             <div className={styles.consultaRecetasContainer}>
                 {/* <button onClick={() => console.log(listaRecetas)}>Ver recetas por consola</button> */}
-                <section className={styles.botonesContainer}>
-                    <h1>Consultar Recetas</h1>
-                    <SearchBarCards // MEDICAMENTO
-                        filtro={filtrarPorMedicamento}
-                        limpiarFiltros={limpiarFiltroMedicamento}
-                        placeholder={"Ingrese un medicamento..."}
-                        valorInput={filtroMedicamento}
-                    />
-                    <Link className={styles.botonCargarReceta} to={'/cargar-receta'}><BsClipboard2Plus style={{marginRight: '10px'}}/>Cargar Receta</Link>
-                </section>
+                <div className={styles.tituloYBotones}>
+                    <h1 className={styles.titulo}>Consultar Recetas</h1>
+                    <section className={styles.botonesContainer}>
+                        <SearchBarCards // MEDICAMENTO
+                            filtro={filtrarPorMedicamento}
+                            limpiarFiltros={limpiarFiltroMedicamento}
+                            placeholder={"Ingrese un medicamento..."}
+                            valorInput={filtroMedicamento}
+                            />
+                        <Link className={styles.botonCargarReceta} to={'/cargar-receta'}>
+                            <BsClipboard2Plus/>
+                            <span>Cargar Receta</span>
+                        </Link>
+                    </section>
+                </div>
                 <div className={styles.box}>
                     <section className={styles.filtroContainer}>
-                        <h2>Filtrar recetas por:</h2>
-                        <hr />
+                        <div className={styles.tituloFiltros}>
+                            <h2>Filtrar recetas por:</h2>
+                            <hr />
+                        </div>
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
                         </div>
@@ -305,8 +312,10 @@ const ConsultarRecetas = () => {
                                 <FiltrosCards {...unFiltro} key={unFiltro.label}/>
                             ))
                         }
-                        <hr />
-                        <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
+                        <div className={styles.resultadoFiltro}>
+                            <hr />
+                            <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
+                        </div>
                     </section>
                     <section className={styles.recetasContainer}>
                         {listaRecetasFiltradas.length === 0 ?
