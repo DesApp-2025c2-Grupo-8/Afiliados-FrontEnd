@@ -14,6 +14,7 @@ const SearchBarCards = (props) => {
       <div className={styles.searchBarra}>
         <button type='button' className={styles.botonLimpiar} onClick={props.limpiarFiltros}><MdCancel/></button>
         <input
+          name='searchBar'
           type="text"
           placeholder={props.placeholder}
           value={props.valorInput}
