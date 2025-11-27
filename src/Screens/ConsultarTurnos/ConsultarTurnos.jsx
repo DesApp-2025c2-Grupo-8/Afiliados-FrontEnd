@@ -6,6 +6,7 @@ import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
+import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 
 const periodosOpciones = [
@@ -41,6 +42,23 @@ const ConsultarTurnos = () => {
   const [filtroBusqueda, setFiltroBusqueda] = useState('');
   const [mostrarModal, setMostrarModal] = useState(false);
   const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
+
+  // Filtros en mobile
+  const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);    
+  const toggleFiltrosMobile = () => {
+      setFiltrosMobileOpen(!filtrosMobileOpen);
+  }
+
+  useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 630 && filtrosMobileOpen) {
+                setFiltrosMobileOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [filtrosMobileOpen]);
 
   const obtenerFechaDelPeriodoSeleccionado = useCallback((periodo) => {
     const hoy = new Date();
@@ -298,118 +316,143 @@ const ConsultarTurnos = () => {
     };
 
     return(
-        <>
-            <div className={styles.consultaTurnosContainer}>
-                <section className={styles.headerContainer}>
-                    <h1>Consultar Turnos</h1>
-                    <div className={styles.filtroBusquedaContainer}>
-                      <SearchBarCards
-                          valorInput={filtroBusqueda}
-                          filtro={handleBusqueda}
-                          limpiarFiltros={() => {handleBusqueda('');}}
-                          placeholder={"Ingrese un integrante..."}
-                      />
-                    </div>
-                    <Link className={styles.botonSolicitarTurno} to={'/solicitar-turno'}><BsClipboard2Plus style={{ marginRight: '10px' }}/>Solicitar Turno</Link>
-                </section>
+      <>
+        <div className={styles.pantallaDeConsultaContainer}>
+          <div className={styles.tituloYBotones}>
+            <h1 className={styles.tituloPantallaDeConsulta}>Consultar Turnos</h1>
+            <section className={styles.botonesContainer}>
+              <SearchBarCards
+                valorInput={filtroBusqueda}
+                filtro={handleBusqueda}
+                limpiarFiltros={() => { handleBusqueda(''); }}
+                placeholder={"Ingrese un integrante..."}
+              />
+              <Link className={styles.botonCargarYSolicitar} to={'/solicitar-turno'}>
+                <BsClipboard2Plus />
+                <span>Solicitar Turno</span>
+              </Link>
+              <button
+                className={styles.botonFiltrosMobile}
+                onClick={toggleFiltrosMobile}
+              >
+                <FaFilter />
+              </button>
+            </section>
+          </div>
 
-                <button
+          {/* <button
                   className={styles.botonMostrarFiltros}
                   onClick={() => {
                     document.querySelector(`.${styles.filtroContainer}`).classList.toggle(styles.abierto)
                   }}
-                >Mostrar / Ocultar filtros</button>
-                <div className={styles.box}>
-                    <section className={styles.filtroContainer}>
-                        <h2>Filtrar turnos por:</h2> 
-                        <hr />
-                        <div className={styles.botonLimpiarFiltrosContainer}>
-                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros <MdCancel style={{ marginLeft: '10px' }} /></button>
-                        </div>
-                        <div className={styles.botonAntiguosContainer}>
-                            <label className={styles.botonAntiguos}>
-                                <input 
-                                    type='checkbox'
-                                    checked={filtroAntiguos}
-                                    onChange={(e) => handleFiltrarPorAntiguos(e.target.checked)}
-                                />
-                                Turnos Pasados
-                            </label>
-                        </div>
-                        <hr />
-                        {filtroAntiguos && (
-                          <div className={styles.filtroPeriodoBox}> 
-                              <FiltrosCards 
-                                  label={'Período'}
-                                  default={'TODO'}
-                                  opciones={periodosOpciones}
-                                  valorActual={filtroPeriodo}
-                                  filtrarAlSeleccionar = {handleFiltrarPorPeriodo}
-                                  borrarFiltro={() => {handleFiltrarPorPeriodo('')}}
-                              />
-                              <hr />
-                          </div>
-                        )}
-                      <h3>{listaTurnosFiltrados.length} turno(s) encontrados</h3>
-                    </section>
-
-                    <section className={styles.turnosContainer}>
-                        {listaTurnosFiltrados.length === 0 ?
-                            <h2>No existen turnos con los filtros ingresados</h2> :
-                            (listaTurnosFiltrados.map((unTurno, idx) => (
-                                    <CardDinamica
-                                        {...cardData}
-                                        data={unTurno}
-                                        header={`Fecha de Turno: ${formatearFecha(unTurno.fecha)}`}
-                                        key={idx}
-                                        tieneContenidoExtra={
-                                            !esTurnoAntiguo(unTurno) ? (
-                                            <button
-                                                className={styles.botonAbrirModal}
-                                                onClick={() => handleAbrirModal(unTurno)}
-                                            >
-                                            Cancelar Turno
-                                            </button> ) :null
-                                        }
-                                        className={styles.cardTurno}
-                                    />
-                            )))
-                        }
-                    </section>
-                </div>
-            </div>
-
-            {mostrarModal && turnoSeleccionado && (
-              <div className={styles.modalContainer}>
-                <div className={styles.modalBox}>
-                  <div className={styles.modalHeader}>
-                    <h2>Cancelar Turno</h2>
-                  </div>
-                  <p className={styles.modalBody}>
-                    ¿Deseas cancelar el turno para <strong>{turnoSeleccionado.integrante}</strong> el día <strong>{formatearFecha(turnoSeleccionado.fecha)} - {turnoSeleccionado.hora}</strong>?
-                  </p>
-
-                  <div className={styles.modalFooter}>
-                    <button
-                      className={styles.botonVolver}
-                      onClick={() => {
-                        setMostrarModal(false);
-                        setTurnoSeleccionado(null);
-                      }}
-                    >
-                      Volver
-                    </button>
-                    <button
-                      className={styles.botonCancelarTurno}
-                      onClick={() => handleCancelarTurno(turnoSeleccionado._id)}
-                    >
-                      Cancelar Turno
-                    </button>
-                  </div>
-                </div>
+                >Mostrar / Ocultar filtros</button> */}
+          <div className={styles.filtrosYResultadosConsulta}>
+            <section className={`${styles.filtrosConsultaContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
+              <button
+                className={styles.botonCerrarFiltrosMobile}
+                onClick={toggleFiltrosMobile}
+              >
+                X
+              </button>
+              <div className={styles.tituloFiltros}>
+                <h2>Filtrar turnos por:</h2>
+                <hr />
               </div>
-            )}
-    </>
+
+
+              <div className={styles.botonLimpiarFiltrosContainer}>
+                <div className={styles.botonAntiguosContainer}>
+                  <label className={styles.botonAntiguos}>
+                    <input
+                      type='checkbox'
+                      checked={filtroAntiguos}
+                      onChange={(e) => handleFiltrarPorAntiguos(e.target.checked)}
+                    />
+                    Turnos Pasados
+                  </label>
+                </div>
+                <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>
+                  <MdCancel />
+                  <span>Limpiar filtros </span>
+                </button>
+
+              </div>
+              <hr /> 
+              {filtroAntiguos && (
+                <div className={styles.filtroPeriodoBox}>
+                  <FiltrosCards
+                    label={'Período'}
+                    default={'TODO'}
+                    opciones={periodosOpciones}
+                    valorActual={filtroPeriodo}
+                    filtrarAlSeleccionar={handleFiltrarPorPeriodo}
+                    borrarFiltro={() => { handleFiltrarPorPeriodo('') }}
+                    />
+                  <hr />
+                </div>
+              )}
+              <div className={styles.textoResultadosDeConsulta}>
+                <h3>{listaTurnosFiltrados.length} turno(s) encontrados</h3>
+              </div>
+            </section>
+
+            <section className={styles.resultadosDeConsultaContainer}>
+              {listaTurnosFiltrados.length === 0 ?
+                <h2>No existen turnos con los filtros ingresados</h2> :
+                (listaTurnosFiltrados.map((unTurno, idx) => (
+                  <CardDinamica
+                    {...cardData}
+                    data={unTurno}
+                    header={`Fecha de Turno: ${formatearFecha(unTurno.fecha)}`}
+                    key={idx}
+                    tieneContenidoExtra={
+                      !esTurnoAntiguo(unTurno) ? (
+                        <button
+                          className={styles.botonAbrirModal}
+                          onClick={() => handleAbrirModal(unTurno)}
+                        >
+                          Cancelar Turno
+                        </button>) : null
+                    }
+                    className={styles.cardTurno}
+                  />
+                )))
+              }
+            </section>
+          </div>
+        </div>
+
+        {mostrarModal && turnoSeleccionado && (
+          <div className={styles.modalContainer}>
+            <div className={styles.modalBox}>
+              <div className={styles.modalHeader}>
+                <h2>Cancelar Turno</h2>
+              </div>
+              <p className={styles.modalBody}>
+                ¿Deseas cancelar el turno para <strong>{turnoSeleccionado.integrante}</strong> el día <strong>{formatearFecha(turnoSeleccionado.fecha)} - {turnoSeleccionado.hora}</strong>?
+              </p>
+
+              <div className={styles.modalFooter}>
+                <button
+                  className={styles.botonVolver}
+                  onClick={() => {
+                    setMostrarModal(false);
+                    setTurnoSeleccionado(null);
+                  }}
+                >
+                  Volver
+                </button>
+                <button
+                  className={styles.botonCancelarTurno}
+                  onClick={() => handleCancelarTurno(turnoSeleccionado._id)}
+                >
+                  Cancelar Turno
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
   );
 };
 
