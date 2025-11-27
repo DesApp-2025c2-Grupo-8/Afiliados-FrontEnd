@@ -28,7 +28,8 @@ const cardData = {
 };
 
 const ConsultarTurnos = () => {
-  const navigate = useNavigate();
+  
+  //const navigate = useNavigate();
   const { dataAfiliado } = useAfiliadoDatos();
   const numeroAfiliado = dataAfiliado?.numeroAfiliado;
   const esTitular = dataAfiliado?.rol === 'TITULAR';
@@ -102,30 +103,26 @@ const ConsultarTurnos = () => {
     return false;
   }, []);
 
-  const aplicarFiltros = useCallback(
-    (antiguos, periodo, busqueda) => {
-      let turnosFiltrados = listaTurnos.slice();
-
-    const aplicarFiltros = useCallback((antiguos, periodo, busqueda) => {
+  const aplicarFiltros = useCallback((antiguos, periodo, busqueda) => {
         let turnosFiltrados = listaTurnos.slice();
         if (antiguos) {
-            turnosFiltrados = turnosFiltrados.filter(t => t.fecha <= fechaLocal(new Date()));
-            turnosFiltrados = turnosFiltrados.filter(t => esTurnoAntiguo(t)); 
+            turnosFiltrados = turnosFiltrados.filter(t => t.fecha <= fechaLocal(new Date()))
+            turnosFiltrados = turnosFiltrados.filter(t => esTurnoAntiguo(t))
         } else {
-            turnosFiltrados = turnosFiltrados.filter(t => !esTurnoAntiguo(t));
+            turnosFiltrados = turnosFiltrados.filter(t => !esTurnoAntiguo(t))
         }
         if (periodo) {
-            const fechaLimite = obtenerFechaDelPeriodoSeleccionado(periodo);
-            const hoy = fechaLocal(new Date()); 
+            const fechaLimite = obtenerFechaDelPeriodoSeleccionado(periodo)
+            const hoy = fechaLocal(new Date());
 
             if (antiguos) {
                 turnosFiltrados = turnosFiltrados.filter(
                     t => t.fecha >= fechaLimite && t.fecha <= hoy
-                );
+                )
             } else {
                 turnosFiltrados = turnosFiltrados.filter(
                     t => t.fecha >= fechaLimite
-                );
+                )
             }
         }
         
@@ -136,8 +133,8 @@ const ConsultarTurnos = () => {
                 t.tipoConsulta?.toLowerCase().includes(textoBusqueda) || t.lugarDeAtencion?.toLowerCase().includes(textoBusqueda)
             )
         }
-        setListaTurnosFiltrados(turnosFiltrados);
-    }, [listaTurnos, esTurnoAntiguo, obtenerFechaDelPeriodoSeleccionado]);
+        setListaTurnosFiltrados(turnosFiltrados)
+    }, [listaTurnos, esTurnoAntiguo, obtenerFechaDelPeriodoSeleccionado])
 
 
 
@@ -256,29 +253,34 @@ const ConsultarTurnos = () => {
       fetchTurnos();
     }, [numeroAfiliado, esTitular, dataAfiliado]);
 
-    fetchTurnos();
 
-    return () => {
-      abortado = true; // evita que setState corra después del desmontaje
+    useEffect(() => {
+      aplicarFiltros(filtroAntiguos, filtroPeriodo, filtroBusqueda);
+    }, [listaTurnos, aplicarFiltros, filtroAntiguos, filtroPeriodo, filtroBusqueda]);
+
+    const handleAbrirModal = (turno) => {
+      setTurnoSeleccionado(turno);
+      setMostrarModal(true);
     };
-  }, [numeroAfiliado, esTitular, dataAfiliado, navigate]);
 
-  useEffect(() => {
-    aplicarFiltros(filtroAntiguos, filtroPeriodo, filtroBusqueda);
-  }, [listaTurnos, aplicarFiltros, filtroAntiguos, filtroPeriodo, filtroBusqueda]);
-
-  const handleAbrirModal = (turno) => {
-    setTurnoSeleccionado(turno);
-    setMostrarModal(true);
-  };
-
-  const handleCancelarTurno = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3000/turnos/cancelar/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      await response.json();
+    const handleCancelarTurno = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/turnos/cancelar/${id}`, {
+                method: "PATCH",
+                headers: { 'Content-Type': 'application/json'},
+            })
+            await response.json()
+            
+            const turnosActualizados = listaTurnos.filter(t => t._id !== id)
+            setListaTurnos(turnosActualizados)
+            setMostrarModal(false)
+            setTurnoSeleccionado(null)
+        } catch (error) {
+            console.error('Error al cancelar el turno: ', error)
+            setMostrarModal(false)
+            setTurnoSeleccionado(null)
+        }
+    }
 
     const handleFiltrarPorAntiguos = (isChecked) => {
         setFiltroAntiguos(isChecked);
@@ -286,16 +288,14 @@ const ConsultarTurnos = () => {
             setFiltroPeriodo('');
         }
     }
-  };
-
-  const handleBusqueda = (texto) => setFiltroBusqueda(texto);
-  const handleFiltrarPorPeriodo = (periodo) => setFiltroPeriodo(periodo);
-  const handleFiltrarPorAntiguos = (isChecked) => setFiltroAntiguos(isChecked);
-  const limpiarFiltros = () => {
-    setFiltroAntiguos(false);
-    setFiltroPeriodo('');
-    setFiltroBusqueda('');
-  };
+    
+    const handleBusqueda = (texto) => setFiltroBusqueda(texto);
+    const handleFiltrarPorPeriodo = (periodo) => setFiltroPeriodo(periodo);
+    const limpiarFiltros = () => {
+      setFiltroAntiguos(false);
+      setFiltroPeriodo('');
+      setFiltroBusqueda('');
+    };
 
     return(
         <>
@@ -333,7 +333,7 @@ const ConsultarTurnos = () => {
                                     checked={filtroAntiguos}
                                     onChange={(e) => handleFiltrarPorAntiguos(e.target.checked)}
                                 />
-                                Antiguos
+                                Turnos Pasados
                             </label>
                         </div>
                         <hr />
@@ -378,92 +378,37 @@ const ConsultarTurnos = () => {
                     </section>
                 </div>
             </div>
-            <div className={styles.botonAntiguosContainer}>
-              <label className={styles.botonAntiguos}>
-                <input
-                  type="checkbox"
-                  checked={filtroAntiguos}
-                  onChange={(e) => handleFiltrarPorAntiguos(e.target.checked)}
-                />
-                Turnos pasados
-              </label>
-            </div>
-            <hr />
-            <FiltrosCards
-              label={'Período'}
-              default={'TODO'}
-              opciones={periodosOpciones}
-              valorActual={filtroPeriodo}
-              filtrarAlSeleccionar={handleFiltrarPorPeriodo}
-              borrarFiltro={() => handleFiltrarPorPeriodo('')}
-            />
-            <hr />
-            <h3>{listaTurnosFiltrados.length} turno(s) encontrados</h3>
-          </section>
 
-          <section className={styles.turnosContainer}>
-            {listaTurnosFiltrados.length === 0 ? (
-              <h2>No existen turnos con los filtros ingresados</h2>
-            ) : (
-              listaTurnosFiltrados.map((unTurno, idx) => (
-                <CardDinamica
-                  {...cardData}
-                  data={unTurno}
-                  header={`Fecha de Turno: ${formatearFecha(unTurno.fecha)}`}
-                  key={idx}
-                  tieneContenidoExtra={
-                    !esTurnoAntiguo(unTurno) ? (
-                      <button
-                        className={styles.botonAbrirModal}
-                        onClick={() => handleAbrirModal(unTurno)}
-                      >
-                        Cancelar Turno
-                      </button>
-                    ) : null
-                  }
-                />
-              ))
+            {mostrarModal && turnoSeleccionado && (
+              <div className={styles.modalContainer}>
+                <div className={styles.modalBox}>
+                  <div className={styles.modalHeader}>
+                    <h2>Cancelar Turno</h2>
+                  </div>
+                  <p className={styles.modalBody}>
+                    ¿Deseas cancelar el turno para <strong>{turnoSeleccionado.integrante}</strong> el día <strong>{formatearFecha(turnoSeleccionado.fecha)} - {turnoSeleccionado.hora}</strong>?
+                  </p>
+
+                  <div className={styles.modalFooter}>
+                    <button
+                      className={styles.botonVolver}
+                      onClick={() => {
+                        setMostrarModal(false);
+                        setTurnoSeleccionado(null);
+                      }}
+                    >
+                      Volver
+                    </button>
+                    <button
+                      className={styles.botonCancelarTurno}
+                      onClick={() => handleCancelarTurno(turnoSeleccionado._id)}
+                    >
+                      Cancelar Turno
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
-          </section>
-        </div>
-      </div>
-
-      {mostrarModal && turnoSeleccionado && (
-        <div className={styles.modalContainer}>
-          <div className={styles.modalBox}>
-            <div className={styles.modalHeader}>
-              <h2>Cancelar Turno</h2>
-            </div>
-            <p className={styles.modalBody}>
-              ¿Deseas cancelar el turno para{' '}
-              <strong>{turnoSeleccionado.integrante}</strong> el día{' '}
-              <strong>
-                {formatearFecha(turnoSeleccionado.fecha)} -{' '}
-                {turnoSeleccionado.hora}
-              </strong>
-              ?
-            </p>
-
-            <div className={styles.modalFooter}>
-              <button
-                className={styles.botonVolver}
-                onClick={() => {
-                  setMostrarModal(false);
-                  setTurnoSeleccionado(null);
-                }}
-              >
-                Volver
-              </button>
-              <button
-                className={styles.botonCancelarTurno}
-                onClick={() => handleCancelarTurno(turnoSeleccionado._id)}
-              >
-                Cancelar Turno
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };
