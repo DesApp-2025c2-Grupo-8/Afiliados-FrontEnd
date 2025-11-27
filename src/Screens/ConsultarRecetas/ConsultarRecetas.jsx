@@ -6,6 +6,7 @@ import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { BsClipboard2Plus } from 'react-icons/bs';
+import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 
@@ -70,6 +71,23 @@ const ConsultarRecetas = () => {
     const [presentacionesOpcionesIniciales, setPresentacionesOpcionesIniciales] = useState([]);
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
     const [presentacionesOpciones, setPresentacionesOpciones] = useState([]);
+
+    const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);
+    
+    const toggleFiltrosMobile = () => {
+        setFiltrosMobileOpen(!filtrosMobileOpen);
+    }
+
+     useEffect(() => {
+            const handleResize = () => {
+                if (window.innerWidth > 630 && filtrosMobileOpen) {
+                    setFiltrosMobileOpen(false);
+                }
+            };
+    
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        }, [filtrosMobileOpen]);
 
     const filtrarPorEstado = (unEstado) => {
         setFiltroEstado(unEstado);
@@ -290,26 +308,39 @@ const ConsultarRecetas = () => {
                             limpiarFiltros={limpiarFiltroMedicamento}
                             placeholder={"Ingrese un medicamento..."}
                             valorInput={filtroMedicamento}
-                            />
+                        />
+                        <button
+                            className={styles.botonFiltrosMobile}
+                            onClick={toggleFiltrosMobile}
+                        >
+                            <FaFilter />
+                        </button>
+
                         <Link className={styles.botonCargarReceta} to={'/cargar-receta'}>
-                            <BsClipboard2Plus/>
+                            <BsClipboard2Plus />
                             <span>Cargar Receta</span>
                         </Link>
                     </section>
                 </div>
                 <div className={styles.box}>
-                    <section className={styles.filtroContainer}>
+                    <section className={`${styles.filtroContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
+                        <button
+                            className={styles.botonCerrarFiltrosMobile}
+                            onClick={toggleFiltrosMobile}
+                        >
+                            X
+                        </button>
                         <div className={styles.tituloFiltros}>
                             <h2>Filtrar recetas por:</h2>
                             <hr />
                         </div>
                         <div className={styles.botonLimpiarFiltrosContainer}>
-                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
+                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{ marginLeft: '10px' }} /></button>
                         </div>
                         {filtrosConfig
                             .filter(filtro => filtro.opciones.length > 1)
                             .map(unFiltro => (
-                                <FiltrosCards {...unFiltro} key={unFiltro.label}/>
+                                <FiltrosCards {...unFiltro} key={unFiltro.label} />
                             ))
                         }
                         <div className={styles.resultadoFiltro}>
@@ -328,7 +359,7 @@ const ConsultarRecetas = () => {
                                     key={unaReceta.numeroOrden}                   //La key del componente (debe ser un valor único!!)
                                     data={unaReceta}                        //Elemento actual en la iteración del map
                                     header={'N° Orden: ' + unaReceta.numeroOrden}  //El título de la card
-                                    color={colorSegunEstado(unaReceta.estado)}  
+                                    color={colorSegunEstado(unaReceta.estado)}
                                     tieneBotonDescarga={unaReceta.estado === 'Aceptada'}
                                 />
                             )))}

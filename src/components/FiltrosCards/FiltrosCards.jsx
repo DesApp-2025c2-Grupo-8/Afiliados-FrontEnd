@@ -7,7 +7,7 @@ import styles from './FiltrosCards.module.css';
 const FiltrosCards = (props) => {
     
     return (
-        <Form>
+        <Form className={styles.filtroContainer}>
             <Form.Group as={Col}>
                 <Form.Label htmlFor={`select-de-${props.label}`}>{props.label}</Form.Label>
                 <div className={styles.selectYBotonContainer}>
