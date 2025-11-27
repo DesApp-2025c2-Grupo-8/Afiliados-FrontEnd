@@ -5,6 +5,8 @@ import { BsClipboard2Plus } from 'react-icons/bs';
 import { LuDollarSign } from 'react-icons/lu';
 import { PiPulse } from 'react-icons/pi';
 import { Link } from "react-router-dom"
+import { FiPlus } from "react-icons/fi";
+import { AiOutlineClose } from 'react-icons/ai';
 
 const AtajosSolicitudes = (props) => {
 
@@ -79,11 +81,15 @@ const AtajosSolicitudes = (props) => {
     console.log(tipo + " del " + periodoSeleccionado + " pendientes ", obtenerCantidadPorEstadoPeriodoYSolicitud("pendiente", periodoSeleccionado, solicitudSeleccionada))
 
   }, [solicitudSeleccionada, periodoSeleccionado]);
-  
+
+  const [mostrarAtajos, setMostrarAtajos] = useState(false);
 
   return (
     <section className={styles.atajosSolicitudes}>
-      <div className={styles.atajosAccion}>
+      <div className={styles.atajosAccionMobile  + (mostrarAtajos ? " " + styles.alargue : "")}>
+        <button className={styles.atajosAccionMobileButton} onClick={() => setMostrarAtajos(!mostrarAtajos)}> {mostrarAtajos ? <AiOutlineClose /> : <FiPlus />}</button>
+      </div>
+      <div className={styles.atajosAccion + (mostrarAtajos ? " " + (styles.mostrar ) : "")}>
         <h2 className={styles.tituloAtajosAccion}>Atajos de acción</h2>
         <Link to="/cargar-autorizacion" className={styles.btnAccion}> <PiPulse /> Nueva autorización</Link>
         <Link to="/solicitar-reintegro" className={styles.btnAccion}> <LuDollarSign /> Solicitar reintegro</Link>

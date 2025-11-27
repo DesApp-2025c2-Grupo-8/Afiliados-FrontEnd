@@ -74,7 +74,7 @@ const Perfil = () => {
                 <section className={styles.seccionGrupoFamiliar + " " + (grupoFamiliar.length < 1 ? styles.sinGrupoFamiliar : "")}>
                     <h2>Grupo Familiar</h2>
                     <div className={styles.cardsGrupoFamiliar}>
-                        <p>{grupoFamiliar.length < 1 ? "No hay miembros en el grupo familiar" : ""}</p>
+                        {grupoFamiliar.length < 1 ? <p>No hay miembros en el grupo familiar</p> : "" }
                         {
                             grupoFamiliar.map(usuario => (
                                 <CardDinamica
@@ -89,6 +89,7 @@ const Perfil = () => {
                         }
 
                     </div>
+                    <button className={styles.btnCerrarSesionMobile} onClick={handleCerrarSesion}>Cerrar Sesión</button>
                     
                 </section>
                 

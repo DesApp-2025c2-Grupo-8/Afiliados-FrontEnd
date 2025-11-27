@@ -60,12 +60,12 @@ const Header = () => {
         <header className={styles.header}>
             <nav className={styles.navegacionPrincipal}>
                 <Link to="/">
-                    <img src={logo} alt="Logo" className={styles.logo} />
+                    <img src={logo} alt="Logo" className={styles.logo} onClick={() => setMenuOpen(false)}/>
                 </Link>
                 <div className={styles.navMenus}>
                     <ul className={styles.navLinks + " " + styles.navMain}>
                         {RUTAS.map( (unaRuta, idx) => (
-                            <li key={idx}><Link key={idx} className={styles.link} to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                            <li key={idx}><Link  key={idx} className={styles.link} to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
                         ) )}
                     </ul>
                 </div>
@@ -76,7 +76,7 @@ const Header = () => {
                 <div className={styles.burgerMenu + " " + (menuOpen ? styles.show : "")}>
                     <ul className={styles.navLinks}>
                         {RUTAS.map( (unaRuta, idx) => (
-                            <li key={idx}><Link key={idx} className={styles.link} to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                            <li key={idx}><Link onClick={() => setMenuOpen(false)} key={idx} className={styles.link} to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
                         ) )}
                     </ul>
                 </div>
