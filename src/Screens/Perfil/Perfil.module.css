@@ -1,14 +1,14 @@
-.perfilContainer{
+.perfilContainer {
     width: 100%;
     height: 100%;
     padding: 140px 0 100px 0;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url('src/assets/images/fondo-perfil.png');
+    /* background-color: #E3E3E3; */
 }
 
-.perfilBox{
-    background-color: #EBEBEB;
+.perfilBox {
+    background-color: #f5f5f5;
     border-radius: 12px;
     width: 90%;
     max-width: 1200px;
@@ -19,7 +19,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
 }
 
-.seccionInformacion{
+.seccionInformacion {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -27,37 +27,37 @@
     height: fit-content;
 }
 
-.imagenPerfil{
+.imagenPerfil {
     height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.imagenPerfil img{
+.imagenPerfil img {
     margin: 30px;
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    object-fit:cover;
+    object-fit: cover;
 }
 
-.seccionGrupoFamiliar{
-     display: flex;
-     flex-direction: column;
+.seccionGrupoFamiliar {
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
 }
 
-.cardsGrupoFamiliar{
+.cardsGrupoFamiliar {
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 10px;
 }
 
-.cardsInformacion{
+.cardsInformacion {
     width: 100%;
     padding: 10px;
     display: flex;
@@ -66,31 +66,151 @@
     justify-content: space-between;
 }
 
-.articuloPerfil{
+.articuloPerfil {
     font-size: 20px;
     margin: auto;
     width: 90%;
     text-align: left;
 }
-.articuloPerfil p{
+
+.articuloPerfil p {
     margin: 0px;
 }
 
-.campoPerfil{
+.campoPerfil {
     border-bottom: 2px solid grey;
 }
 
-.sinGrupoFamiliar{
+.sinGrupoFamiliar {
     display: none;
 }
 
-.filas{
+.filas {
     flex-direction: row;
     align-items: center;
 }
-.filas .imagenPerfil{
+
+.filas .imagenPerfil {
     width: 50%;
 }
-.filas .cardsInformacion{
+
+.filas .cardsInformacion {
     width: 50%;
+}
+
+.btnCerrarSesion {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #E64F4F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btnCerrarSesion:hover{
+    background-color: #ff1c1c;
+    
+}
+
+.btnCerrarSesionMobile{
+    display: none;
+}
+
+
+
+
+.imagenPerfil h1, .seccionGrupoFamiliar h2 {
+    color: #007b8f;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007b8f;
+    text-align: center;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.imagenPerfil h1::after, .seccionGrupoFamiliar h2::after {
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
+
+
+
+
+@media (max-width: 900px) {
+    .perfilBox {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .seccionInformacion .imagenPerfil,
+    .seccionInformacion .cardsInformacion {
+        width: 100%;
+    }
+    
+    .seccionInformacion .imagenPerfil img {
+        width: 200px;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .seccionInformacion {
+        margin-bottom: 40px;
+    }
+    
+    .btnCerrarSesion {
+        display: none;
+    }
+    
+    .btnCerrarSesionMobile {
+        display: block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #E64F4F;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 90%;
+    }
+    
+    
+    .cardsInformacion{
+        gap: 20px;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .imagenPerfil h1, .seccionGrupoFamiliar h2{
+        font-size: 1.45em;
+    }
+}
+
+@media (max-width: 550px) {
+    .perfilBox {
+        padding: 20px;
+    }
+
+    .cardsGrupoFamiliar .cardBox {
+        /* width: 200px; */
+        width: 100px;
+    }
+    .cardsInformacion .articuloPerfil{
+        font-size: 16px;
+    
+    }
 }

@@ -8,31 +8,115 @@ import { AiOutlineCheckCircle } from 'react-icons/ai';
 import styles from './Home.module.css';
 import AtajosSolicitudes from '../../components/AtajosSolicitudes/AtajosSolicitudes';
 import Turnos from '../../components/Turnos/Turnos';
+import { useNavigate } from "react-router-dom";
+import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
 
 const Home = () => {
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+    const esTitular = dataAfiliado?.rol === 'TITULAR';
+
+    const navigate = useNavigate();
+
     useEffect( () => {
-            document.title = 'Medicina Integral'
+        document.title = 'Medicina Integral'
+        if (!dataAfiliado) {
+                    navigate("/login");
+                }
         }, [])
+
+
+    const [turnos, setTurnos] = React.useState([]);
+    const [autorizaciones, setAutorizaciones] = React.useState([]);
+    const [recetas, setRecetas] = React.useState([]);
+    const [reintegros, setReintegros] = React.useState([]);
+
+
+    useEffect(() => {
+            document.title = 'Consulta de Recetas - Medicina Integral'
+            if (!dataAfiliado) {
+                        navigate("/login");
+                    }
+            
+            fetch('http://localhost:3000/turnos/consulta/' + dataAfiliado?.numeroAfiliado)
+                .then(response => response.json())
+                .then(data => {
+                    setTurnos(data);
+                    // console.log("turnos:");
+                    // console.log(data);
+                })
+                .catch(error => console.log(error))
+
+                fetch('http://localhost:3000/reintegros/' + dataAfiliado?.numeroAfiliado)
+                .then(response => response.json())
+                .then(data => {
+                    setReintegros(data);
+                    // console.log("reintegros:");
+                    // console.log(data);
+                })
+                .catch(error => console.log(error))
+
+                fetch('http://localhost:3000/autorizaciones/' + dataAfiliado?.numeroAfiliado)
+                .then(response => response.json())
+                .then(data => {
+                    setAutorizaciones(data);
+                    // console.log("autorizaciones:");
+                    // console.log(data);
+                })
+                .catch(error => console.log(error))
+
+                fetch('http://localhost:3000/recetas/' + dataAfiliado?.numeroAfiliado)
+                .then(response => response.json())
+                .then(data => {
+                    setRecetas(data);
+                    // console.log("recetas:");
+                    // console.log(data);
+                })
+                .catch(error => console.log(error))
+        }, [dataAfiliado]);
+
+
+
+    const ultimaSemana = new Date();
+    ultimaSemana.setDate(ultimaSemana.getDate() - 7);
+
+    const cantPendientesUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana ).length +
+        recetas.filter(item => item.estado.toLowerCase() === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => item.estado.toLowerCase() === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+    
+    const cantAceptadasUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        recetas.filter(item => item.estado.toLowerCase() === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => item.estado.toLowerCase() === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+    
+    const cantRechazadasUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        recetas.filter(item => item.estado.toLowerCase() === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => item.estado.toLowerCase() === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+
+    const cantObservacionUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'observación' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        recetas.filter(item => item.estado.toLowerCase() === 'observacion' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => item.estado.toLowerCase() === 'observacion' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+
+
     const cardsResumen = [
         {
             titulo: "Pendientes de procesamiento",
-            cantidad: 1,
+            cantidad: cantPendientesUltimaSemana,
             estado: "pendiente",
             icono: "<AiOutlineClockCircle/>"
         },
         {
             titulo: "En observación",
-            cantidad: 0,
+            cantidad: cantObservacionUltimaSemana,
             estado: "observacion"
         },
         {
             titulo: "Rechazadas",
-            cantidad: 2,
+            cantidad: cantRechazadasUltimaSemana,
             estado: "rechazada"
         },
         {
             titulo: "Aceptadas",
-            cantidad: 5,
+            cantidad: cantAceptadasUltimaSemana,
             estado: "aceptada"
         },
     ]
@@ -40,8 +124,8 @@ const Home = () => {
     return (
         <div className={styles.dashboardContainer}>
             <ResumenDashboard cardsResumen={cardsResumen}/>
-            <AtajosSolicitudes/>
-            <Turnos/>
+            <AtajosSolicitudes autorizaciones={autorizaciones} recetas={recetas} reintegros={reintegros} />
+            <Turnos turnos={turnos} />
         </div>
     );
 }

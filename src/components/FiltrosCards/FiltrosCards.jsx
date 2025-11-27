@@ -7,11 +7,11 @@ import styles from './FiltrosCards.module.css';
 const FiltrosCards = (props) => {
     
     return (
-        <Form>
+        <Form className={styles.filtroContainer}>
             <Form.Group as={Col}>
                 <Form.Label htmlFor={`select-de-${props.label}`}>{props.label}</Form.Label>
                 <div className={styles.selectYBotonContainer}>
-                    <Form.Select id={`select-de-${props.label}`} value={props.valorActual} onChange={e => props.filtrarAlSeleccionar(e.target.value)}>
+                    <Form.Select id={`select-de-${props.label}`} className={styles.select} value={props.valorActual} onChange={e => props.filtrarAlSeleccionar(e.target.value)}>
                         <option value="" disabled={props.defaultDesactivado}>{props.default}</option>
                         {props.opciones.map((opcion, idx) => (<option key={idx} value={opcion}>{opcion}</option>))}
                     </Form.Select>
