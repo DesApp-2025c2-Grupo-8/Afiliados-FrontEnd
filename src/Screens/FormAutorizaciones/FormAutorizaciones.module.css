@@ -1,21 +1,26 @@
 .formContainer {
+  width: 100%;
   max-width: 600px;
-  margin: 200px auto;
+  margin: 2rem auto;
   background-color: #fff;
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .fondo {
-    min-height: 90vh;
-    padding-top: 100px;
-    padding-bottom: 2rem;
-    width: 100%;
-    background-image: url("@assets/images/fondo-FormRecetas.png");
-    background-size: cover;
-    background-position: center;
+  display: flex;
+  min-height: calc(100vh - 70px);
+  justify-content: center;
+  align-items: center;
+  padding-top: 0;
+  padding-bottom: 2rem;
+  width: 100%;
+  background-image: url("@assets/images/fondo-FormRecetas.png");
+  background-size: cover;
+  background-position: center;
+  box-sizing: border-box;
 }
 
 .titulo {
@@ -32,16 +37,20 @@ label {
 }
 
 .formContainer select,
-.formContainer textarea {
+.formContainer textarea,
+.formContainer input {
   border-radius: 6px;
   border: 1px solid #ced4da;
   padding: 0.6rem;
   font-size: 1rem;
-  transition: border-color 0.2s ease;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .formContainer select:focus,
-.formContainer textarea:focus {
+.formContainer textarea:focus,
+.formContainer input:focus {
   border-color: #007b8f;
   box-shadow: 0 0 0 0.15rem rgba(0, 123, 143, 0.25);
   outline: none;
@@ -54,9 +63,9 @@ label {
 }
 
 .modal {
-    font-size: 1.2rem;
-    text-align: center;
-    font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: bold;
 }
 
 
@@ -65,10 +74,16 @@ label {
 @media (max-width: 768px) {
   .formContainer {
     padding: 1.5rem;
-    margin: 100px 1rem;
   }
 
   .titulo {
     font-size: 1.5rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .formContainer{
+    padding: 1rem;
   }
 }

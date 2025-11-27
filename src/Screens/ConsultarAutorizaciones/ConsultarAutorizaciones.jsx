@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
-import autorizaciones from '../../db/autorizaciones.js'
 import CardDinamica from '../../components/CardDinamica/CardDinamica.jsx';
 import styles from './ConsultarAutorizaciones.module.css'
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
@@ -18,12 +17,13 @@ const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres 
 const cardData = {
 
     camposCard: [
-        { campo: 'Nro. Autorización', propiedad: 'numeroAutorizacion' },
+        { campo: 'N° Orden', propiedad: 'numeroAutorizacion' },
         { campo: 'Integrante', propiedad: 'integrante' },
-        { campo: 'Médico', propiedad: 'medico' },
-        { campo: 'Fecha De Carga', propiedad: 'fechaDeCarga', esFecha: true },
-        { campo: 'Dirección', propiedad: 'direccion' },
-        { campo: 'Observaciones', propiedad: 'observaciones'}
+        { campo: 'Médico/a', propiedad: 'medico' },
+        { campo: 'Fecha de Carga', propiedad: 'fechaDeCarga', esFecha: true },
+        { campo: 'Lugar de atención', propiedad: 'direccion' },
+        { campo: 'Observaciones', propiedad: 'observaciones'},
+        { campo: 'Cantidad de Dias', propiedad: 'cantDias'}
     ],
     tieneBotonDescarga: true
 }
@@ -256,7 +256,7 @@ const ConsultarAutorizaciones = () => {
         <>
             <div className={styles.containerConsultarAutorizaciones}>
                 <section className={styles.botonesContainer}>
-                    <h1>Consultar Autorizaciones</h1>
+                    <h1 className={styles.tituloAutorizaciones}>Consultar Autorizaciones</h1>
                     <Link className={styles.botonCargarReceta} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} />Cargar Autorización</Link>
                 </section>
 
@@ -282,9 +282,14 @@ const ConsultarAutorizaciones = () => {
                                 color={colorSegunEstado(autorizacion.estado)}
 
                                 key={autorizacion.numeroAutorizacion}
-                                data={autorizacion}
+                                data={{...autorizacion,
+                                    ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias} : { cantDias: 'N/A'} )
+                                }
+
+                                }
                                 header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
                                 tieneBotonDescarga= {autorizacion.estado === 'Aceptada'}
+                                
                             />
                         ))) : (
                             <p>No se encontraron autorizaciones</p>
