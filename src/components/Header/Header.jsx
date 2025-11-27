@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css';
+import styles from './Header.module.css';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
+import { PiPulse } from 'react-icons/pi';
 
 import logo from '@assets/images/Titulo-Logo.svg';
 
@@ -27,10 +28,10 @@ const RUTAS = [
         ruta: '/cartilla-prestadores',
         nombre: 'Cartilla prestadores'
     },
-    {
+    // {
         // ruta: '/contacto',
         // nombre: 'Contacto'
-    },
+    // },
     {
         ruta: '/perfil',
         nombre: 'Perfil'
@@ -56,26 +57,26 @@ const Header = () => {
     }, [menuOpen]);
 
     return (
-        <header className='header'>
-            <nav className="navegacion-principal">
+        <header className={styles.header}>
+            <nav className={styles.navegacionPrincipal}>
                 <Link to="/">
-                    <img src={logo} alt="Logo" className="logo" />
+                    <img src={logo} alt="Logo" className={styles.logo} />
                 </Link>
-                <div className='nav-menus'>
-                    <ul className="nav-links nav-main">
+                <div className={styles.navMenus}>
+                    <ul className={styles.navLinks + " " + styles.navMain}>
                         {RUTAS.map( (unaRuta, idx) => (
-                            <li key={idx}><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                            <li key={idx}><Link key={idx} className={styles.link} to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
                         ) )}
                     </ul>
                 </div>
 
-                <button className='burger-menu-btn' onClick={toggleMenu}>
-                    {!menuOpen ? <FaBars className='btn-icon' /> : <AiOutlineClose className='btn-icon' />}
+                <button className={styles.burgerMenuBtn} onClick={toggleMenu}>
+                    {!menuOpen ? <FaBars />  : <AiOutlineClose /> }
                 </button>
-                <div className={`burger-menu ${menuOpen ? "show" : ""}`}>
-                    <ul className="nav-links">
+                <div className={styles.burgerMenu + " " + (menuOpen ? styles.show : "")}>
+                    <ul className={styles.navLinks}>
                         {RUTAS.map( (unaRuta, idx) => (
-                            <li key={idx}><Link key={idx} className='link' to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
+                            <li key={idx}><Link key={idx} className={styles.link} to={unaRuta.ruta}>{unaRuta.nombre}</Link></li>
                         ) )}
                     </ul>
                 </div>

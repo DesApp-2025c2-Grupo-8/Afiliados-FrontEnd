@@ -1,26 +1,26 @@
-.estado-solicitud {
+.estadoSolicitud {
     display: flex;
     margin-bottom: 16px;
     /* background-color: violet; */
     width: 100%;
 }
 
-.container-cantidad-estado-solicitud{
+.containerCantidadEstadoSolicitud{
     /* background-color: blue; */
     text-align: center;
     width: 50%;
 }
-.estado-solicitud .titulo-estado-solicitud{
+.estadoSolicitud .tituloEstadoSolicitud{
     width: 50%;
     /* background-color: grey; */
 }
 
-.estado-solicitud p{
+.estadoSolicitud p{
     padding: 0;
     margin: 0;
 }
 
-.estado-solicitud .container-cantidad-estado-solicitud .linea{
+.estadoSolicitud .containerCantidadEstadoSolicitud .linea{
     width: 40%;
     margin: auto;
     height: 6px;

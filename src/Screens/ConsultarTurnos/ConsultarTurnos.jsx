@@ -272,25 +272,28 @@ const ConsultarTurnos = () => {
     setMostrarModal(true);
   };
 
-  const handleCancelarTurno = async (id) => {
+const handleCancelarTurno = async (id) => {
     try {
       const response = await fetch(`http://localhost:3000/turnos/cancelar/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
       });
       await response.json();
-
-    const handleFiltrarPorAntiguos = (isChecked) => {
-        setFiltroAntiguos(isChecked);
-        if (!isChecked) {
-            setFiltroPeriodo('');
-        }
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }
+
+  const handleFiltrarPorAntiguos = (isChecked) => {
+    setFiltroAntiguos(isChecked);
+    if (!isChecked) {
+        setFiltroPeriodo('');
+    }
+  }
 
   const handleBusqueda = (texto) => setFiltroBusqueda(texto);
   const handleFiltrarPorPeriodo = (periodo) => setFiltroPeriodo(periodo);
-  const handleFiltrarPorAntiguos = (isChecked) => setFiltroAntiguos(isChecked);
+  // const handleFiltrarPorAntiguos = (isChecked) => setFiltroAntiguos(isChecked);
   const limpiarFiltros = () => {
     setFiltroAntiguos(false);
     setFiltroPeriodo('');
@@ -399,7 +402,7 @@ const ConsultarTurnos = () => {
             />
             <hr />
             <h3>{listaTurnosFiltrados.length} turno(s) encontrados</h3>
-          </section>
+          {/* </section> */}
 
           <section className={styles.turnosContainer}>
             {listaTurnosFiltrados.length === 0 ? (
@@ -425,8 +428,8 @@ const ConsultarTurnos = () => {
               ))
             )}
           </section>
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
 
       {mostrarModal && turnoSeleccionado && (
         <div className={styles.modalContainer}>

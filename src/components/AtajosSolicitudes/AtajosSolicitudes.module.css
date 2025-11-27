@@ -1,20 +1,20 @@
-.atajos-solicitudes{
+.atajosSolicitudes{
     width: 60%;
     padding: 20px 0px;
 }
 
-.atajos-accion{
+.atajosAccion{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.atajos-accion .titulo-atajos-accion{
+.tituloAtajosAccion{
     margin-bottom: 30px;
     width: 100%;
 }
 
-.atajos-accion .btn-accion{
+.btnAccion{
     border-radius: 12px;
     font-size: 22px;
     padding: 8px 16px;
@@ -29,15 +29,15 @@
     font-weight: normal;
 }
 
-.solicitudes-estado{
+.solicitudesEstado{
     margin-top: 40px;
 }
 
-.solicitudes-estado h2{
+.solicitudesEstado h2{
     margin-bottom: 30px;
 }
 
-.container-estado-periodo{
+.containerEstadoPeriodo{
     background-color: white;
     border-radius: 12px;
     padding: 20px;
@@ -45,7 +45,7 @@
 
 }
 
-.seleccion-estado{
+.seleccionEstado{
     border-radius: 12px;
     overflow: hidden;
     width: 100%;
@@ -53,7 +53,7 @@
     justify-content: space-between;
     margin: auto;
 }
-.seleccion-estado .btn-seleccion-estado{
+.btnSeleccionEstado{
     width: 33%;
     border: none;
     padding: 10px 20px;
@@ -64,23 +64,23 @@
 
 
 
-.periodo-resultado{
+.periodoResultado{
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.periodo-resultado p{
+.periodoResultado p{
     width: 100%;
     font-size: 20px;
 }
 
-.periodo-resultado .periodo-botones{
+.periodoBotones{
     width: 33%;
 }
 
-.periodo-resultado .periodo-botones button{
+.btnPeriodo{
     border: none;
     background-color: #E6E6E6;
     color: #757575;
@@ -91,17 +91,47 @@
     width: 80%;
     text-align: left;
 }
-.periodo-estados{
+.periodoEstados{
     width: 66%;
 }
 
-.periodo-resultado .periodo-botones .activo, .seleccion-estado .btn-seleccion-estado.activo{
+.btnSeleccionEstadoActivo{
+    width: 33%;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #757575;
     background-color: #24979B;
     color: white;
 }
 
+.activo{
+    border: none;
+    color: #757575;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    text-align: left;
+    background-color: #24979B;
+    color: white;
+}
+
+.btnPeriodo{
+    border: none;
+    background-color: #E6E6E6;
+    color: #757575;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    text-align: left;
+}
+
 @media (max-width: 1200px) {
-    .atajos-accion .btn-accion{
+    .btnAccion{
         width: 100%;
         min-width: 100%;
         max-width: 100%;
@@ -113,7 +143,7 @@
 
 
 @media (max-width: 900px) {
-    .atajos-solicitudes{
+    .atajosSolicitudes{
     width: 90%;
     margin: auto;
 
@@ -121,29 +151,36 @@
 }
 
 @media (max-width: 768px) {
-.periodo-resultado{
+.periodoResultado{
+    border-top: 2px solid rgb(197, 197, 197);
+    padding-top: 10px;
     flex-wrap: wrap;
 }
-.periodo-resultado .titulo-periodo{
+.tituloPeriodo{
     text-align: center;
 }
-        .periodo-resultado .periodo-botones{
+.periodoBotones{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     
 }
-.seleccion-estado{
+.seleccionEstado{
     flex-direction: column;
     
 }
-.periodo-estados{
+.periodoEstados{
     margin: auto;
     width: 80%;
 }
-.seleccion-estado .btn-seleccion-estado{
-    width: 80%;
+
+.btnPeriodo, .activo{
+    width: 100%;
+}
+
+.btnSeleccionEstado, .btnSeleccionEstadoActivo{
+    width: 100%;
     margin: auto;
     border-radius: 12px;
     margin-bottom: 10px;

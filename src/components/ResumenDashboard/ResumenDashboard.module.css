@@ -4,19 +4,34 @@
     margin-bottom: 40px;
 }
 
-.resumen .cards-resumen{
+.resumen .cardsResumen{
     display: flex;
     gap: 20px;
     justify-content: center;
 
 }
 
-.resumen .titulo-dashboard{
+.resumen .tituloDashboard{
     margin-bottom: 20px;
 }
 
 @media (max-width: 1200px) {
-    .resumen .cards-resumen{
+
+    
+    .resumen .cardsResumen{
+        flex-direction: row;
         flex-wrap: wrap;
     }
+
+    
+}
+
+@media (max-width: 768px) {
+
+    
+    .resumen .cardsResumen{
+        flex-direction: column;
+    }
+
+    
 }

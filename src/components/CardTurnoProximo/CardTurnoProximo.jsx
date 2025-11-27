@@ -1,5 +1,5 @@
 import { BsCalendar4 } from 'react-icons/bs';
-import "./CardTurnoProximo.css"
+import styles from './CardTurnoProximo.module.css';
 
 const CardTurnoProximo = (props) => {
     const partesFecha = props.fecha.split("-");
@@ -8,12 +8,12 @@ const CardTurnoProximo = (props) => {
     const fechaFormateada = `${dia}/${mes}`;
 
     return (
-        <article className="proximo-turno">
-            <div className="icono-turno">
+        <article className={styles.proximoTurno}>
+            <div className={styles.iconoTurno}>
                 <BsCalendar4/>
             </div>
-            <div className="datos-turno">
-                <h3>{fechaFormateada} - {props.hora}</h3>
+            <div className={styles.datosTurno}>
+                <h3>{fechaFormateada} - {props.hora} - {props.integrante}</h3>
                 <p>{props.prestador} - {props.tipoConsulta}</p>
             </div>
         </article>

@@ -1,11 +1,11 @@
-.proximo-turno{
+.proximoTurno{
     /* background-color: red; */
     border-bottom: 2px solid grey;
     display: flex;
     margin-bottom: 8px;
 }
 
-.proximo-turno .icono-turno{
+.proximoTurno .iconoTurno{
     width: 48px;
     font-size: 40px;
     display: flex;
@@ -13,18 +13,18 @@
     align-items: center;
 }
 
-.proximo-turno .datos-turno{
+.proximoTurno .datosTurno{
     padding: 10px;
 }
 
-.proximo-turno .datos-turno h3, .proximo-turno .datos-turno p{
+.proximoTurno .datosTurno h3, .proximoTurno .datosTurno p{
     margin: 0px;
 }
 
-.proximo-turno .datos-turno h3{
+.proximoTurno .datosTurno h3{
     font-size: 22px;
 }
 
-.proximo-turno .datos-turno p{
+.proximoTurno .datosTurno p{
     font-size: 20px;
 }
