@@ -75,7 +75,7 @@
     background-size: var(--s) var(--s);
 }
 
-.box {
+.filtrosYResultadosConsulta {
     display: flex;
 }
 
@@ -92,7 +92,7 @@
     padding: 1rem 3rem;
 }
 
-.botonCargarReceta {
+.botonCargarYSolicitar {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,7 +105,7 @@
     font-weight: 700;
 }
 
-.botonCargarReceta:hover {
+.botonCargarYSolicitar:hover {
     color: #000000;
 }
 
@@ -122,13 +122,13 @@
     padding: 0.5rem;
 }
 
-.botonCargarReceta:active,
+.botonCargarYSolicitar:active,
 .botonLimpiarFiltros:active {
     transform: scale(0.97);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.botonCargarReceta:active {
+.botonCargarYSolicitar:active {
     background-color: #e0e0e0;
 }
 
@@ -136,7 +136,7 @@
     background-color: #808080;
 }
 
-.filtroContainer {
+.filtrosConsultaContainer {
     background-color: #f5f5f5;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
     border-radius: 8px;
@@ -146,12 +146,12 @@
     height: fit-content;
 }
 
-.filtroContainer h2,
-.filtroContainer h3 {
+.filtrosConsultaContainer h2,
+.filtrosConsultaContainer h3 {
     text-align: center;
 }
 
-.recetasContainer {
+.resultadosDeConsultaContainer {
     background-color: #f5f5f5;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
     border-radius: 8px;

@@ -257,11 +257,11 @@ const ConsultarAutorizaciones = () => {
             <div className={styles.containerConsultarAutorizaciones}>
                 <section className={styles.botonesContainer}>
                     <h1 className={styles.tituloAutorizaciones}>Consultar Autorizaciones</h1>
-                    <Link className={styles.botonCargarReceta} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} />Cargar Autorización</Link>
+                    <Link className={styles.botonCargarYSolicitar} to={'/cargar-autorizacion'}><BsClipboard2Plus style={{ marginRight: '10px' }} />Cargar Autorización</Link>
                 </section>
 
-                <div className={styles.box}>
-                    <section className={styles.filtroContainer}>
+                <div className={styles.filtrosYResultadosConsulta}>
+                    <section className={styles.filtrosConsultaContainer}>
                         <h2>Filtrar Autorizaciones por:</h2>
                         <hr />
                         <div className={styles.botonLimpiarFiltrosContainer}>
@@ -274,7 +274,7 @@ const ConsultarAutorizaciones = () => {
                         <h3>{listaAutorizacionesFiltradas.length} Autorizacion(es) encontradas</h3>
                     </section>
 
-                    <section className={styles.recetasContainer}>
+                    <section className={styles.resultadosDeConsultaContainer}>
                         <h2 className={styles.tituloResultadoAutorizaciones}>Resultados de Búsqueda</h2>
                         {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion, idx) => (
                             <CardDinamica
