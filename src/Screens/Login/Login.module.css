@@ -29,6 +29,12 @@
   text-align: center;
 }
 
+.errorForm {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 .btnIngresar {
   background-color: #24979b !important;
   color: #fff !important;

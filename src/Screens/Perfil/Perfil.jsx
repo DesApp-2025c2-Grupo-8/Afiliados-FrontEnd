@@ -51,6 +51,7 @@ const Perfil = () => {
 
 
     useEffect(() => {
+        document.title = "Perfil - Medicina Integral";
         if (!dataAfiliado) {
             navigate("/login");
             return;
