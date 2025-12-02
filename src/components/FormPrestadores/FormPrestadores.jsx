@@ -5,11 +5,19 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { FaSearch } from "react-icons/fa";
 import './FormPrestadores.css'
+import { MdCancel } from 'react-icons/md';
 
 
 
 const FormPrestadores = (props) => {
     
+
+    const hadnleResetFiltros = () => {
+        props.setNombre('')
+        props.setUbicacion('')
+        props.setTipoPrestador('')
+        props.cambiarEspecialidad('')
+    }
 
     return (
         <>
@@ -73,6 +81,8 @@ const FormPrestadores = (props) => {
                     </Form.Group>
 
                 </Row>
+
+                <Button variant="dark" type="reset" onClick={hadnleResetFiltros}>Limpiar Filtros <MdCancel style={{marginLeft: '4px'}}/> </Button>
 
                 <Button variant="primary" type="submit">
                     Buscar
