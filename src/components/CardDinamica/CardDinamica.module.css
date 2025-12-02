@@ -2,8 +2,8 @@
   overflow: hidden;
   border: none;
   border-radius: 12px;
-  width: 400px;
-  max-width: 500px; 
+  width: 100%;
+  max-width: 400px; 
   margin: 0.2rem auto; 
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
   padding: 0px;
@@ -56,6 +56,10 @@
 
 @media (max-width: 480px) {
   .cardTexto {
+    font-size: 0.8rem;
+  }
+
+  .cardHeader {
     font-size: 1rem;
   }
 }

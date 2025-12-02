@@ -307,21 +307,22 @@ const FormularioTurnos = () => {
    return (
     <div className={styles.fondo}>
         <div className={styles.container}>
-            <div className={`${styles.card} ${paso===3 ? styles.cardPaso3 : ""}`}>
-                <h4 className={styles.titulo}>Solicitud de Turno</h4>
+            {paso !== 3 ? (
+                <div className={styles.card}>
+                    <h4 className={styles.titulo}>Solicitud de Turno</h4>
 
-                {paso ===1 && (
-                    <Form onSubmit={handleSiguiente} >
-                        <div className={styles.paso1}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Integrante <span className={styles.obligatorio}>*</span></Form.Label>
-                                <Form.Select
-                                    name="integrante"
-                                    value={data.integrante}
-                                    onChange={handleChange}
-                                    isInvalid={!!errores.integrante}
-                                >
-                                    <option value="">Seleccione un integrante</option>
+                    {paso ===1 && (
+                        <Form onSubmit={handleSiguiente} >
+                            <div className={styles.paso1}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Integrante <span className={styles.obligatorio}>*</span></Form.Label>
+                                    <Form.Select
+                                        name="integrante"
+                                        value={data.integrante}
+                                        onChange={handleChange}
+                                        isInvalid={!!errores.integrante}
+                                    >
+                                        <option value="">Seleccione un integrante</option>
                                     {
                                             console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
                                         }
@@ -332,8 +333,8 @@ const FormularioTurnos = () => {
                                                     ""
                                             )}
                                             <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
-                                </Form.Select>
-                                <Form.Control.Feedback type="invalid">{errores.integrante}</Form.Control.Feedback>
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">{errores.integrante}</Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Especialidad <span className={styles.obligatorio}>*</span></Form.Label>
@@ -407,7 +408,7 @@ const FormularioTurnos = () => {
                     </Form>
                 )}
             </div>
-            {paso===3 && (
+            ):(
                 <div className={styles.resultadosContainer}>
                     <div className={styles.botonVolverContainer}>
                         <Button variant="secondary" onClick={handleVolverBusqueda}>Volver a la búsqueda</Button>
@@ -442,8 +443,9 @@ const FormularioTurnos = () => {
                         ):(<p className="text-center">No se encontraron turnos disponibles con los criterios seleccionados.</p>)}
                     </div>
                 </div>
-     
             )}
+            
+            
              </div>
             <Modal show={modalFechaHora} onHide={() => setModalFechaHora(false)} centered>
                 {turnoSeleccionado && (

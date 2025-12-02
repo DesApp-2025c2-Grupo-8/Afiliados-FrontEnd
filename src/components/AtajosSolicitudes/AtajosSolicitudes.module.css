@@ -1,0 +1,345 @@
+.atajosSolicitudes {
+    width: 60%;
+    padding: 20px 0px;
+}
+
+.atajosAccion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.tituloAtajosAccion {
+    color: #007b8f;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007b8f;
+    text-align: center;
+    padding-bottom: 10px;
+    position: relative;
+    width: 100%;
+    /* background-color: rebeccapurple; */
+}
+
+.tituloAtajosAccion::after {
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
+
+.btnAccion {
+    border-radius: 12px;
+    font-size: 22px;
+    padding: 8px 16px;
+    margin: 0;
+    border: none;
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    color: black;
+    font-weight: normal;
+}
+
+.solicitudesEstado {
+    margin-top: 40px;
+}
+
+.solicitudesEstado h2 {
+    color: #007b8f;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007b8f;
+    text-align: center;
+    padding-bottom: 10px;
+    position: relative;
+    width: 100%;
+    /* background-color: rebeccapurple; */
+}
+
+.solicitudesEstado h2::after {
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
+.containerEstadoPeriodo {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+
+}
+
+.seleccionEstado {
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.btnSeleccionEstado {
+    width: 33%;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    background-color: #E6E6E6;
+    color: #757575;
+}
+
+
+
+.periodoResultado {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.periodoResultado p {
+    width: 100%;
+    font-size: 20px;
+}
+
+.periodoBotones {
+    width: 33%;
+}
+
+.btnPeriodo {
+    border: none;
+    background-color: #E6E6E6;
+    color: #757575;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    text-align: left;
+}
+
+.periodoEstados {
+    width: 66%;
+}
+
+.btnSeleccionEstadoActivo {
+    width: 33%;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #757575;
+    background-color: #24979B;
+    color: white;
+}
+
+.activo {
+    border: none;
+    color: #757575;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    text-align: left;
+    background-color: #24979B;
+    color: white;
+}
+
+.btnPeriodo {
+    border: none;
+    background-color: #E6E6E6;
+    color: #757575;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    text-align: left;
+}
+
+.atajosAccionMobile {
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .btnAccion {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+
+}
+
+
+@media (max-width: 900px) {
+    .atajosSolicitudes {
+        width: 90%;
+        margin: auto;
+    }
+
+    .btnPeriodo,
+    .activo {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+
+
+    .periodoResultado {
+        border-top: 2px solid rgb(197, 197, 197);
+        padding-top: 10px;
+        flex-wrap: wrap;
+    }
+
+    .tituloPeriodo {
+        text-align: center;
+    }
+
+    .periodoBotones {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+    }
+
+    .seleccionEstado {
+        flex-direction: column;
+
+    }
+
+    .periodoEstados {
+        margin: auto;
+        width: 100%;
+    }
+
+    .btnPeriodo,
+    .activo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .btnSeleccionEstado,
+    .btnSeleccionEstadoActivo {
+        width: 100%;
+        margin: auto;
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+
+
+
+    .solicitudesEstado,
+    .solicitudesEstado h2 {
+        margin: 16px 0;
+    }
+
+    .solicitudesEstado h2 {
+        font-size: 1.45em;
+    }
+
+    /* boton flotante de accion :P */
+
+
+    .tituloAtajosAccion {
+        display: none;
+    }
+
+    .atajosSolicitudes {
+        padding-bottom: 0;
+    }
+
+    .atajosSolicitudes .atajosAccion {
+        overflow: hidden;
+        background-color: #fff;
+        position: fixed;
+        border-radius: 12px;
+        z-index: 999;
+        max-width: 0;
+        right: 10px;
+        bottom: 80px;
+        padding: 0;
+        margin: 0;
+        height: auto;
+        max-height: 198px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+        transform: translateY(10px);
+        pointer-events: none;
+
+        transition:
+            max-width 0.3s ease-in-out,
+            transform 0.3s ease,
+            padding 0.3s ease;
+        min-width: 0;
+    }
+
+    .atajosSolicitudes .atajosAccion.mostrar {
+        max-width: calc(100% - 20px);
+        padding: 10px;
+        transform: translateY(0);
+        pointer-events: all;
+    }
+
+    .atajosAccionMobile .atajosAccionMobileButton {
+        width: 100%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+        background-color: #457B9D;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        font-size: 40px;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .atajosSolicitudes .atajosAccionMobile.alargue {
+        /* width: 100%; */
+        max-width: calc(100% - 20px);
+        margin: auto;
+        border-radius: 12px;
+        transition: max-width 0.33s ease-in-out;
+    }
+
+    .atajosAccionMobile {
+        border-radius: 50%;
+        display: block;
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        z-index: 1000;
+        overflow: hidden;
+        width: 100%;
+        max-width: 64px;
+        transition: max-width 0.33s ease-in-out, border-radius 0.3s ease-in-out;
+    }
+    .atajosSolicitudes .atajosAccionMobile.alargue .atajosAccionMobileButton {
+    width: 100%;
+}
+
+    .atajosSolicitudes .atajosAccion > * {
+  min-width: 0;
+}
+
+}

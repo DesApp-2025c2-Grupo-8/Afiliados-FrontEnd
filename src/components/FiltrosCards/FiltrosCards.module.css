@@ -1,7 +1,18 @@
 .selectYBotonContainer {
     display: flex;
-    width: 350px;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.filtroContainer {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 500px;
+    z-index: 5000;
 }
 
 .botonLimpiar {
@@ -22,6 +33,34 @@
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.select{
+.select {
     margin: 0;
+    width: 100%;
+}
+
+/* @media (max-width: 960px) {
+    .selectYBotonContainer {
+        min-width: 215px;
+        width: auto;
+        max-width: 300px;
+    }
+} */
+
+@media (max-width: 630px) {
+    .filtroContainer {
+        max-width: 100%;
+    }
+
+    .borrarFiltro {
+        margin: 0;
+    }
+
+    .botonLimpiar {
+        display: none;
+    }
+
+    .selectYBotonContainer {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }

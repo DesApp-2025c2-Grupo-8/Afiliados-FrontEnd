@@ -1,26 +1,27 @@
 .loginContainer {
-  min-height: 90vh;
+  min-height: 100vh;
   padding: 100px 0;
   display: flex;
   justify-content: center; 
-  align-items: center;   
-  background-color: #EBEBEB;
-  background-image: url("../../assets/images/imagenFondoLogin.png");
+  align-items: center;
+  /* background-color: #EBEBEB; */
+  /* background-image: url("../../assets/images/imagenFondoLogin.png"); */
   background-size: cover;
   background-position: center;
-  position: relative; 
 }
 
+
 .loginBox {
+  position: relative;
+  z-index: 2;
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 15px;
-  max-width: 700px; 
+  max-width: 700px;
   min-width: 450px; 
-  width: 100%; 
+  width: 100%;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: left; 
-  position: relative; 
+  text-align: left;
 }
 
 .loginBox h2 {
@@ -30,7 +31,11 @@
   text-align: center;
 }
 
-
+.errorForm {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
 
 .btnIngresar {
   background-color: #24979b !important;
@@ -65,13 +70,28 @@
   text-decoration: underline;
 }
 
-@media (max-width: 480px) {
+
+
+@media (max-width: 500px) {
   .loginBox {
-    padding: 1.5rem;
-    max-width: 90%;
+    padding: 1rem;
+    min-width: 95%; 
+    width: 100%;
   }
 
   .loginBox h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .justifyContentCenter{
+    /* background-color: red; */
+    width: 90%;
+  }
+}
+
+
+@media (max-height: 640px) {
+  .loginContainer {
+    padding: 40px 0;
   }
 }

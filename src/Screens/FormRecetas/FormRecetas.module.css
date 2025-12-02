@@ -7,16 +7,22 @@
     background-position: center;
 }
 
-.oblgatorio{
+.oblgatorio {
     color: #E64F4F;
 }
 
 .container {
     display: flex;
-    justify-content: center; 
-    align-items: center;   
-    min-height: 80vh;       
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
     padding-bottom: 2rem;
+}
+
+.fondo,
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 
@@ -26,16 +32,31 @@
     border-radius: 12px;
     max-width: 600px;
     width: 100%;
-    margin:auto;
+    margin: auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
 }
 
 
 
 .titulo {
-    font-size: 1.9rem;
+    position: relative;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007b8f;
     text-align: center;
-    margin-bottom: 1.5rem;
+    padding-bottom: 10px;
+}
+
+.titulo::after {
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
 }
 
 label {
@@ -68,11 +89,53 @@ button {
 
 @media (max-width: 768px) {
     .card {
+        padding: 1.5rem;
+    }
+
+    .titulo {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 1.2rem;
+        border-radius: 10px;
+    }
+
+    .titulo {
+        font-size: 1.4rem;
+    }
+
+    select,
+    input,
+    textarea {
+        font-size: 0.95rem;
+    }
+
+    button {
+        margin: 2rem 0 1rem 0;
+    }
+}
+
+@media (max-width: 360px) {
+    .card {
         padding: 1rem;
     }
 
     .titulo {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
+    .container select {
+    background-size: 12px;
+    background-position: right 0.8rem center;
+  }
+
+  option{
+        width: 100%;
+        max-width: 280px;
+        min-width: 200px;
+        font-size: 14px;
+    }
 }

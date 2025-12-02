@@ -60,6 +60,9 @@
   transition: background 0.3s ease;
 }
 
+.formPrestadores select {
+  padding-right: 2.3rem !important;
+}
 
 
 @media (max-width: 768px) {
@@ -73,7 +76,7 @@
     gap: 16px;
   }
 
-  .form-control {
+  .form-control{
     width: 100%;
   }
 
@@ -95,9 +98,12 @@
     font-size: 15px;
     padding: 10px 0;
   }
+}
 
-  .formPrestadores button[type="reset"] {
-    font-size: 15px;
-    padding: 10px 0;
+
+@media (max-width: 360px) {
+  .formPrestadores select {
+    background-size: 12px;
+    background-position: right 0.8rem center;
   }
 }

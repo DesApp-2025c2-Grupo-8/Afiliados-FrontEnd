@@ -14,6 +14,12 @@ const Login = () => {
   const [mensaje, setMensaje] = useState("");
   const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
 
+  const [errorTipoDoc, setErrorTipoDoc] = useState(false);
+  const [errorNumDoc, setErrorNumDoc] = useState(false);
+  const [errorNumDocLength, setErrorNumDocLength] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [errorPasswordLength, setErrorPasswordLength] = useState(false);
+
   useEffect(() => {
     document.title = "Iniciar sesión - Medicina Integral";
     //si el ususario esta iniciado (hay datos en el context) redirigir al home
@@ -22,8 +28,45 @@ const Login = () => {
     }
   }, []);
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMensaje("");
+
+  if(!tipoDocumento){
+    setErrorTipoDoc(true);
+    return;
+  } else {
+    setErrorTipoDoc(false);
+  }
+
+  if(!numeroDocumento){
+    setErrorNumDoc(true);
+    return;
+  } else {
+    setErrorNumDoc(false);
+  }
+
+  if(numeroDocumento.length < 6 || numeroDocumento.length > 10){
+    setErrorNumDocLength(true);
+    return;
+  } else {
+    setErrorNumDocLength(false);
+  }
+
+  if(!password){
+    setErrorPassword(true);
+    return;
+  } else {
+    setErrorPassword(false);
+  }
+
+  if(password.length < 5){
+    setErrorPasswordLength(true);
+    return;
+  } else {
+    setErrorPasswordLength(false);
+  }
 
   try {
     const response = await fetch("http://localhost:3000/auth/login", {
@@ -43,7 +86,6 @@ const Login = () => {
 
     setMensaje("");
 
-    // 🔹 Obtener grupo familiar completo (si hay)
     const grupoFamiliar = data.user.grupoFamiliar || [];
     let grupoCompleto = [];
 
@@ -61,7 +103,6 @@ const Login = () => {
       }
     }
 
-    // 🔹 Crear un solo objeto con el usuario principal y su grupo
     const userData = {
       ...data.user,
       grupoFamiliar: grupoCompleto,
@@ -91,7 +132,7 @@ const Login = () => {
               <Form.Group controlId="tipoDocumento">
                 <Form.Label>Tipo Documento</Form.Label>
                 <Form.Select
-                  required
+                  
                   value={tipoDocumento}
                   onChange={(e) => setTipoDocumento(e.target.value)}
                 >
@@ -100,6 +141,7 @@ const Login = () => {
                   <option value="PASAPORTE">Pasaporte</option>
                   <option value="LC">Libreta Cívica</option>
                 </Form.Select>
+                <p className={styles.errorForm}>{errorTipoDoc && "Por favor seleccione un tipo de documento."}</p>
               </Form.Group>
 
               <Form.Group controlId="numeroDocumento">
@@ -107,10 +149,12 @@ const Login = () => {
                 <Form.Control
                   type="number"
                   placeholder="99999999"
-                  required
+                  
                   value={numeroDocumento}
                   onChange={(e) => setNumeroDocumento(e.target.value)}
                 />
+                <p className={styles.errorForm}>{errorNumDoc && "Por favor ingrese un número de documento."}</p>
+                <p className={styles.errorForm}>{errorNumDocLength && "El número de documento debe tener entre 6 y 10 caracteres."}</p>
               </Form.Group>
 
               <Form.Group controlId="password">
@@ -118,10 +162,12 @@ const Login = () => {
                 <Form.Control
                   type="password"
                   placeholder="Ingrese su contraseña"
-                  required
+                  
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <p className={styles.errorForm}>{errorPassword && "Por favor ingrese una contraseña."}</p>
+                <p className={styles.errorForm}>{errorPasswordLength && "La contraseña debe tener al menos 5 caracteres."}</p>
               </Form.Group>
 
               <Button
@@ -135,7 +181,7 @@ const Login = () => {
 
             {mensaje && (
               <div className="text-center mt-3">
-                <span>{mensaje}</span>
+                <span className={styles.errorForm}>{mensaje}</span>
               </div>
             )}
 
