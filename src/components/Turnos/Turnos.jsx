@@ -27,7 +27,7 @@ const Turnos = (props) => {
             <div className={styles.proximosTurnos}>
                 {turnosFuturos.length === 0 && <p className={styles.sinTurnos}>No tenés turnos programados.</p>}
                 {turnosFuturos.map((item, idx) => 
-                idx < 5 &&
+                idx < 4 &&
                 <CardTurnoProximo key={idx + item.integrante} fecha={item.fecha} hora={item.hora} prestador={item.medico} tipoConsulta={item.especialidad} integrante={item.integrante}/>)}
                 
                 <Link className={styles.btnNuevoTurno} to={'/solicitar-turno'}> <AiOutlinePlus/> Solicitar nuevo turno</Link>
