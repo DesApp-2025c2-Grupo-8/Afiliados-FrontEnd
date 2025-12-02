@@ -10,7 +10,7 @@ import { MdCancel } from 'react-icons/md';
 
 
 const FormPrestadores = (props) => {
-    
+
 
     const hadnleResetFiltros = () => {
         props.setNombre('')
@@ -46,6 +46,11 @@ const FormPrestadores = (props) => {
                                 ))}
 
                         </Form.Select>
+                        {props.errorEspecialidad && (
+                            <span style={{ color: 'red', fontSize: '0.9rem' }}>
+                                Debe seleccionar una especialidad
+                            </span>
+                        )}
                     </Form.Group>
                 </Row>
 
@@ -82,11 +87,11 @@ const FormPrestadores = (props) => {
 
                 </Row>
 
-                <Button variant="dark" type="reset" onClick={hadnleResetFiltros}>Limpiar Filtros <MdCancel style={{marginLeft: '4px'}}/> </Button>
+                <Button variant="dark" type="reset" onClick={hadnleResetFiltros}><MdCancel style={{ margin: '4px' }} /> Limpiar Filtros</Button>
 
                 <Button variant="primary" type="submit">
-                    Buscar
                     <FaSearch style={{ margin: '4px' }} />
+                    Buscar
                 </Button>
             </Form>
 

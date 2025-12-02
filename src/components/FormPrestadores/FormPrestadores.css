@@ -98,6 +98,10 @@
     font-size: 15px;
     padding: 10px 0;
   }
+  .formPrestadores button[type="reset"] {
+    font-size: 15px;
+    padding: 10px 0;
+  }
 }
 
 
