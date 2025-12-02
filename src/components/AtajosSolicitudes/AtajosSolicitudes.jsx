@@ -28,7 +28,7 @@ const AtajosSolicitudes = (props) => {
   ultimoAno.setFullYear(hoy.getFullYear() - 1);
 
   const obtenerCantidadPorEstadoPeriodoYSolicitud = (estadoS, periodo, solicitudess) => {
-    console.log(solicitudess)
+    // console.log(solicitudess)
     let fechaInicio;
     if (periodo === "ultimaSemana") {
       fechaInicio = ultimaSemana;
@@ -37,7 +37,7 @@ const AtajosSolicitudes = (props) => {
     } else {
       fechaInicio = ultimoAno;
     }
-    console.log("fechaInicio:", fechaInicio);
+    // console.log("fechaInicio:", fechaInicio);
     return solicitudess.filter(solicitud => {
       return (
         solicitud.estado.toLowerCase() === estadoS &&
@@ -74,11 +74,11 @@ const AtajosSolicitudes = (props) => {
 
   setEstadoSolicitud(nuevoResumen);
 
-    console.log(tipo + " del " + periodoSeleccionado + " aceptadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("aceptada", periodoSeleccionado, solicitudSeleccionada))
-    console.log(tipo + " del " + periodoSeleccionado + " rechazadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("rechazada", periodoSeleccionado, solicitudSeleccionada))
-    console.log(tipo + " del " + periodoSeleccionado + " en observacion ", obtenerCantidadPorEstadoPeriodoYSolicitud("observacion", periodoSeleccionado, solicitudSeleccionada))
-    console.log(tipo + " del " + periodoSeleccionado + " en observaciónnnn ", obtenerCantidadPorEstadoPeriodoYSolicitud("observación", periodoSeleccionado, solicitudSeleccionada))
-    console.log(tipo + " del " + periodoSeleccionado + " pendientes ", obtenerCantidadPorEstadoPeriodoYSolicitud("pendiente", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " aceptadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("aceptada", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " rechazadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("rechazada", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " en observacion ", obtenerCantidadPorEstadoPeriodoYSolicitud("observacion", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " en observaciónnnn ", obtenerCantidadPorEstadoPeriodoYSolicitud("observación", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " pendientes ", obtenerCantidadPorEstadoPeriodoYSolicitud("pendiente", periodoSeleccionado, solicitudSeleccionada))
 
   }, [solicitudSeleccionada, periodoSeleccionado]);
 

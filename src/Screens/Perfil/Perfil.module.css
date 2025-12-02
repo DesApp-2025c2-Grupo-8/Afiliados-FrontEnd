@@ -98,7 +98,38 @@
     width: 50%;
 }
 
-.btnCerrarSesion {
+.btnUsuario{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    /* background-color: red; */
+    padding: 0 38px;
+}
+
+.headerModalEditarUsuario{
+    background-color: #007b8f;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.btnEditar, .btnGuardarCambios {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #F5AD28;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btnCerrarSesion, .btnCerrarCambios {
     margin-top: 20px;
     padding: 10px 20px;
     background-color: #E64F4F;
@@ -109,16 +140,26 @@
     font-size: 16px;
 }
 
-.btnCerrarSesion:hover{
+.btnCerrarSesion:hover, .btnCerrarCambios:hover, .btnCerrarSesionMobile:hover{
     background-color: #ff1c1c;
     
 }
 
-.btnCerrarSesionMobile{
+.btnEditarMobile:hover, .btnEditar:hover, .btnGuardarCambios:hover{
+    background-color: #d38900;
+    
+}
+
+.btnCerrarSesionMobile, .btnEditarMobile{
     display: none;
 }
 
-
+.errorEditar{
+    color: red;
+    font-size: 14px;
+    height: 18px;
+    margin-top: 5px;
+}
 
 
 .imagenPerfil h1, .seccionGrupoFamiliar h2 {
@@ -170,7 +211,7 @@
         margin-bottom: 40px;
     }
     
-    .btnCerrarSesion {
+    .btnCerrarSesion, .btnEditar{
         display: none;
     }
     
@@ -187,6 +228,18 @@
         width: 90%;
     }
     
+    .btnEditarMobile {
+        display: block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #F5AD28;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 90%;
+    }
     
     .cardsInformacion{
         gap: 20px;
@@ -212,5 +265,13 @@
     .cardsInformacion .articuloPerfil{
         font-size: 16px;
     
+    }
+
+    .btnUsuario, .footerModalEditarUsuario{
+        flex-direction: column;
+        /* gap: 10px; */
+    }
+    .btnCerrarCambios, .btnGuardarCambios{
+        width: 100%;
     }
 }

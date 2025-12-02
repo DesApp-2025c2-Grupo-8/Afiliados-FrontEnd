@@ -43,7 +43,6 @@ const Login = () => {
 
     setMensaje("");
 
-    // 🔹 Obtener grupo familiar completo (si hay)
     const grupoFamiliar = data.user.grupoFamiliar || [];
     let grupoCompleto = [];
 
@@ -61,7 +60,6 @@ const Login = () => {
       }
     }
 
-    // 🔹 Crear un solo objeto con el usuario principal y su grupo
     const userData = {
       ...data.user,
       grupoFamiliar: grupoCompleto,
