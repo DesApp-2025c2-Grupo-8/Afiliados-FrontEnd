@@ -1,0 +1,221 @@
+.fondo {
+    min-height: 90vh;
+    padding-top: 100px;
+    width: 100%;
+    background-image: url("@assets/images/fondo-FormRecetas.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.obligatorio{
+    color: #E64F4F;
+}
+
+.container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    min-height: 80vh;       
+    padding-top: 0;
+    padding-bottom: 2rem;
+}
+
+.container h4{
+    margin-bottom: 30px;
+}
+
+.fondo, .container{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+
+.card {
+    background-color: #FFFFFF;
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 100%;
+    height: auto;
+    margin:auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+}
+
+.botones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 20px;
+}
+
+.paso1 {
+    padding-bottom: 40px; 
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.paso1 .mb-3 {
+    margin-bottom: 0 !important;
+}
+
+.titulo {
+    position: relative;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 700;
+    color: #007b8f;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.titulo::after{
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
+.cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    align-items: stretch;
+    width: 100%;
+}
+
+.cardResultado {
+    display: flex; 
+    flex-direction: column;
+    max-width: 450px; 
+    width: 100%;
+}
+
+.cardResultado > div { 
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.cardPaso3 {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 0.1rem;
+    box-shadow: none;
+    max-width: 100%;
+}
+
+.datos {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    background-color: #e9ecef;
+}
+
+.resultadosContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 70vh;
+    padding-top:1rem;
+    gap: 0.3rem;
+}
+
+.botonVolverContainer {
+    text-align: center;
+    margin-top:0;
+    margin-bottom: 0.5rem;
+}
+
+.botonCancelar {
+    background-color: #E64F4F;
+    border: none;
+}
+
+.botonSiguiente, .botonBuscar {
+    background-color: #24979B;
+    border: none;
+}
+
+select,
+input,
+textarea {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.modalHeader {
+   background-color: #24979B; 
+   color: white;
+   border-bottom: none;
+}
+
+.modal {
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.modalTitle {
+   color: white;
+   text-align: center;
+   width: 100%;
+}
+
+
+@media (max-width: 480px){
+
+    .card{
+        padding: 1.2rem;
+        border-radius: 10px;
+    }
+
+    .titulo{
+        font-size: 1.4rem;
+    }
+
+    select,
+    input,
+    textarea{
+        font-size: 0.95rem;
+    }
+
+    .botones button{
+        margin: 0;
+    }
+
+    .cardsContainer{
+        width: 100%;
+        max-width: 95%;        
+        margin: 0 auto;
+        gap: 1rem;
+    }
+
+    .cardResultado{
+        width: 100%;           
+        max-width: 300px;       
+        margin: 0 auto;
+        border-radius: 14px;    
+        padding: 0;
+        overflow: hidden;       
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+}

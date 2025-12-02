@@ -1,104 +1,131 @@
 import { useEffect, useState } from 'react';
 import EstadoSolicitud from '../../components/EstadoSolicitud/EstadoSolicitud';
-import "./AtajosSolicitudes.css"
+import styles from './AtajosSolicitudes.module.css';
 import { BsClipboard2Plus } from 'react-icons/bs';
 import { LuDollarSign } from 'react-icons/lu';
 import { PiPulse } from 'react-icons/pi';
 import { Link } from "react-router-dom"
-import solicitudes from '../../db/solicitudes';
+import { FiPlus } from "react-icons/fi";
+import { AiOutlineClose } from 'react-icons/ai';
 
-const AtajosSolicitudes = () => {
+const AtajosSolicitudes = (props) => {
 
-  const [estadosSolicitudes, setEstadosSolicitudes] = useState([]);
-  const [solicitudSeleccionada, setSolicitudSeleccionada] = useState("autorizacion");
+  // const [estadosSolicitudes, setEstadosSolicitudes] = useState([]);
+  const [solicitudSeleccionada, setSolicitudSeleccionada] = useState(props.autorizaciones);
+  const [tipo, setTipo] = useState("autorizacion");
   const [periodoSeleccionado, setPeriodoSeleccionado] = useState("ultimaSemana");
+  
+  useEffect(() => {
+  setSolicitudSeleccionada(props.autorizaciones);
+}, [props.autorizaciones]);
 
-  // Estado base con títulos fijos y cantidad en 0
-  const estadosBase = [
-    { titulo: "Pendientes", estado: "pendiente", cantidad: 0 },
-    { titulo: "En observación", estado: "observacion", cantidad: 0 },
-    { titulo: "Rechazadas", estado: "rechazada", cantidad: 0 },
-    { titulo: "Aceptadas", estado: "aceptada", cantidad: 0 },
-  ];
+  const hoy = new Date();
+  const ultimaSemana = new Date();
+  ultimaSemana.setDate(hoy.getDate() - 7);
+  const ultimoMes = new Date();
+  ultimoMes.setMonth(hoy.getMonth() - 1);
+  const ultimoAno = new Date();
+  ultimoAno.setFullYear(hoy.getFullYear() - 1);
 
-  const [estadoSolicitud, setEstadoSolicitud] = useState(estadosBase);
+  const obtenerCantidadPorEstadoPeriodoYSolicitud = (estadoS, periodo, solicitudess) => {
+    // console.log(solicitudess)
+    let fechaInicio;
+    if (periodo === "ultimaSemana") {
+      fechaInicio = ultimaSemana;
+    } else if (periodo === "ultimoMes") {
+      fechaInicio = ultimoMes;
+    } else {
+      fechaInicio = ultimoAno;
+    }
+    // console.log("fechaInicio:", fechaInicio);
+    return solicitudess.filter(solicitud => {
+      return (
+        solicitud.estado.toLowerCase() === estadoS &&
+        new Date(solicitud.fechaDeCarga) >= fechaInicio &&
+        new Date(solicitud.fechaDeCarga) <= hoy
+      );
+    }).length;
+  }
+
+  const resumenInicial = [
+      { titulo: "Pendientes", estado: "pendiente", cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("pendiente", "ultimaSemana", props.autorizaciones) },
+      { titulo: "En observación", estado: "observacion", cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("observación", "ultimaSemana", props.autorizaciones) },
+      { titulo: "Rechazadas", estado: "rechazada", cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("rechazada", "ultimaSemana", props.autorizaciones) },
+      { titulo: "Aceptadas", estado: "aceptada", cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("aceptada", "ultimaSemana", props.autorizaciones) },
+    ];
+
+  const [estadoSolicitud, setEstadoSolicitud] = useState([]);
 
   useEffect(() => {
-    const fechaActual = new Date();
+  const nuevoResumen = [
+    { titulo: "Pendientes", estado: "pendiente",
+      cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("pendiente", periodoSeleccionado, solicitudSeleccionada)
+    },
+    { titulo: "En observación", estado: "observacion",
+      cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("observación", periodoSeleccionado, solicitudSeleccionada)
+    },
+    { titulo: "Rechazadas", estado: "rechazada",
+      cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("rechazada", periodoSeleccionado, solicitudSeleccionada)
+    },
+    { titulo: "Aceptadas", estado: "aceptada",
+      cantidad: obtenerCantidadPorEstadoPeriodoYSolicitud("aceptada", periodoSeleccionado, solicitudSeleccionada)
+    },
+  ];
 
-    const calcularFechaInicio = () => {
-      if (periodoSeleccionado === "ultimaSemana") {
-        return new Date(fechaActual.getTime() - (7 * 24 * 60 * 60 * 1000));
-      } else if (periodoSeleccionado === "ultimoMes") {
-        return new Date(fechaActual.getTime() - (30 * 24 * 60 * 60 * 1000));
-      } else {
-        return new Date(fechaActual.getTime() - (365 * 24 * 60 * 60 * 1000));
-      }
-    };
+  setEstadoSolicitud(nuevoResumen);
 
-    const fechaDeInicio = calcularFechaInicio();
-
-    // Filtrar solicitudes según tipo y periodo
-    const solicitudesFiltradas = solicitudes.filter(solicitud => {
-      const fechaSolicitud = new Date(solicitud.fecha);
-      return (
-        solicitud.tipo === solicitudSeleccionada &&
-        fechaSolicitud >= fechaDeInicio &&
-        fechaSolicitud <= fechaActual
-      );
-    });
-
-    setEstadosSolicitudes(solicitudesFiltradas);
-
-    // Generar nuevo resumen a partir del base
-    const nuevoResumen = estadosBase.map(item => ({
-      ...item,
-      cantidad: solicitudesFiltradas.filter(s => s.estado === item.estado).length
-    }));
-
-    setEstadoSolicitud(nuevoResumen);
+    // console.log(tipo + " del " + periodoSeleccionado + " aceptadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("aceptada", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " rechazadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("rechazada", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " en observacion ", obtenerCantidadPorEstadoPeriodoYSolicitud("observacion", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " en observaciónnnn ", obtenerCantidadPorEstadoPeriodoYSolicitud("observación", periodoSeleccionado, solicitudSeleccionada))
+    // console.log(tipo + " del " + periodoSeleccionado + " pendientes ", obtenerCantidadPorEstadoPeriodoYSolicitud("pendiente", periodoSeleccionado, solicitudSeleccionada))
 
   }, [solicitudSeleccionada, periodoSeleccionado]);
 
+  const [mostrarAtajos, setMostrarAtajos] = useState(false);
+
   return (
-    <section className='atajos-solicitudes'>
-      <div className='atajos-accion'>
-        <h2 className='titulo-atajos-accion'>Atajos de acción</h2>
-        <Link className='btn-accion'> <PiPulse /> Nueva autorización</Link>
-        <Link className='btn-accion'> <LuDollarSign /> Solicitar reintegro</Link>
-        <Link to="/cargar-receta" className='btn-accion'> <BsClipboard2Plus /> Cargar receta</Link>
+    <section className={styles.atajosSolicitudes}>
+      <div className={styles.atajosAccionMobile  + (mostrarAtajos ? " " + styles.alargue : "")}>
+        <button className={styles.atajosAccionMobileButton} onClick={() => setMostrarAtajos(!mostrarAtajos)}> {mostrarAtajos ? <AiOutlineClose /> : <FiPlus />}</button>
       </div>
-      <div className='solicitudes-estado'>
+      <div className={styles.atajosAccion + (mostrarAtajos ? " " + (styles.mostrar ) : "")}>
+        <h2 className={styles.tituloAtajosAccion}>Atajos de acción</h2>
+        <Link to="/cargar-autorizacion" className={styles.btnAccion}> <PiPulse /> Nueva autorización</Link>
+        <Link to="/solicitar-reintegro" className={styles.btnAccion}> <LuDollarSign /> Solicitar reintegro</Link>
+        <Link to="/cargar-receta" className={styles.btnAccion}> <BsClipboard2Plus /> Cargar receta</Link>
+      </div>
+      <div className={styles.solicitudesEstado}>
         <h2>Solicitudes por estado</h2>
-        <div className='container-estado-periodo'>
-          <div className='seleccion-estado'>
+        <div className={styles.containerEstadoPeriodo}>
+          <div className={styles.seleccionEstado}>
             <button
-              className={'btn-seleccion-estado ' + (solicitudSeleccionada == "autorizacion" ? "activo" : " ")}
-              onClick={() => setSolicitudSeleccionada("autorizacion")}
+              className={(tipo == "autorizacion" ? styles.btnSeleccionEstadoActivo : styles.btnSeleccionEstado)}
+              onClick={() => { setSolicitudSeleccionada(props.autorizaciones); setTipo("autorizacion") }}
             >
               Autorizaciones
             </button>
             <button
-              className={'btn-seleccion-estado ' + (solicitudSeleccionada === "reintegro" ? "activo" : " ")}
-              onClick={() => setSolicitudSeleccionada("reintegro")}
+              className={(tipo == "reintegro" ? styles.btnSeleccionEstadoActivo : styles.btnSeleccionEstado)}
+              onClick={() => { setSolicitudSeleccionada(props.reintegros); setTipo("reintegro") }}
             >
               Reintegros
             </button>
             <button
-              className={'btn-seleccion-estado ' + (solicitudSeleccionada === "receta" ? "activo" : " ")}
-              onClick={() => setSolicitudSeleccionada("receta")}
+              className={(tipo == "receta" ? styles.btnSeleccionEstadoActivo : styles.btnSeleccionEstado)}
+              onClick={() => { setSolicitudSeleccionada(props.recetas); setTipo("receta") }}
             >
               Recetas
             </button>
           </div>
-          <div className='periodo-resultado'>
-            <p className='titulo-periodo'>Período:</p>
-            <div className='periodo-botones'>
-              <button className={(periodoSeleccionado === "ultimaSemana" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimaSemana")}>Últimos 7 días</button>
-              <button className={(periodoSeleccionado === "ultimoMes" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimoMes",)}>Último mes</button>
-              <button className={(periodoSeleccionado === "ultimoAño" ? "activo" : " ")} onClick={() => setPeriodoSeleccionado("ultimoAño")}>Último año</button>
+          <div className={styles.periodoResultado}>
+            <p className={styles.tituloPeriodo}>- Período -</p>
+            <div className={styles.periodoBotones}>
+              <button className={(periodoSeleccionado === "ultimaSemana" ? styles.activo : styles.btnPeriodo)} onClick={() => setPeriodoSeleccionado("ultimaSemana")}>Últimos 7 días</button>
+              <button className={(periodoSeleccionado === "ultimoMes" ? styles.activo : styles.btnPeriodo)} onClick={() => setPeriodoSeleccionado("ultimoMes",)}>Último mes</button>
+              <button className={(periodoSeleccionado === "ultimoAño" ? styles.activo : styles.btnPeriodo)} onClick={() => setPeriodoSeleccionado("ultimoAño")}>Último año</button>
             </div>
-            <div className='periodo-estados'>
+            <div className={styles.periodoEstados}>
               {estadoSolicitud.map((item, idx) =>
                 <EstadoSolicitud
                   key={idx + item.estado}

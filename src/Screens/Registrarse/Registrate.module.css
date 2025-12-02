@@ -5,8 +5,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ebebeb;
-  background-image: url("@assets/images/imagenFondoLogin.png");
+  /* background-color: #ebebeb; */
+  /* background-image: url("@assets/images/imagenFondoLogin.png"); */
   background-size: cover;
   background-position: center;
 }
@@ -27,7 +27,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 12px;
+  /* gap: 12px; */
 }
 
 .formGroup {
@@ -46,13 +46,14 @@
   width: 100%;
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  /* text-align: center; */
 }
 
 .registroBox h2 {
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
   color: #333;
+  text-align: center;
 }
 
 .btnRegistrar {
@@ -72,6 +73,7 @@
   margin-top: 1.5rem;
   font-size: 0.9rem;
   color: #333;
+  text-align: center;
 }
 
 .loginSection a {
@@ -83,6 +85,10 @@
 
 .loginSection a:hover {
   text-decoration: underline;
+}
+
+.formGroup input, .formGroup select {
+  margin: 0;
 }
 
 

@@ -5,12 +5,16 @@
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
   border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .searchBarra {
   position: relative;
   display: flex;
   align-items: center;
+  flex: 1;
 }
 
 .botonLimpiar {
@@ -19,14 +23,58 @@
 }
 
 .searchBarra input {
+  flex: 1;
+  min-width: 120px;
   padding: 8px 32px 8px 8px;
   width: 300px;
-  /* border-radius: 12px; */
   border: none;
+  margin: 0 auto;
+}
+
+.searchBarra input:focus {
+  outline: none;
 }
 
 .iconoBusqueda {
   position: absolute;
   right: 10px;
   pointer-events: none;
+}
+
+@media (max-width: 1325px) {
+  .searchForm {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 960px) {
+  .searchForm {
+    max-width: 300px;
+  }
+
+  .searchBarra {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 630px) {
+  .searchForm {
+    max-width: 400px;
+  }
+
+  .searchBarra {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 450px) {
+  .searchForm {
+    max-width: 450px;
+    width: 100%;
+  }
+
+  .searchBarra {
+    max-width: 450px;
+    width: 100%;
+  }
 }

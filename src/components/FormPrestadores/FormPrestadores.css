@@ -46,6 +46,9 @@
     transition: background 0.3s ease;
 }
 
+.formPrestadores select {
+  padding-right: 2.3rem !important;
+}
 
 
 @media (max-width: 768px) {
@@ -57,11 +60,6 @@
   .mb-3.row{
     flex-direction: column;
     gap: 16px;
-  }
-  
-
-  .options{
-    
   }
 
   .form-control{
@@ -85,5 +83,13 @@
   .formPrestadores button[type="submit"] {
     font-size: 15px;
     padding: 10px 0;
+  }
+}
+
+
+@media (max-width: 360px) {
+  .formPrestadores select {
+    background-size: 12px;
+    background-position: right 0.8rem center;
   }
 }

@@ -1,7 +1,7 @@
 // NumeroAfiliado.jsx
 import { createContext, useContext, useState } from "react";
 
-const NUMERO_AFILIADO = 663459901;
+const NUMERO_AFILIADO = null;
 const NumeroAfiliadoContext = createContext(null);
 
 export const NumeroAfiliadoProvider = ({ children }) => {

@@ -4,15 +4,19 @@ import FormGenerico from "../../components/FormGenerico/FormGenerico"
 import styles from './FormRecetas.module.css'
 import { useNavigate, Link } from "react-router-dom"
 import usuarios from "../../db/usuarios"
-import {useNumeroAfiliado} from "../../context/NumeroAfiliado";
+import { useAfiliadoDatos } from "../../context/AfiliadoDatos"
 
 const FormRecetas = () => {
     useEffect(() => {
         document.title = 'Cargar Receta - Medicina Integral'
+        if (!dataAfiliado) {
+            navigate("/login");
+            }
     }, []);
 
-    const { numeroAfiliado, setNumeroAfiliado } = useNumeroAfiliado(); 
-    const esTitular = numeroAfiliado.toString().endsWith("01");
+    const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
+    const numeroAfiliado = dataAfiliado?.numeroAfiliado;
+    const esTitular = dataAfiliado?.rol === "TITULAR";
 
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString(),
@@ -84,7 +88,7 @@ const FormRecetas = () => {
 
     return (
         <div className={styles.fondo}>
-            
+
             <div className={styles.container}>
                 <div className={styles.card}>
                     <h4 className={styles.titulo}>Carga de Receta</h4>
@@ -99,11 +103,15 @@ const FormRecetas = () => {
                             >
                                 <option value="">Seleccione el nombre del integrante</option>
                                 {
-                                usuarios.map((usuario) => {
-                                    return usuario.numeroAfiliado.toString().includes( esTitular ? data.numeroAfiliado.toString().slice(0, 5) : numeroAfiliado.toString()) ? (
-                                        <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
-                                    ) : null
-                                })}
+                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
+                                    }
+                                    {
+                                        dataAfiliado?.grupoFamiliar.map((usuario) =>
+                                            //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
+                                            esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
+                                                ""
+                                        )}
+                                         <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
                             </Form.Select>
                             <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                         </Form.Group>
@@ -174,7 +182,7 @@ const FormRecetas = () => {
                 <Modal className={styles.modal} show={modalConfirmar} onHide={() => setModalConfirmar(false)} centered>
                     <Modal.Body>
                         La receta ha sido cargada correctamente. <br />
-                        Nro.Orden: {nroOrden}
+                        N° Orden: {nroOrden}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={handleConfirmar} style={{ backgroundColor: '#24979B', border: 'none' }}>Aceptar</Button>

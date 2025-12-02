@@ -11,18 +11,18 @@
     color: #E64F4F;
 }
 
+.fondo,
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 80vh;
     padding-bottom: 2rem;
-}
-
-.fondo,
-.container {
-    padding-left: 1rem;
-    padding-right: 1rem;
 }
 
 
@@ -36,7 +36,12 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
 }
 
-
+.botones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
 
 .titulo {
     position: relative;
@@ -59,6 +64,12 @@
     transform: translateX(-50%);
 }
 
+.subtitulo {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
 label {
     font-weight: 500;
     margin-top: 1rem;
@@ -76,10 +87,11 @@ textarea {
     box-sizing: border-box;
 }
 
+/* 
 button {
     margin: 3rem;
     font-weight: bold;
-}
+} */
 
 .modal {
     font-size: 1.2rem;
@@ -100,6 +112,7 @@ button {
 @media (max-width: 480px) {
     .card {
         padding: 1.2rem;
+        /* Reduce más el padding en mobile */
         border-radius: 10px;
     }
 
@@ -112,10 +125,6 @@ button {
     textarea {
         font-size: 0.95rem;
     }
-
-    button {
-        margin: 2rem 0 1rem 0;
-    }
 }
 
 @media (max-width: 360px) {
@@ -127,12 +136,7 @@ button {
         font-size: 1.2rem;
     }
 
-    .container select {
-    background-size: 12px;
-    background-position: right 0.8rem center;
-  }
-
-  option{
+    option{
         width: 100%;
         max-width: 280px;
         min-width: 200px;

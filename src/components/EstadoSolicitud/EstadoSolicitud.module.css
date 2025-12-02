@@ -1,0 +1,48 @@
+.estadoSolicitud {
+    display: flex;
+    margin-bottom: 16px;
+    /* background-color: violet; */
+    width: 100%;
+}
+
+.containerCantidadEstadoSolicitud{
+    /* background-color: blue; */
+    text-align: center;
+    width: 50%;
+}
+.estadoSolicitud .tituloEstadoSolicitud{
+    width: 50%;
+    /* background-color: grey; */
+}
+
+
+
+.estadoSolicitud p{
+    padding: 0;
+    margin: 0;
+}
+
+.estadoSolicitud .containerCantidadEstadoSolicitud .linea{
+    width: 40%;
+    margin: auto;
+    height: 6px;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .estadoSolicitud  .tituloEstadoSolicitud{
+        padding-left: 12px;
+    }
+    
+}
+
+@media (max-width: 420px) {
+    .estadoSolicitud .tituloEstadoSolicitud{
+        padding-left: 0;
+        min-width: 70%;
+    }
+    .containerCantidadEstadoSolicitud{
+        width: 30%;
+    }
+    
+}
