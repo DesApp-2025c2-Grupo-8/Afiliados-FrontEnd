@@ -3,7 +3,6 @@ import { Form, Col, Row, Modal, Button } from "react-bootstrap"
 import FormGenerico from "../../components/FormGenerico/FormGenerico"
 import styles from './FormRecetas.module.css'
 import { useNavigate, Link } from "react-router-dom"
-import usuarios from "../../db/usuarios"
 import { useAfiliadoDatos } from "../../context/AfiliadoDatos"
 
 const FormRecetas = () => {
@@ -12,11 +11,12 @@ const FormRecetas = () => {
         if (!dataAfiliado) {
             navigate("/login");
             }
+        filtrarGrupoFamiliar()
     }, []);
 
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
     const numeroAfiliado = dataAfiliado?.numeroAfiliado;
-    const esTitular = dataAfiliado?.rol === "TITULAR";
+    const esConyuge = dataAfiliado?.rol === "CONYUGE";
 
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString(),
@@ -32,6 +32,7 @@ const FormRecetas = () => {
     const [modalCancelar, setModalCancelar] = useState(false)
     const [nroOrden, setNroOrden] = useState(null)
     const [errores, setErrores] = useState([])
+    const [grupoFamiliar, setGrupoFamiliar] = useState([]);
 
     const navigate = useNavigate()
 
@@ -65,7 +66,7 @@ const FormRecetas = () => {
             });
             const result = await response.json();
             setNroOrden(result.numeroOrden);
-            console.log("Resultado:", result);
+            // console.log("Resultado:", result);
             result.error ? setErrores(result.message) : setModalConfirmar(true);
         } catch (error) {
             console.log("Error:", error);
@@ -85,6 +86,21 @@ const FormRecetas = () => {
         setModalConfirmar(false)
         navigate("/consultar-recetas")
     }
+    
+    const esMayorDeEdad = (unaFechaDeNacimiento) => {
+        const fechaNacimientoFormateada = new Date(unaFechaDeNacimiento);
+        const hoy = new Date();
+        const fechaNacimientoMas18Anios = new Date(fechaNacimientoFormateada.getFullYear() + 18, fechaNacimientoFormateada.getMonth(), fechaNacimientoFormateada.getDate());
+        return hoy >= fechaNacimientoMas18Anios;
+    }
+
+    const filtrarGrupoFamiliar = () => {
+        if (esConyuge) {
+            setGrupoFamiliar(dataAfiliado?.grupoFamiliar.filter(m => m.rol !== 'TITULAR' && !esMayorDeEdad(m.fechaNacimiento)))
+        } else {
+            setGrupoFamiliar(dataAfiliado?.grupoFamiliar.filter(m => !esMayorDeEdad(m.fechaNacimiento)))
+        }
+    }
 
     return (
         <div className={styles.fondo}>
@@ -103,15 +119,15 @@ const FormRecetas = () => {
                             >
                                 <option value="">Seleccione el nombre del integrante</option>
                                 {
-                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
-                                    }
-                                    {
-                                        dataAfiliado?.grupoFamiliar.map((usuario) =>
-                                            //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
-                                            esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
-                                                ""
-                                        )}
-                                         <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
+                                    // console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
+                                }
+                                <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
+                                {
+                                    grupoFamiliar.map((usuario) =>
+                                        //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
+                                        <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
+                                    )
+                                }
                             </Form.Select>
                             <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                         </Form.Group>
@@ -125,6 +141,7 @@ const FormRecetas = () => {
                                     onChange={handleChange}
                                     required
                                 >
+                                    {/* CAMBIAR ESTO */}
                                     <option value="">Seleccione un medicamento</option>
                                     <option value="Antizina">Antizina</option>
                                     <option value="Amoxicilina">Amoxicilina</option>
