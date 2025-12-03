@@ -1,3 +1,47 @@
+.containerTituloSub {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 60px auto 15px;
+}
+
+.tituloResultadosPrestadores {
+  position: relative;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007b8f;
+  text-align: center;
+  padding-bottom: 10px;
+  width: fit-content;
+  text-align: center;
+}
+
+.tituloResultadosPrestadores::after {
+  content: "";
+  width: 120px;
+  height: 4px;
+  background: #1a8d92;
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+.sinResultados {
+  background: #ffffff;
+  padding: 14px 30px;
+  border-left: 6px solid #1a8d92;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #007b8f;
+  text-align: center;
+  margin: 40px auto;
+  width: fit-content;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
 .fondo {
     min-height: 90vh;
     padding-top: 100px;
@@ -217,5 +261,20 @@ textarea {
         padding: 0;
         overflow: hidden;       
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .tituloResultadosPrestadores{
+        font-size: 1.3rem;
+    }
+
+    .tituloResultadosPrestadores::after{
+        width: 60px;
+    }
+}
+
+@media (max-width: 768px){
+    .sinResultados{
+        font-size: 1rem;
+        padding: 10px 20px;
     }
 }
