@@ -1,49 +1,77 @@
 .formContainer {
+  width: 100%;
   max-width: 600px;
-  margin: 200px auto;
   background-color: #fff;
-  padding: 2.5rem;
+  padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 .fondo {
-    min-height: 90vh;
-    padding-top: 100px;
-    padding-bottom: 2rem;
-    width: 100%;
-    background-image: url("@assets/images/fondo-FormRecetas.png");
-    background-size: cover;
-    background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-image: url("@assets/images/fondo-FormRecetas.png");
+  background-size: cover;
+  background-position: center;
+  padding: 100px 1rem 2rem;
+  box-sizing: border-box;
 }
 
 .titulo {
+  position: relative;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007b8f;
   text-align: center;
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: #222;
+  padding-bottom: 10px;
+
+}
+
+.errorCampo {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.titulo::after {
+  content: "";
+  width: 120px;
+  height: 4px;
+  background: #1a8d92;
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
 }
 
 label {
   font-weight: 500;
   color: #333;
+  display: block;
 }
 
 .formContainer select,
-.formContainer textarea {
-  border-radius: 6px;
+.formContainer textarea,
+.formContainer input {
+  border-radius: 8px;
   border: 1px solid #ced4da;
-  padding: 0.6rem;
+  padding: 0.75rem;
   font-size: 1rem;
-  transition: border-color 0.2s ease;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .formContainer select:focus,
-.formContainer textarea:focus {
+.formContainer textarea:focus,
+.formContainer input:focus {
   border-color: #007b8f;
-  box-shadow: 0 0 0 0.15rem rgba(0, 123, 143, 0.25);
+  box-shadow: 0 0 0 3px rgba(0, 123, 143, 0.25);
   outline: none;
 }
 
@@ -54,21 +82,55 @@ label {
 }
 
 .modal {
-    font-size: 1.2rem;
-    text-align: center;
-    font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: bold;
 }
 
+.formContainer select {
+  padding-right: 2.3rem !important;
+}
 
-
-/* 🧱 Responsive */
-@media (max-width: 768px) {
-  .formContainer {
-    padding: 1.5rem;
-    margin: 100px 1rem;
+@media (max-width: 360px) {
+  .fondo {
+    padding-top: 140px !important;
   }
 
-  .titulo {
+  .titulo{
+    font-size: 1.5rem;
+  }
+
+  .formContainer select {
+    background-size: 12px;
+    background-position: right 0.8rem center;
+  }
+
+  option{
+        width: 100%;
+        max-width: 280px;
+        min-width: 200px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) and (min-width: 361px) {
+  .fondo {
+    padding-top: 120px !important;
+  }
+
+  .titulo{
+    font-size: 1.5rem;
+  }
+
+
+}
+
+@media (max-width: 600px) and (min-width: 481px) {
+  .fondo {
+    padding-top: 100px !important;
+  }
+
+  .titulo{
     font-size: 1.5rem;
   }
 }

@@ -5,12 +5,12 @@ import styles from './ConsultarReintegros.module.css'
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
 import { MdAttachMoney } from 'react-icons/md';
-
+import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 
 // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
-const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado'];
+const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado', 'Observación'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -25,7 +25,7 @@ const cardData = {
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico/a', propiedad: 'medico' },
         { campo: 'Lugar de atención', propiedad: 'lugarDeAtencion' },
-        { campo: 'Monto', propiedad: 'datosFactura.monto' }
+        { campo: 'Monto', propiedad: 'datosFactura.monto'}
     ],
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
 };
@@ -66,6 +66,23 @@ const ConsultarReintegros = () => {
     const [estadosOpciones, setEstadosOpciones] = useState(estadosOpcionesIniciales);
     const [integrantesOpcionesIniciales, setIntegrantesOpcionesIniciales] = useState([]);
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
+
+    // Filtros en mobile
+    const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);    
+    const toggleFiltrosMobile = () => {
+        setFiltrosMobileOpen(!filtrosMobileOpen);
+    }
+
+     useEffect(() => {
+            const handleResize = () => {
+                if (window.innerWidth > 630 && filtrosMobileOpen) {
+                    setFiltrosMobileOpen(false);
+                }
+            };
+    
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        }, [filtrosMobileOpen]);
 
     const filtrarPorEstado = (unEstado) => {
         setFiltroEstado(unEstado);
@@ -213,10 +230,13 @@ const ConsultarReintegros = () => {
         let resultado = '';
         switch (unEstado){
             case 'Pago':
-                resultado = 'observacion';
+                resultado = 'aceptada';
                 break;
             case 'Rechazado':
                 resultado = 'rechazada';
+                break;
+            case 'Observación':
+                resultado = 'observacion';
                 break;
             default:
                 resultado = 'pendiente'
@@ -226,19 +246,40 @@ const ConsultarReintegros = () => {
 
     return (   
         <>
-            <div className={styles.consultaRecetasContainer}>
+            <div className={styles.pantallaDeConsultaContainer}>
                 {/* <button onClick={() => console.log(listaReintegros)}>Ver reintegros por consola</button> */}
-                <section className={styles.botonesContainer}>
-                    <h1>Consultar Reintegros</h1>
-                    
-                    <Link className={styles.botonCargarReceta} to={'/solicitar-reintegro'}><MdAttachMoney style={{marginRight: '10px'}}/>Solicitar Reintegro</Link>
-                </section>
-                <div className={styles.box}>
-                    <section className={styles.filtroContainer}>
-                        <h2>Filtrar reintegros por:</h2>
-                        <hr />
+                <div className={styles.tituloYBotones}>
+                    <h1 className={styles.tituloPantallaDeConsulta}>Consultar Reintegros</h1>
+                    <section className={styles.botonesContainer}>
+                        <button
+                            className={styles.botonFiltrosMobile}
+                            onClick={toggleFiltrosMobile}
+                        >
+                            <FaFilter />
+                        </button>
+                        <Link className={styles.botonCargarYSolicitar} to={'/solicitar-reintegro'}>
+                            <MdAttachMoney/>
+                            <span>Solicitar Reintegro</span>
+                        </Link>
+                    </section>
+                </div>
+                <div className={styles.filtrosYResultadosConsulta}>
+                    <section className={`${styles.filtrosConsultaContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
+                        <button
+                            className={styles.botonCerrarFiltrosMobile}
+                            onClick={toggleFiltrosMobile}
+                        >
+                            X
+                        </button>
+                        <div className={styles.tituloFiltros}>
+                            <h2>Filtrar reintegros por:</h2>
+                            <hr />
+                        </div>
                         <div className={styles.botonLimpiarFiltrosContainer}>
-                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{marginLeft: '10px'}}/></button>
+                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>
+                                <MdCancel/>
+                                <span>Limpiar filtros</span>
+                            </button>
                         </div>
                         {filtrosConfig
                             .filter(filtro => filtro.opciones.length > 1)
@@ -246,15 +287,20 @@ const ConsultarReintegros = () => {
                                 <FiltrosCards {...unFiltro} key={unFiltro.label}/>
                             ))
                         }
-                        <hr />
-                        <h3>{listaReintegrosFiltrados.length} reintegro(s) encontrados</h3>
+                        <div className={styles.textoResultadosDeConsulta}>
+                            <hr />
+                            <h3>{listaReintegrosFiltrados.length} reintegro(s) encontrados</h3>
+                        </div>
                     </section>
-                    <section className={styles.recetasContainer}>
+                    <section className={styles.resultadosDeConsultaContainer}>
                         {listaReintegrosFiltrados.length === 0 ?
                             <h2>No existen reintegros con los filtros ingresados</h2> :
-                            (listaReintegrosFiltrados.map((unReintegro) => (
+                            (listaReintegrosFiltrados.map((unReintegro) => {
+                                unReintegro.datosFactura.monto = `$${unReintegro.datosFactura.monto}`;
+                                return (
                                 <CardDinamica
                                     {...cardData}
+                                    
 
                                     //Estos son los que hay que modificar segun la data a mostrar 
                                     color={colorSegunEstado(unReintegro.estado)} 
@@ -262,8 +308,9 @@ const ConsultarReintegros = () => {
                                     data={unReintegro}                        //Elemento actual en la iteración del map
                                     header={unReintegro.estado.charAt(0).toUpperCase() + unReintegro.estado.slice(1)}  //El título de la card  
                                     tieneBotonDescarga={unReintegro.estado === 'Pago'}
-                                />
-                            )))}
+                                    
+                                />)
+                            }))}
                     </section>
                 </div>
             </div>

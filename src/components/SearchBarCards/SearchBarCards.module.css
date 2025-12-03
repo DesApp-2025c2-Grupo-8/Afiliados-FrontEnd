@@ -57,6 +57,16 @@
   }
 }
 
+@media (max-width: 630px) {
+  .searchForm {
+    max-width: 400px;
+  }
+
+  .searchBarra {
+    max-width: 400px;
+  }
+}
+
 @media (max-width: 450px) {
   .searchForm {
     max-width: 450px;

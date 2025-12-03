@@ -8,7 +8,7 @@
     box-sizing: border-box;
 }
 
-.navegacion-principal {
+.navegacionPrincipal {
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
@@ -20,7 +20,7 @@
     flex-wrap: wrap;
 }
 
-.navegacion-principal .nav-links {
+.navegacionPrincipal .navLinks {
     list-style: none;
     display: flex;
     gap: 12px;
@@ -29,23 +29,23 @@
     font-size: 0.9rem;
 }
 
-.navegacion-principal .nav-links li .link {
+.navegacionPrincipal .navLinks li .link {
     text-decoration: none;
     color: black;
 }
 
-.navegacion-principal .nav-menus {
+.navegacionPrincipal .navMenus {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
 }
 
 
-.navegacion-principal .logo {
+.navegacionPrincipal .logo {
     height: 50px;
 }
 
-.burger-menu-btn {
+.burgerMenuBtn {
     display: none;
 }
 
@@ -60,7 +60,7 @@
     }
 } */
 
-.burger-menu{
+.burgerMenu{
     /* display: none; */
     width: 100%;
     overflow: hidden;
@@ -71,7 +71,7 @@
     /* background-color: red; */
 }
 
-.burger-menu-btn{
+.burgerMenuBtn{
     background-color: #457B9D;
     border: none;
     border-radius: 8px;
@@ -80,18 +80,18 @@
     margin-right: 14px;
 }
 
-.burger-menu-btn:active{
+.burgerMenuBtn:active{
     background-color: #335f7a;
 }   
 
-.btn-icon{
+.btnIcon{
     padding: 10px 12px;
     font-size: 20px;
 }
 
 
 
-.burger-menu .nav-links{
+.burgerMenu .navLinks{
     flex-direction: column;
     align-items: flex-start;
     /* gap: 10px;
@@ -100,40 +100,50 @@
     gap: 0px;
 }
 
-.burger-menu .nav-links li{
+.burgerMenu .navLinks li{
     width: 100%; 
     padding: 8px 0;
     border-top: 1px solid grey;
 }
 
-.burger-menu .nav-links li .link{
+.burgerMenu .navLinks li .link{
     width: 100%;
     display: block;
 }
 
-.burger-menu .nav-links li:hover{
+.burgerMenu .navLinks li:hover{
     background-color: rgba(128, 128, 128, 0.349);
 }
 
-.burger-menu.show{
+.burgerMenu.show{
     display: block;
     max-height: 500px;
 }
 
 
 @media (max-width: 768px) {
-
-    .header .nav-menus{
+    
+    .link{
+        font-size: 20px;
+    }
+    .header .navMenus{
         display: none;
     }
-
-
-    .burger-menu-btn {
-        display: block;
+    
+    
+    .burgerMenuBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
     }
-
-    .navegacion-principal{
+    
+    .navegacionPrincipal{
+        /* background-color: red; */
         flex-wrap: wrap;
+        /* padding: 4px; */
+        /* width: 90%; */
     }
+
 
 }

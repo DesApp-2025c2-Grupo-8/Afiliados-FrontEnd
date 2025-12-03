@@ -132,6 +132,10 @@
     font-size: 1.5rem;
   }
 
+  .tituloPrestadores {
+    font-size: 1.6rem;
+  }
+
   .tituloResultadosPrestadores::after {
     width: 80px;
   }

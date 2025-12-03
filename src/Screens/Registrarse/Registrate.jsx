@@ -20,13 +20,54 @@ const Registro = () => {
 
   const [mensaje, setMensaje] = useState("");
 
+  const [errorTipoDoc, setErrorTipoDoc] = useState(false);
+  const [errorNumDoc, setErrorNumDoc] = useState(false);
+  const [errorNumDocLength, setErrorNumDocLength] = useState(false);
+  const [errorFechaNac, setErrorFechaNac] = useState(false);
+  const [errorEdad, setErrorEdad] = useState(false); 
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorEmailFormat, setErrorEmailFormat] = useState(false);
+  const [errorTelefono, setErrorTelefono] = useState(false);
+  const [errorTelefonoLength, setErrorTelefonoLength] = useState(false); 
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [errorPasswordLength, setErrorPasswordLength] = useState(false);
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState(false);
+  const [errorPasswordCoincidencia, setErrorPasswordCoincidencia] = useState(false);
+
+
+
   useEffect(() => {
     document.title = "Registrarse - Medicina Integral";
     //si el ususario esta iniciado (hay datos en el context) redirigir al home
     if (dataAfiliado) {
       navigate("/");
     }
-  }, []);
+  }, [dataAfiliado, navigate]);
+
+  const calcularEdad = (fechaNac) =>{
+    const hoy = new Date()
+    const fechaNacimiento = new Date(fechaNac);
+
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+    const diferencia = hoy.getMonth() - fechaNacimiento.getMonth();
+
+    if(diferencia < 0 || (diferencia === 0 && hoy.getDate()< fechaNacimiento.getDate())){
+      edad = edad-1
+    }
+
+    return edad;
+  }
+
+  const validarMail = (email) =>{
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email); 
+  }
+
+  const validarTelefono = (telefono) =>{
+    return telefono.length >= 8 && telefono.length <=15;
+  }
+
+  
 
   const handleChange = (e) => {
     setFormData({
@@ -37,19 +78,106 @@ const Registro = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  setMensaje("");
+
+  if(!formData.tipoDocumento){
+    setErrorTipoDoc(true)
+    return;
+  }else{
+    setErrorTipoDoc(false)
+  }
+
+  if(!formData.numeroDocumento) {
+    setErrorNumDoc(true)
+    return;
+  }else{
+    setErrorNumDoc(false);
+  }
+
+  if(formData.numeroDocumento.length <6 || formData.numeroDocumento.length>10){
+    setErrorNumDocLength(true)
+    return;
+  }else{
+    setErrorNumDocLength(false)
+  }
+
+  if(!formData.fechaNacimiento){
+    setErrorFechaNac(true)
+    return;
+  }else{
+    setErrorFechaNac(false)
+  }
+
   //verificar que sea mayor de 15 años
   if (new Date().getFullYear() - new Date(formData.fechaNacimiento).getFullYear() <= 16) {
-    setMensaje("Para registrarte tenes que tener 16 años o mas.");
+    //setMensaje("Para registrarte tenes que tener 16 años o mas.");
+    setErrorEdad(true)
     return;
+  }else{
+    setErrorEdad(false)
+  }
+
+  if(!formData.email){
+    setErrorEmail(true)
+    return;
+  }else{
+    setErrorEmail(false)
+  }
+
+  if(!validarMail(formData.email)){
+    setErrorEmailFormat(true)
+    return;
+  }else{
+    setErrorEmailFormat(false)
+  }
+
+  if(!formData.telefono){
+    setErrorTelefono(true)
+    return;
+  }else{
+    setErrorTelefono(false)
+  }
+
+  if(!validarTelefono(formData.telefono)){
+    setErrorTelefonoLength(true)
+    return;
+  }else{
+    setErrorTelefonoLength(false)
+  }
+
+
+  if(!formData.password){
+    setErrorPassword(true)
+    return;
+  }else{
+    setErrorPassword(false)
+  }
+
+  if(formData.password.length <5){
+    setErrorPasswordLength(true)
+    return;
+  }else{
+    setErrorPasswordLength(false)
+  }
+
+  if(!formData.confirmPassword){
+    setErrorConfirmPassword(true)
+    return;
+  }else{
+    setErrorConfirmPassword(false)
   }
 
   if (formData.password !== formData.confirmPassword) {
-    setMensaje("Las contraseñas no coinciden.");
+    //setMensaje("Las contraseñas no coinciden.");
+    setErrorPasswordCoincidencia(true)
     return;
+  }else{
+    setErrorPasswordCoincidencia(false)
   }
 
-  // 🔹 Crear una copia sin `confirmPassword`
+  //Crear una copia sin `confirmPassword`
   const { confirmPassword, ...dataToSend } = formData;
+
   const fechaNac = new Date(dataToSend.fechaNacimiento);
   dataToSend.fechaNacimiento = fechaNac.setHours(fechaNac.getHours()+3);
   console.log("Fecha de Nacimiento ajustada:", dataToSend.fechaNacimiento);
@@ -92,13 +220,13 @@ const handleSubmit = async (e) => {
                 <Form.Select
                   value={formData.tipoDocumento}
                   onChange={handleChange}
-                  required
                 >
                   <option value="">Seleccione</option>
                   <option value="DNI">DNI</option>
                   <option value="PASAPORTE">Pasaporte</option>
                   <option value="LC">Libreta Cívica</option>
                 </Form.Select>
+                {errorTipoDoc && <p className={styles.errorForm}>Por favor seleccione un Tipo de Documento</p>}
               </Form.Group>
 
               <Form.Group controlId="numeroDocumento" className={styles.formGroup}>
@@ -108,8 +236,9 @@ const handleSubmit = async (e) => {
                   placeholder="99999999"
                   value={formData.numeroDocumento}
                   onChange={handleChange}
-                  required
                 />
+                {errorNumDoc && <p className={styles.errorForm}>Por favor ingrese un Nro. de Documento.</p>}
+                {errorNumDocLength && <p className={styles.errorForm}>El Nro. de Documento debe tener entre 6-10 caracteres.</p>}
               </Form.Group>
 
               <Form.Group controlId="fechaNacimiento" className={styles.formGroupFecha}>
@@ -118,8 +247,9 @@ const handleSubmit = async (e) => {
                   type="date"
                   value={formData.fechaNacimiento}
                   onChange={handleChange}
-                  required
                 />
+                {errorFechaNac && <p className={styles.errorForm}>Por favor ingrese su fecha de nacimiento.</p>}
+                {errorEdad && <p className={styles.errorForm}>Debes al menos 16 años para registrarte.</p>}
               </Form.Group>
 
               <Form.Group controlId="email" className={styles.formGroup}>
@@ -129,8 +259,9 @@ const handleSubmit = async (e) => {
                   placeholder="Ingrese su email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
                 />
+                {errorEmail && <p className={styles.errorForm}>Por favor ingrese su email.</p>}
+                {errorEmailFormat && <p className={styles.errorForm}>El formato del email no es válido.</p>}
               </Form.Group>
 
               <Form.Group controlId="telefono" className={styles.formGroup}>
@@ -140,8 +271,9 @@ const handleSubmit = async (e) => {
                   placeholder="Ingrese su teléfono"
                   value={formData.telefono}
                   onChange={handleChange}
-                  required
                 />
+                {errorTelefono && <p className={styles.errorForm}>Por favor ingrese su teléfono.</p>}
+                {errorTelefonoLength && <p className={styles.errorForm}>El teléfono debe tener entre 8-12 dígitos.</p>}
               </Form.Group>
 
               <Form.Group controlId="password" className={styles.formGroup}>
@@ -151,8 +283,9 @@ const handleSubmit = async (e) => {
                   placeholder="Ingrese su contraseña"
                   value={formData.password}
                   onChange={handleChange}
-                  required
                 />
+                {errorPassword && <p className={styles.errorForm}>Por favor ingrese una contraseña.</p>}
+                {errorPasswordLength && <p className={styles.errorForm}>La contraseña debe tener al menos 5 caracteres.</p>}
               </Form.Group>
 
               <Form.Group controlId="confirmPassword" className={styles.formGroup}>
@@ -162,8 +295,9 @@ const handleSubmit = async (e) => {
                   placeholder="Confirme su contraseña"
                   value={formData.confirmPassword }
                   onChange={handleChange}
-                  required
                 />
+                {errorConfirmPassword && <p className={styles.errorForm}>Por favor confirme su contraseña.</p>}
+                {errorPasswordCoincidencia && <p className={styles.errorForm}>Las contraseñas no coinciden.</p>}
               </Form.Group>
 
               <Button
@@ -175,6 +309,7 @@ const handleSubmit = async (e) => {
               </Button>
             </Form>
 
+            
             {mensaje && <p className={styles.mensaje}>{mensaje}</p>}
 
             <div className={styles.loginSection}>
