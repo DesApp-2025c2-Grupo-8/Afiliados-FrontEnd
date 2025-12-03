@@ -95,6 +95,8 @@ const Perfil = () => {
             email: email.trim()
         };
 
+        console.log(body)
+
         console.log(dataAfiliado)
 
         if (email.trim() === "" || telefono.trim() === "" || direccion.trim() === "") {
@@ -145,10 +147,11 @@ const Perfil = () => {
             });
             const data = await response.json();
             console.log("Usuario actualizado:", data);
-            const copiaAfiliado = { ...dataAfiliado };
-            copiaAfiliado.telefono = data.telefono;
-            copiaAfiliado.direccion = data.direccion;
-            copiaAfiliado.email = data.email;
+            const copiaAfiliado = { ...dataAfiliado, ...data };
+            sessionStorage.setItem("afiliadoDatos", JSON.stringify(copiaAfiliado));
+            // copiaAfiliado.telefono = data.telefono;
+            // copiaAfiliado.direccion = data.direccion;
+            // copiaAfiliado.email = data.email;
             setDataAfiliado(copiaAfiliado);
             setMostrarModalEditarUsuario(false);
             setMostrarModalCambiosExitosos(true);
