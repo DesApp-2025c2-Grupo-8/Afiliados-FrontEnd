@@ -7,16 +7,29 @@ import usuarios from "../../db/usuarios"
 import { useAfiliadoDatos } from "../../context/AfiliadoDatos"
 
 const FormRecetas = () => {
-    useEffect(() => {
+    useEffect(async () => {
         document.title = 'Cargar Receta - Medicina Integral'
         if (!dataAfiliado) {
             navigate("/login");
             }
+        try {
+
+            const response = await fetch(`http://localhost:3000/medicamentos`);
+            if (!response.ok) return [];
+            const result = await response.json();
+            setMedicamentos(result);
+
+            console.log("Resultado:", result);
+            // result.error ? setErrores(result.message) : setModalConfirmar(true);
+        } catch (error) {
+            console.log("Error:", error);
+        }
     }, []);
 
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
     const numeroAfiliado = dataAfiliado?.numeroAfiliado;
     const esTitular = dataAfiliado?.rol === "TITULAR";
+    const [medicamentos, setMedicamentos] = useState([])
 
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString(),
@@ -126,7 +139,10 @@ const FormRecetas = () => {
                                     required
                                 >
                                     <option value="">Seleccione un medicamento</option>
-                                    <option value="Antizina">Antizina</option>
+                                    {medicamentos.map((medicamento) => (
+                                        <option key={medicamento.id} value={medicamento.nombre}>{medicamento.nombre}</option>
+                                    ))}
+                                    {/* <option value="Antizina">Antizina</option>
                                     <option value="Amoxicilina">Amoxicilina</option>
                                     <option value="Diclofenac">Diclofenac</option>
                                     <option value="Ibuprofeno">Ibuprofeno</option>
@@ -134,7 +150,7 @@ const FormRecetas = () => {
                                     <option value="Loratadina">Loratadina</option>
                                     <option value="Omeprazol">Omeprazol</option>
                                     <option value="Paracetamol">Paracetamol</option>
-                                    <option value="Vitamina C">Vitamina C</option>
+                                    <option value="Vitamina C">Vitamina C</option> */}
                                 </Form.Select>
                                 <span className={styles.oblgatorio}>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
                             </Form.Group>
