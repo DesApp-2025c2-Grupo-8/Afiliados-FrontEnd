@@ -10,7 +10,7 @@ import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 
-const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada'];
+const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada', 'Observación'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -72,8 +72,8 @@ const ConsultarRecetas = () => {
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
     const [presentacionesOpciones, setPresentacionesOpciones] = useState([]);
 
-    const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);
-    
+    // Filtros en mobile
+    const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);    
     const toggleFiltrosMobile = () => {
         setFiltrosMobileOpen(!filtrosMobileOpen);
     }
@@ -240,6 +240,7 @@ const ConsultarRecetas = () => {
         setFiltroPeriodo('');
         setIntegrantesOpciones(integrantesOpcionesIniciales);
         setPresentacionesOpciones(presentacionesOpcionesIniciales);
+        setEstadosOpciones(estadosOpcionesIniciales);
     };
 
     const filtrosConfig = [
@@ -285,10 +286,13 @@ const ConsultarRecetas = () => {
         let resultado = '';
         switch (unEstado){
             case 'Aceptada':
-                resultado = 'observacion';
+                resultado = 'aceptada';
                 break;
             case 'Rechazada':
                 resultado = 'rechazada';
+                break;
+            case 'Observación':
+                resultado = 'observacion';
                 break;
             default:
                 resultado = 'pendiente'
@@ -298,10 +302,10 @@ const ConsultarRecetas = () => {
 
     return (   
         <>
-            <div className={styles.consultaRecetasContainer}>
+            <div className={styles.pantallaDeConsultaContainer}>
                 {/* <button onClick={() => console.log(listaRecetas)}>Ver recetas por consola</button> */}
                 <div className={styles.tituloYBotones}>
-                    <h1 className={styles.titulo}>Consultar Recetas</h1>
+                    <h1 className={styles.tituloPantallaDeConsulta}>Consultar Recetas</h1>
                     <section className={styles.botonesContainer}>
                         <SearchBarCards // MEDICAMENTO
                             filtro={filtrarPorMedicamento}
@@ -316,14 +320,14 @@ const ConsultarRecetas = () => {
                             <FaFilter />
                         </button>
 
-                        <Link className={styles.botonCargarReceta} to={'/cargar-receta'}>
+                        <Link className={styles.botonCargarYSolicitar} to={'/cargar-receta'}>
                             <BsClipboard2Plus />
                             <span>Cargar Receta</span>
                         </Link>
                     </section>
                 </div>
-                <div className={styles.box}>
-                    <section className={`${styles.filtroContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
+                <div className={styles.filtrosYResultadosConsulta}>
+                    <section className={`${styles.filtrosConsultaContainer} ${filtrosMobileOpen ? styles.activo : ''}`}>
                         <button
                             className={styles.botonCerrarFiltrosMobile}
                             onClick={toggleFiltrosMobile}
@@ -335,7 +339,10 @@ const ConsultarRecetas = () => {
                             <hr />
                         </div>
                         <div className={styles.botonLimpiarFiltrosContainer}>
-                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>Limpiar filtros<MdCancel style={{ marginLeft: '10px' }} /></button>
+                            <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>
+                                <MdCancel/>
+                                <span>Limpiar filtros</span>
+                            </button>
                         </div>
                         {filtrosConfig
                             .filter(filtro => filtro.opciones.length > 1)
@@ -343,12 +350,12 @@ const ConsultarRecetas = () => {
                                 <FiltrosCards {...unFiltro} key={unFiltro.label} />
                             ))
                         }
-                        <div className={styles.resultadoFiltro}>
+                        <div className={styles.textoResultadosDeConsulta}>
                             <hr />
                             <h3>{listaRecetasFiltradas.length} receta(s) encontradas</h3>
                         </div>
                     </section>
-                    <section className={styles.recetasContainer}>
+                    <section className={styles.resultadosDeConsultaContainer}>
                         {listaRecetasFiltradas.length === 0 ?
                             <h2>No existen recetas con los filtros ingresados</h2> :
                             (listaRecetasFiltradas.map((unaReceta) => (
