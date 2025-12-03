@@ -10,7 +10,7 @@ import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 
 // Inicializacion de las opciones para mostrar dinamicamente en los filtros de la pantalla, segun la informacion actual (filtrada)
-const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado'];
+const estadosOpcionesIniciales = ['Pago', 'Pendiente', 'Rechazado', 'Observación'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -25,7 +25,7 @@ const cardData = {
         { campo: 'Integrante', propiedad: 'integrante' },
         { campo: 'Médico/a', propiedad: 'medico' },
         { campo: 'Lugar de atención', propiedad: 'lugarDeAtencion' },
-        { campo: 'Monto', propiedad: 'datosFactura.monto' }
+        { campo: 'Monto', propiedad: 'datosFactura.monto'}
     ],
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
 };
@@ -230,10 +230,13 @@ const ConsultarReintegros = () => {
         let resultado = '';
         switch (unEstado){
             case 'Pago':
-                resultado = 'observacion';
+                resultado = 'aceptada';
                 break;
             case 'Rechazado':
                 resultado = 'rechazada';
+                break;
+            case 'Observación':
+                resultado = 'observacion';
                 break;
             default:
                 resultado = 'pendiente'
@@ -292,9 +295,12 @@ const ConsultarReintegros = () => {
                     <section className={styles.resultadosDeConsultaContainer}>
                         {listaReintegrosFiltrados.length === 0 ?
                             <h2>No existen reintegros con los filtros ingresados</h2> :
-                            (listaReintegrosFiltrados.map((unReintegro) => (
+                            (listaReintegrosFiltrados.map((unReintegro) => {
+                                unReintegro.datosFactura.monto = `$${unReintegro.datosFactura.monto}`;
+                                return (
                                 <CardDinamica
                                     {...cardData}
+                                    
 
                                     //Estos son los que hay que modificar segun la data a mostrar 
                                     color={colorSegunEstado(unReintegro.estado)} 
@@ -302,8 +308,9 @@ const ConsultarReintegros = () => {
                                     data={unReintegro}                        //Elemento actual en la iteración del map
                                     header={unReintegro.estado.charAt(0).toUpperCase() + unReintegro.estado.slice(1)}  //El título de la card  
                                     tieneBotonDescarga={unReintegro.estado === 'Pago'}
-                                />
-                            )))}
+                                    
+                                />)
+                            }))}
                     </section>
                 </div>
             </div>

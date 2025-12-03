@@ -42,11 +42,6 @@
     display: flex;
 }
 
-.tituloPantallaDeConsulta {
-    flex: 1;
-    text-align: center;
-}
-
 .tituloYBotones {
     display: flex;
     justify-content: space-between;
