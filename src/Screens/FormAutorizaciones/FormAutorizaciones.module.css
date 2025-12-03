@@ -30,6 +30,13 @@
 
 }
 
+.errorCampo {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  display: block;
+}
+
 .titulo::after {
   content: "";
   width: 120px;

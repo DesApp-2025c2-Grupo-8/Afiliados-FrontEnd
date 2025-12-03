@@ -184,7 +184,7 @@ const FormAutorizaciones = () => {
                                         )}
                                          <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
                         </Form.Select>
-                        <span>{errores.includes("integrante should not be empty") ? "Seleccione un Integrante" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("integrante should not be empty") ? "Seleccione un Integrante" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
@@ -210,7 +210,7 @@ const FormAutorizaciones = () => {
                                 ))
                             }
                         </Form.Select>
-                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione una Especialidad" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("especialidad should not be empty") ? "Seleccione una Especialidad" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
@@ -220,7 +220,6 @@ const FormAutorizaciones = () => {
                             value={medicoSeleccionado}
                             onChange={handleMedicoChange}
                             disabled={!especialidadSeleccionada}
-                            required
                         >
                             <option value="">Seleccione un Médico</option>
                             {prestadores
@@ -229,7 +228,7 @@ const FormAutorizaciones = () => {
                                     <option key={i} value={medico.nombre}>{medico.nombre}</option>
                                 ))}
                         </Form.Select>
-                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione un Médico" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("medico should not be empty") ? "Seleccione un Médico" : ""}</span>
                     </Form.Group>
 
 
@@ -242,12 +241,12 @@ const FormAutorizaciones = () => {
                             disabled={!medicoSeleccionado}
                             required
                         >
-                            <option value="">Seleccione una ubicación</option>
+                            <option value="">Seleccione un partido</option>
                             {ubicaciones.map((ubi, i) => (
                                 <option key={i} value={ubi.partido}>{ubi.partido}</option>
                             ))}
                         </Form.Select>
-                        <span>{errores.includes("partido should not be empty") ? "Seleccione un Partido" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("partido should not be empty") ? "Seleccione un Partido" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
