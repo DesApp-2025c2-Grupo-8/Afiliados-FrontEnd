@@ -9,7 +9,6 @@ import { BsClipboard2Plus } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
-import { set } from 'lodash';
 
 const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada', 'Observación'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
