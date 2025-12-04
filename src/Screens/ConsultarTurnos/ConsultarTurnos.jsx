@@ -64,8 +64,8 @@ const ConsultarTurnos = () => {
     const hoy = new Date();
     let fecha = new Date(hoy);
 
-    console.log(hoy);
-    console.log(fecha);
+    // console.log(hoy);
+    // console.log(fecha);
     
     switch (periodo) {
       case 'Último año':
@@ -361,8 +361,8 @@ const ConsultarTurnos = () => {
 
 
               <div className={styles.botonLimpiarFiltrosContainer}>
-                <div className={styles.botonAntiguosContainer}>
-                  <label className={styles.botonAntiguos}>
+                <div className={styles.botonTurnosPasadosContainer}>
+                  <label className={styles.botonTurnosPasados}>
                     <input
                       type='checkbox'
                       checked={filtroAntiguos}
