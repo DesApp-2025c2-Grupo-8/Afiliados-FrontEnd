@@ -6,7 +6,7 @@ import { jsPDF } from "jspdf";
 
 const CardDinamica = (props) => {
 
-  const { data, header, color, camposCard, tieneBotonDescarga, tieneContenidoExtra, fechasCampos } = props;
+  const { data, header, color, camposCard, tieneBotonDescarga, tieneContenidoExtra } = props;
 
   const getValor = (obj, path) => {
     return path.split('.').reduce((acc, key) => acc?.[key], obj);

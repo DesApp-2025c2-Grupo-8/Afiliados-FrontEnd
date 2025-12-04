@@ -74,7 +74,7 @@ const AtajosSolicitudes = (props) => {
   ];
 
   setEstadoSolicitud(nuevoResumen);
-  console.log(reintegros)
+  // console.log(reintegros)
 
     // console.log(tipo + " del " + periodoSeleccionado + " aceptadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("aceptada", periodoSeleccionado, solicitudSeleccionada))
     // console.log(tipo + " del " + periodoSeleccionado + " rechazadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("rechazada", periodoSeleccionado, solicitudSeleccionada))
