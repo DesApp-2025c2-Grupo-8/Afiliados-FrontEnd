@@ -47,7 +47,7 @@ const ConsultarReintegros = () => {
         fetch('http://localhost:3000/reintegros/'+ numeroAfiliado)  //findByNumeroAfiliado()
         .then(response => response.json())
         .then(data => {
-                console.log(data);
+                // console.log(data);
                 const reintegrosOrdenados = [...data].reverse();
                 setListaReintegros(reintegrosOrdenados);
                 setlistaReintegrosFiltrados(reintegrosOrdenados);
