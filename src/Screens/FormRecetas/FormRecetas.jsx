@@ -6,24 +6,26 @@ import { useNavigate, Link } from "react-router-dom"
 import { useAfiliadoDatos } from "../../context/AfiliadoDatos"
 
 const FormRecetas = () => {
-    useEffect(async () => {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+
+                const response = await fetch(`http://localhost:3000/medicamentos`);
+                if (!response.ok) return [];
+                const result = await response.json();
+                setMedicamentos(result);
+
+                console.log("Resultado:", result);
+            } catch (error) {
+                console.log("Error:", error);
+            }
+        }
         document.title = 'Cargar Receta - Medicina Integral'
         if (!dataAfiliado) {
             navigate("/login");
-            }
-        try {
-
-            const response = await fetch(`http://localhost:3000/medicamentos`);
-            if (!response.ok) return [];
-            const result = await response.json();
-            setMedicamentos(result);
-
-            console.log("Resultado:", result);
-            // result.error ? setErrores(result.message) : setModalConfirmar(true);
-        } catch (error) {
-            console.log("Error:", error);
         }
-            
+
+        fetchData();
         filtrarGrupoFamiliar()
     }, []);
 
@@ -32,6 +34,11 @@ const FormRecetas = () => {
     const esConyuge = dataAfiliado?.rol === "CONYUGE";
     const esTitular = dataAfiliado?.rol === "TITULAR";
     const [medicamentos, setMedicamentos] = useState([])
+    const [errorCantidadMaxima, setErrorCantidadMaxima] = useState(false)
+    const [errorIntegrante, setErrorIntegrante] = useState(false)
+    const [errorMedicamento, setErrorMedicamento] = useState(false)
+    const [errorCantidad, setErrorCantidad] = useState(false)
+    const [errorPresentacion, setErrorPresentacion] = useState(false)
 
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString(),
@@ -67,6 +74,40 @@ const FormRecetas = () => {
 
     const confirmar = async (event) => {
         event.preventDefault()
+
+        if (data.integrante === "") {
+            setErrorIntegrante(true)
+            return
+        } else {
+            setErrorIntegrante(false)
+        }
+        if (data.medicamento === "") {
+            setErrorMedicamento(true)
+            return
+        } else {
+            setErrorMedicamento(false)
+        }
+        if (data.cantidad === "") {
+            setErrorCantidad(true)
+            return
+        } else {
+            setErrorCantidad(false)
+        }
+        if (parseInt(data.cantidad) > medicamentos.find(m => m.nombre === data.medicamento).cantidadMaxima || parseInt(data.cantidad) <= 0) {
+            setErrorCantidadMaxima(true)
+            return
+        } else {
+            setErrorCantidadMaxima(false)
+        }
+        if (data.presentacion === "") {
+            setErrorPresentacion(true)
+            return
+        } else {
+            setErrorPresentacion(false)
+        }
+
+
+
         try {
             const dataToSend = {
                 ...data,
@@ -81,7 +122,6 @@ const FormRecetas = () => {
             });
             const result = await response.json();
             setNroOrden(result.numeroOrden);
-            // console.log("Resultado:", result);
             result.error ? setErrores(result.message) : setModalConfirmar(true);
         } catch (error) {
             console.log("Error:", error);
@@ -101,7 +141,7 @@ const FormRecetas = () => {
         setModalConfirmar(false)
         navigate("/consultar-recetas")
     }
-    
+
     const esMayorDeEdad = (unaFechaDeNacimiento) => {
         const fechaNacimientoFormateada = new Date(unaFechaDeNacimiento);
         const hoy = new Date();
@@ -133,9 +173,7 @@ const FormRecetas = () => {
                                 required
                             >
                                 <option value="">Seleccione el nombre del integrante</option>
-                                {
-                                    // console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
-                                }
+
                                 <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
                                 {
                                     grupoFamiliar.map((usuario) =>
@@ -144,7 +182,8 @@ const FormRecetas = () => {
                                     )
                                 }
                             </Form.Select>
-                            <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
+                            {errorIntegrante && <span className={styles.oblgatorio}>Seleccione un integrante</span>}
+                            {/* <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span> */}
                         </Form.Group>
 
                         <Row className="mb-3">
@@ -156,22 +195,13 @@ const FormRecetas = () => {
                                     onChange={handleChange}
                                     required
                                 >
-                                    {/* CAMBIAR ESTO */}
                                     <option value="">Seleccione un medicamento</option>
                                     {medicamentos.map((medicamento) => (
-                                        <option key={medicamento.id} value={medicamento.nombre}>{medicamento.nombre}</option>
+                                        <option key={medicamento.nombre} value={medicamento.nombre}>{medicamento.nombre}</option>
                                     ))}
-                                    {/* <option value="Antizina">Antizina</option>
-                                    <option value="Amoxicilina">Amoxicilina</option>
-                                    <option value="Diclofenac">Diclofenac</option>
-                                    <option value="Ibuprofeno">Ibuprofeno</option>
-                                    <option value="Insulina">Insulina</option>
-                                    <option value="Loratadina">Loratadina</option>
-                                    <option value="Omeprazol">Omeprazol</option>
-                                    <option value="Paracetamol">Paracetamol</option>
-                                    <option value="Vitamina C">Vitamina C</option> */}
+
                                 </Form.Select>
-                                <span className={styles.oblgatorio}>{errores.includes("medicamento should not be empty") ? "Ingrese un medicamento" : ""}</span>
+                                {errorMedicamento && <span className={styles.oblgatorio}>Ingrese un medicamento</span>}
                             </Form.Group>
                             <Form.Group as={Col} md={4} controlId="cantidad">
                                 <Form.Label>Cantidad<span className={styles.oblgatorio}>*</span></Form.Label>
@@ -182,7 +212,8 @@ const FormRecetas = () => {
                                     onChange={handleChange}
                                     required
                                 />
-                                <span className={styles.oblgatorio}>{errores.includes("cantidad should not be empty") ? "Ingrese una cantidad" : ""}</span>
+                                {errorCantidad && <span className={styles.oblgatorio}>Ingrese una cantidad</span>}
+                                <span className={styles.oblgatorio}>{errorCantidadMaxima ? `La cantidad permitida es entre 1 y ${medicamentos.find(m => m.nombre === data.medicamento)?.cantidadMaxima}` : ""}</span>
                             </Form.Group>
                         </Row>
 
@@ -195,13 +226,12 @@ const FormRecetas = () => {
                                 required
                             >
                                 <option value="">Seleccione una opción de la lista</option>
-                                <option value="Comprimidos">Comprimidos</option>
-                                <option value="Cápsulas">Cápsulas</option>
-                                <option value="Inyectable">Inyectable</option>
-                                <option value="Jarabe">Jarabe</option>
-                                <option value="Tabletas masticables">Tabletas masticables</option>
+                                {data.medicamento && medicamentos.find(m => m.nombre === data.medicamento)?.presentaciones.map((presentacion, index) => (
+                                    <option key={index} value={presentacion}>{presentacion}</option>
+                                ))}
                             </Form.Select>
-                            <span className={styles.oblgatorio}>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span>
+                            {/* <span className={styles.oblgatorio}>{errores.includes("presentacion should not be empty") ? "Seleccione una presentación" : ""}</span> */}
+                            {errorPresentacion && <span className={styles.oblgatorio}>Seleccione una presentación</span>}
                         </Form.Group>
 
                         <Form.Group>
