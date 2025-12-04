@@ -13,6 +13,7 @@
     width: 100%;
     max-width: 500px;
     z-index: 5000;
+    user-select: none;
 }
 
 .botonLimpiar {
