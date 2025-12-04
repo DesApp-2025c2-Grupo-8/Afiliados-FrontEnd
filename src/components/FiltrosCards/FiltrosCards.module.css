@@ -12,7 +12,7 @@
     gap: 0.5rem;
     width: 100%;
     max-width: 500px;
-    z-index: 5000;
+    /* z-index: 5000; */
 }
 
 .botonLimpiar {

@@ -22,6 +22,22 @@
     display: flex;
 }
 
+.btnEditar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #457B9D;
+    border: 0px;
+    padding: 10px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 150px;
+    margin: auto;
+    cursor: pointer;
+}
+
 .tituloPantallaDeConsulta {
     position: relative;
     font-size: 2rem;
@@ -211,6 +227,62 @@
     margin-left: 10px;
 }
 
+.modalEntero {
+    z-index: 5001;
+}
+
+.headerModalEditarUsuario {
+    background-color: #007b8f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 10px;
+}
+
+.tituloModal {
+    font-size: 20px;
+    padding: 8px;
+}
+
+.textareaObservaciones {
+    resize: none;
+}
+
+.btnGuardarCambios {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #F5AD28;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btnCerrarCambios {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #E64F4F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btnCerrarCambios:hover{
+    background-color: #ff1c1c;
+    
+}
+
+.btnGuardarCambios:hover{
+    background-color: #d38900;
+    
+}
+
 @media (max-width: 1325px) {
     .filtrosConsultaContainer {
         width: 50%;
@@ -298,6 +370,10 @@
         justify-content: space-around;
     }
 
+    .tituloModal {
+        font-size: 16px;
+    }
+
     .botonCargarYSolicitar {
         position: fixed;
         bottom: 1rem;
@@ -377,28 +453,13 @@
         padding: 0 1rem;
     }
 
-    /* ESTO SOLO CAMBIA */
     .botonesContainer {
         flex-direction: column;
         width: 100%;
         max-width: 400px;
-        /* gap: 1rem; */
     }
 
     .botonFiltrosMobile {
         width: 100%;
     }
 }
-
-/* @media (max-width: 450px) {
-    .botonesContainer {
-        flex-direction: column;
-        width: 100%;
-        max-width: 400px;
-        gap: 1rem;
-    }
-
-    .botonFiltrosMobile {
-        width: 100%;
-    }
-} */

@@ -8,6 +8,9 @@ import { BsClipboard2Plus } from 'react-icons/bs';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 import { FaFilter } from 'react-icons/fa';
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
+import { FaEdit } from "react-icons/fa";
 
 
 
@@ -71,6 +74,8 @@ const ConsultarAutorizaciones = () => {
     const [medicosOpcionales, setMedicosOpcionales] = useState([]);
     const [estadosOpciones, setEstadosOpciones] = useState([]);
     const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);
+    const [modalObservacionesOpen, setModalObservacionesOpen] = useState(false)
+    const [elementoSeleccionado, setElementoSeleccionado] = useState(null)
 
     const toggleFiltrosMobile = () => {
         setFiltrosMobileOpen(!filtrosMobileOpen);
@@ -268,6 +273,46 @@ const ConsultarAutorizaciones = () => {
         }
         return resultado;
     };
+    
+    const abrirModalObservaciones = (autorizacion) => {
+        setElementoSeleccionado(autorizacion)
+        setModalObservacionesOpen(true)
+    }
+
+    const guardarObservaciones = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/autorizaciones/${elementoSeleccionado.numeroAutorizacion}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ observaciones: elementoSeleccionado.observaciones, estado: "Pendiente" }),
+            });
+
+            const dataActualizada = await response.json();
+            
+            setlistaAutorizaciones(prev =>
+                prev.map(item =>
+                    item.numeroAutorizacion === dataActualizada.numeroAutorizacion
+                        ? { ...item, observaciones: dataActualizada.observaciones, estado: dataActualizada.estado}
+                        : item
+                )
+            );
+
+            setListaAutorizacionesFiltradas(prev =>
+                prev.map(item =>
+                    item.numeroAutorizacion === dataActualizada.numeroAutorizacion
+                        ? { ...item, observaciones: dataActualizada.observaciones, estado: dataActualizada.estado}
+                        : item
+                )
+            );
+
+            setModalObservacionesOpen(false);
+        } catch (error) {
+            console.error('Error al guardar las observaciones:', error);
+        }
+    };
+
 
     return (
         <>
@@ -279,7 +324,7 @@ const ConsultarAutorizaciones = () => {
                             className={styles.botonFiltrosMobile}
                             onClick={toggleFiltrosMobile}
                         >
-                            <  FaFilter />
+                            <FaFilter />
                         </button>
 
                         <Link className={styles.botonCargarYSolicitar} to={'/cargar-autorizacion'}>
@@ -297,22 +342,26 @@ const ConsultarAutorizaciones = () => {
                         >
                             X
                         </button>
+
                         <div className={styles.tituloFiltros}>
                             <h2>Filtrar Autorizaciones por:</h2>
                             <hr />
                         </div>
+
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>
                                 <MdCancel />
                                 <span>Limpiar filtros</span>
                             </button>
                         </div>
+
                         {filtrosConfig
                             .filter(filtro => filtro.opciones.length > 1)
                             .map(unFiltro => (
                                 <FiltrosCards {...unFiltro} key={unFiltro.label} />
                             ))
                         }
+
                         <div className={styles.textoResultadosDeConsulta}>
                             <hr />
                             <h3>{listaAutorizacionesFiltradas.length} Autorizacion(es) encontradas</h3>
@@ -326,23 +375,59 @@ const ConsultarAutorizaciones = () => {
                                 <CardDinamica
                                     {...cardData}
                                     color={colorSegunEstado(autorizacion.estado)}
-
                                     key={autorizacion.numeroAutorizacion}
                                     data={{
                                         ...autorizacion,
-                                        ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias } : { cantDias: 'N/A' }
-
-                                        )
+                                        ...(autorizacion.estado === 'Aceptada'
+                                            ? { cantDias: autorizacion.cantDias }
+                                            : { cantDias: 'N/A' })
                                     }}
                                     header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
                                     tieneBotonDescarga={autorizacion.estado === 'Aceptada'}
+                                    tieneContenidoExtra={autorizacion.estado === 'Observación' ? (
+                                        <button
+                                        
+                                            className={styles.btnEditar}
+                                            onClick={() => abrirModalObservaciones(autorizacion)}
+                                        >
+                                            <FaEdit style={ {margin: "4px"}} />
+                                            Editar
+                                        </button>
+                                    ) : null}
                                 />
                             )))}
                     </section>
                 </div>
             </div>
+
+            <Modal show={modalObservacionesOpen} onHide={() => setModalObservacionesOpen(false)} centered className={styles.modalEntero}>
+                <Modal.Header className={styles.headerModalEditarUsuario}>
+                    <Modal.Title className={styles.tituloModal}>Editar Observaciones de la Autorización N° {elementoSeleccionado?.numeroAutorizacion}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={styles.bodyModalEditarUsuario}>
+                    <label >Observaciones: </label>
+                    <textarea
+                        className={styles.textareaObservaciones}
+                        value={elementoSeleccionado?.observaciones || ""}
+                        onChange={(e) => setElementoSeleccionado({
+                            ...elementoSeleccionado,
+                            observaciones: e.target.value
+                        })}
+                    />
+                </Modal.Body>
+
+                <Modal.Footer className={styles.footerModalEditarUsuario}>
+                    <Button className={ styles.btnCerrarCambios } variant="secondary" onClick={() => setModalObservacionesOpen(false)}>
+                        Cancelar
+                    </Button>
+                    <Button className={styles.btnGuardarCambios} variant="primary" onClick={guardarObservaciones}>
+                        Guardar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
-    )
+    );
+
 }
 
 
@@ -350,27 +435,3 @@ const ConsultarAutorizaciones = () => {
 export default ConsultarAutorizaciones
 
 
-
-/*
-<section className={styles.resultadosDeConsultaContainer}>
-                        {listaAutorizacionesFiltradas.length > 0 ? (listaAutorizacionesFiltradas.map((autorizacion) => (
-                            <CardDinamica
-                                {...cardData}
-                                color={colorSegunEstado(autorizacion.estado)}
-
-                                key={autorizacion.numeroAutorizacion}
-                                data={{
-                                    ...autorizacion,
-                                    ...(autorizacion.estado === 'Aceptada' ? { cantDias: autorizacion.cantDias } : { cantDias: 'N/A' }
-
-                                    )
-                                }}
-                                header={autorizacion.estado.charAt(0).toUpperCase() + autorizacion.estado.slice(1)}
-                                tieneBotonDescarga={autorizacion.estado === 'Aceptada'}
-
-                            />
-                        ))) : (
-                            <p>No se encontraron autorizaciones</p>
-                        )}
-                    </section>
- */
