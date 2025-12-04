@@ -142,7 +142,7 @@
 }
 
 .btnCerrarSesion:hover, .btnCerrarCambios:hover, .btnCerrarSesionMobile:hover{
-    background-color: #ff1c1c;
+    background-color: rgb(185, 86, 86);
     
 }
 

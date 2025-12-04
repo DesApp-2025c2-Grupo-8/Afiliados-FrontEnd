@@ -89,7 +89,7 @@ const FormPrestadores = (props) => {
 
                 <Button variant="dark" type="reset" onClick={hadnleResetFiltros}><MdCancel style={{ margin: '4px' }} /> Limpiar Filtros</Button>
 
-                <Button variant="primary" type="submit">
+                <Button  type="submit" className='botonSiguiente'>
                     <FaSearch style={{ margin: '4px' }} />
                     Buscar
                 </Button>

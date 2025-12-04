@@ -1,0 +1,18 @@
+.botonCancelar {
+    background-color: #E64F4F;
+    border: none
+}
+
+.botonSiguiente{
+    background-color: #24979B;
+    /* background-color: black; */
+    border: none
+}
+
+.botonCancelar:hover {
+    background-color: rgb(185, 86, 86);
+}
+
+.botonSiguiente:hover {
+    background-color: #24979bae;
+}
