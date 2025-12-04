@@ -5,6 +5,8 @@ import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap"
+import { FaEdit } from "react-icons/fa";
+import { MdLogout } from "react-icons/md";
 
 const Perfil = () => {
 
@@ -95,7 +97,9 @@ const Perfil = () => {
             email: email.trim()
         };
 
-        console.log(dataAfiliado)
+        // console.log(body)
+
+        // console.log(dataAfiliado)
 
         if (email.trim() === "" || telefono.trim() === "" || direccion.trim() === "") {
             setErrorEditar(true);
@@ -144,11 +148,12 @@ const Perfil = () => {
                 body: JSON.stringify(body)
             });
             const data = await response.json();
-            console.log("Usuario actualizado:", data);
-            const copiaAfiliado = { ...dataAfiliado };
-            copiaAfiliado.telefono = data.telefono;
-            copiaAfiliado.direccion = data.direccion;
-            copiaAfiliado.email = data.email;
+            // console.log("Usuario actualizado:", data);
+            const copiaAfiliado = { ...dataAfiliado, ...data };
+            sessionStorage.setItem("afiliadoDatos", JSON.stringify(copiaAfiliado));
+            // copiaAfiliado.telefono = data.telefono;
+            // copiaAfiliado.direccion = data.direccion;
+            // copiaAfiliado.email = data.email;
             setDataAfiliado(copiaAfiliado);
             setMostrarModalEditarUsuario(false);
             setMostrarModalCambiosExitosos(true);
@@ -256,8 +261,8 @@ const Perfil = () => {
                         </article>
                     </div>
                     <div className={styles.btnUsuario}>
-                        <button className={styles.btnCerrarSesion} onClick={handleCerrarSesion}>Cerrar Sesión</button>
-                        <button className={styles.btnEditar} onClick={handleEditarUsuario}>Editar Perfil</button>
+                        <button className={styles.btnCerrarSesion} onClick={handleCerrarSesion}><MdLogout style={{margin: "4px"}} /> Cerrar Sesión</button>
+                        <button className={styles.btnEditar} onClick={handleEditarUsuario}><FaEdit style={{margin: "4px"}} /> Editar Perfil</button>
                     </div>
                 </section>
                 <section className={styles.seccionGrupoFamiliar + " " + (grupoFamiliar.length < 1 ? styles.sinGrupoFamiliar : "")}>
@@ -279,8 +284,8 @@ const Perfil = () => {
 
                     </div>
                 </section>
-                    <button className={styles.btnEditarMobile} onClick={handleEditarUsuario}>Editar Perfil</button>
-                    <button className={styles.btnCerrarSesionMobile} onClick={handleCerrarSesion}>Cerrar Sesión</button>
+                    <button className={styles.btnEditarMobile} onClick={handleEditarUsuario}><FaEdit styles={{margin: "4px"}}/> Editar Perfil</button>
+                    <button className={styles.btnCerrarSesionMobile} onClick={handleCerrarSesion}><MdLogout styles={{margin: "4px"}} /> Cerrar Sesión</button>
 
             </div>
 

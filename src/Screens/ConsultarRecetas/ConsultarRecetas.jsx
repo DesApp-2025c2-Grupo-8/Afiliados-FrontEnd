@@ -10,7 +10,7 @@ import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 
-const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada'];
+const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada', 'Observación'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
 
 const cardData = {
@@ -240,6 +240,7 @@ const ConsultarRecetas = () => {
         setFiltroPeriodo('');
         setIntegrantesOpciones(integrantesOpcionesIniciales);
         setPresentacionesOpciones(presentacionesOpcionesIniciales);
+        setEstadosOpciones(estadosOpcionesIniciales);
     };
 
     const filtrosConfig = [
@@ -285,10 +286,13 @@ const ConsultarRecetas = () => {
         let resultado = '';
         switch (unEstado){
             case 'Aceptada':
-                resultado = 'observacion';
+                resultado = 'aceptada';
                 break;
             case 'Rechazada':
                 resultado = 'rechazada';
+                break;
+            case 'Observación':
+                resultado = 'observacion';
                 break;
             default:
                 resultado = 'pendiente'

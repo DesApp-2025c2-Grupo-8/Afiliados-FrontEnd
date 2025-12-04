@@ -64,8 +64,8 @@ const ConsultarTurnos = () => {
     const hoy = new Date();
     let fecha = new Date(hoy);
 
-    console.log(hoy);
-    console.log(fecha);
+    // console.log(hoy);
+    // console.log(fecha);
     
     switch (periodo) {
       case 'Último año':
@@ -287,10 +287,11 @@ const ConsultarTurnos = () => {
                 method: "PATCH",
                 headers: { 'Content-Type': 'application/json'},
             })
-            await response.json()
             
+            await response.json(); 
             const turnosActualizados = listaTurnos.filter(t => t._id !== id)
             setListaTurnos(turnosActualizados)
+
             setMostrarModal(false)
             setTurnoSeleccionado(null)
         } catch (error) {
@@ -361,8 +362,8 @@ const ConsultarTurnos = () => {
 
 
               <div className={styles.botonLimpiarFiltrosContainer}>
-                <div className={styles.botonAntiguosContainer}>
-                  <label className={styles.botonAntiguos}>
+                <div className={styles.botonTurnosPasadosContainer}>
+                  <label className={styles.botonTurnosPasados}>
                     <input
                       type='checkbox'
                       checked={filtroAntiguos}
