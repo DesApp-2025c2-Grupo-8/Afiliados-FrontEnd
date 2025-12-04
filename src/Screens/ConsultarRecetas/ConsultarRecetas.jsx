@@ -9,6 +9,9 @@ import { BsClipboard2Plus } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
+import { FaEdit } from "react-icons/fa";
 
 const estadosOpcionesIniciales = ['Aceptada', 'Pendiente', 'Rechazada', 'Observación'];
 const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'];
@@ -16,7 +19,7 @@ const periodosOpciones = ['Último año', 'Últimos seis meses', 'Últimos tres 
 const cardData = {
     // Color: Clase para el color del header de la Card, en idex.css
     // camposCard: va toda la informacion que queremos mostrar en la tarjeta, espera un nombre y un valor se mustran por campo o fila de la card
-    camposCard: [ 
+    camposCard: [
         // Campo: es el nombre en negrita de la fila
         // Propiedad: es la cual queremos mostrar el valor. Parecido a ej: cliente.nombre donde pasamos 'nombre'
         { campo: 'Estado', propiedad: 'estado' },
@@ -28,20 +31,20 @@ const cardData = {
         { campo: 'Observaciones', propiedad: 'observaciones' }
     ],
     //tieneBotonDescarga: true Solo es necesario agregarse si la tarjeta tiene boton de descarga, de lo contrario puede omitirse y borrarse.
-    tieneBotonDescarga: true 
+    tieneBotonDescarga: true
 };
 
 const ConsultarRecetas = () => {
-    
+
     const navigate = useNavigate();
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
-    
+
     useEffect(() => {
         document.title = 'Consulta de Recetas - Medicina Integral'
         if (!dataAfiliado) {
-                    navigate("/login");
-                }
-        
+            navigate("/login");
+        }
+
         fetch('http://localhost:3000/recetas/' + dataAfiliado?.numeroAfiliado)
             .then(response => response.json())
             .then(data => {
@@ -71,23 +74,25 @@ const ConsultarRecetas = () => {
     const [presentacionesOpcionesIniciales, setPresentacionesOpcionesIniciales] = useState([]);
     const [integrantesOpciones, setIntegrantesOpciones] = useState([]);
     const [presentacionesOpciones, setPresentacionesOpciones] = useState([]);
+    const [modalObservacionesOpen, setModalObservacionesOpen] = useState(false)
+    const [elementoSeleccionado, setElementoSeleccionado] = useState(null)
 
     // Filtros en mobile
-    const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);    
+    const [filtrosMobileOpen, setFiltrosMobileOpen] = useState(false);
     const toggleFiltrosMobile = () => {
         setFiltrosMobileOpen(!filtrosMobileOpen);
     }
 
-     useEffect(() => {
-            const handleResize = () => {
-                if (window.innerWidth > 630 && filtrosMobileOpen) {
-                    setFiltrosMobileOpen(false);
-                }
-            };
-    
-            window.addEventListener('resize', handleResize);
-            return () => window.removeEventListener('resize', handleResize);
-        }, [filtrosMobileOpen]);
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 630 && filtrosMobileOpen) {
+                setFiltrosMobileOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [filtrosMobileOpen]);
 
     const filtrarPorEstado = (unEstado) => {
         setFiltroEstado(unEstado);
@@ -116,7 +121,7 @@ const ConsultarRecetas = () => {
 
     const aplicarFiltros = (unEstado, unMedicamento, unIntegrante, unaPresentacion, unPeriodo) => {
         let listaRecetasAFiltrar = [...listaRecetas];
-        
+
         if (unEstado) {
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.estado === unEstado);
         };
@@ -134,14 +139,14 @@ const ConsultarRecetas = () => {
         };
 
         if (unPeriodo && unPeriodo !== 'TODO') {
-            const fechaDelPeriodoSeleccionado =  obtenerFechaDelPeriodoSeleccionado(unPeriodo);
+            const fechaDelPeriodoSeleccionado = obtenerFechaDelPeriodoSeleccionado(unPeriodo);
             listaRecetasAFiltrar = listaRecetasAFiltrar.filter(r => r.fechaDeCarga >= fechaDelPeriodoSeleccionado);
             // console.log('Cantidad de elem filtrados en el periodo seleccionado: ', listaRecetasAFiltrar.length);
         };
 
         setListaRecetasFiltradas(listaRecetasAFiltrar);
 
-        const opcionesEstado = listaRecetas.filter(r => 
+        const opcionesEstado = listaRecetas.filter(r =>
             (!unMedicamento || r.medicamento.toLowerCase().includes(unMedicamento.toLowerCase())) &&
             (!unaPresentacion || r.presentacion === unaPresentacion) &&
             (!unIntegrante || r.integrante === unIntegrante)
@@ -177,9 +182,9 @@ const ConsultarRecetas = () => {
         //['Último año', 'Últimos seis meses', 'Últimos tres meses', 'Último mes', 'Últimas dos semanas', 'Última semana'] => 'TODO'
 
         //Discutir esto:
-            //Por el momento esas son las opciones, si llegamos a considerar agregar más 
-            //despues cuando hagamos la conexión con la BD implementar los meses como parametrizados? para evitar crear 500 casos
-            //Si ese es el caso deberia cambiar la logica y recibir como paramtro Año, Mes, Semana, Dias? y cantidad
+        //Por el momento esas son las opciones, si llegamos a considerar agregar más 
+        //despues cuando hagamos la conexión con la BD implementar los meses como parametrizados? para evitar crear 500 casos
+        //Si ese es el caso deberia cambiar la logica y recibir como paramtro Año, Mes, Semana, Dias? y cantidad
 
         switch (unPeriodo) {
             case 'Último año':
@@ -201,9 +206,9 @@ const ConsultarRecetas = () => {
                 fechaPeriodoFiltro.setDate(fechaPeriodoFiltro.getDate() - 7);
                 break;
         }
-        
+
         // console.log(fechaPeriodoFiltro.toISOString());
-        return fechaPeriodoFiltro.toISOString().slice(0,10);
+        return fechaPeriodoFiltro.toISOString().slice(0, 10);
     };
 
     const limpiarFiltroEstado = () => {
@@ -213,7 +218,7 @@ const ConsultarRecetas = () => {
 
     const limpiarFiltroMedicamento = () => {
         setFiltroMedicamento('');
-        aplicarFiltros(filtroEstado,'', filtroIntegrante, filtroPresentacion, filtroPeriodo);
+        aplicarFiltros(filtroEstado, '', filtroIntegrante, filtroPresentacion, filtroPeriodo);
     };
 
     const limpiarFiltroIntegrante = () => {
@@ -284,7 +289,7 @@ const ConsultarRecetas = () => {
 
     const colorSegunEstado = (unEstado) => {
         let resultado = '';
-        switch (unEstado){
+        switch (unEstado) {
             case 'Aceptada':
                 resultado = 'aceptada';
                 break;
@@ -300,7 +305,46 @@ const ConsultarRecetas = () => {
         return resultado;
     };
 
-    return (   
+    const abrirModalObservaciones = (receta) => {
+        setElementoSeleccionado(receta)
+        setModalObservacionesOpen(true)
+    }
+
+    const guardarObservaciones = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/recetas/${elementoSeleccionado.numeroOrden}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ observaciones: elementoSeleccionado.observaciones, estado: "Pendiente" }),
+            });
+
+            const dataActualizada = await response.json();
+
+            setListaRecetas(prev =>
+                prev.map(item =>
+                    item.numeroOrden === dataActualizada.numeroOrden
+                        ? { ...item, observaciones: dataActualizada.observaciones, estado: dataActualizada.estado }
+                        : item
+                )
+            );
+
+            setListaRecetasFiltradas(prev =>
+                prev.map(item =>
+                    item.numeroOrden === dataActualizada.numeroOrden
+                        ? { ...item, observaciones: dataActualizada.observaciones, estado: dataActualizada.estado }
+                        : item
+                )
+            );
+
+            setModalObservacionesOpen(false);
+        } catch (error) {
+            console.error('Error al guardar las observaciones:', error);
+        }
+    };
+
+    return (
         <>
             <div className={styles.pantallaDeConsultaContainer}>
                 {/* <button onClick={() => console.log(listaRecetas)}>Ver recetas por consola</button> */}
@@ -340,7 +384,7 @@ const ConsultarRecetas = () => {
                         </div>
                         <div className={styles.botonLimpiarFiltrosContainer}>
                             <button className={styles.botonLimpiarFiltros} onClick={limpiarFiltros}>
-                                <MdCancel/>
+                                <MdCancel />
                                 <span>Limpiar filtros</span>
                             </button>
                         </div>
@@ -368,11 +412,47 @@ const ConsultarRecetas = () => {
                                     header={'N° Orden: ' + unaReceta.numeroOrden}  //El título de la card
                                     color={colorSegunEstado(unaReceta.estado)}
                                     tieneBotonDescarga={unaReceta.estado === 'Aceptada'}
+                                    tieneContenidoExtra={unaReceta.estado === 'Observación' ? (
+                                        <button
+
+                                            className={styles.btnEditar}
+                                            onClick={() => abrirModalObservaciones(unaReceta)}
+                                        >
+                                            <FaEdit style={{ margin: "4px" }} />
+                                            Editar
+                                        </button>
+                                    ) : null}
                                 />
                             )))}
                     </section>
                 </div>
             </div>
+
+            <Modal show={modalObservacionesOpen} onHide={() => setModalObservacionesOpen(false)} centered className={styles.modalEntero}>
+                <Modal.Header className={styles.headerModalEditarUsuario}>
+                    <Modal.Title className={styles.tituloModal}>Editar Observaciones de la Receta N° {elementoSeleccionado?.numeroOrden}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={styles.bodyModalEditarUsuario}>
+                    <label >Observaciones: </label>
+                    <textarea
+                        className={styles.textareaObservaciones}
+                        value={elementoSeleccionado?.observaciones || ""}
+                        onChange={(e) => setElementoSeleccionado({
+                            ...elementoSeleccionado,
+                            observaciones: e.target.value
+                        })}
+                    />
+                </Modal.Body>
+
+                <Modal.Footer className={styles.footerModalEditarUsuario}>
+                    <Button className={styles.btnCerrarCambios} variant="secondary" onClick={() => setModalObservacionesOpen(false)}>
+                        Cancelar
+                    </Button>
+                    <Button className={styles.btnGuardarCambios} variant="primary" onClick={guardarObservaciones}>
+                        Guardar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };

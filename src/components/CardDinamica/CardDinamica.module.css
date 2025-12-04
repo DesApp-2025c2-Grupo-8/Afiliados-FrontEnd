@@ -48,6 +48,12 @@
   user-select: none;
 }
 
+.cardBodyDinamica{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .botonPDF:active {
   transform: scale(0.96);
   background-color: #1d425a;

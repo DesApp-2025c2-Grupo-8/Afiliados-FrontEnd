@@ -3,6 +3,7 @@ import styles from "./Turnos.module.css"
 import turnos from "../../db/turnos";
 import { AiOutlinePlus } from 'react-icons/ai';
 import { Link } from "react-router-dom";
+import { FaRegCalendarPlus } from "react-icons/fa6";
 
 const turnosOrdenados = [...turnos].reverse()
 
@@ -30,7 +31,7 @@ const Turnos = (props) => {
                 idx < 4 &&
                 <CardTurnoProximo key={idx + item.integrante} fecha={item.fecha} hora={item.hora} prestador={item.medico} tipoConsulta={item.especialidad} integrante={item.integrante}/>)}
                 
-                <Link className={styles.btnNuevoTurno} to={'/solicitar-turno'}> <AiOutlinePlus/> Solicitar nuevo turno</Link>
+                <Link className={styles.btnNuevoTurno} to={'/solicitar-turno'}> <FaRegCalendarPlus/> Solicitar nuevo turno</Link>
             </div>
         </aside>
     );

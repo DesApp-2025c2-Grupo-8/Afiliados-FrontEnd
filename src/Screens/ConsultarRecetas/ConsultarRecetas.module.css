@@ -56,7 +56,8 @@
     margin-left: 20px;
     flex: 2;
     display: flex;
-    justify-content: space-between; /* flex-end si no tiene searchbar */
+    justify-content: space-between;
+    /* flex-end si no tiene searchbar */
     /* padding: 1rem 3rem; */
     /* gap: 5rem; */
     /* min-width: fit-content; */
@@ -379,12 +380,88 @@
     }
 }
 
+.btnEditar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #457B9D;
+    border: 0px;
+    padding: 10px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 150px;
+    margin: auto;
+    cursor: pointer;
+}
+
+.modalEntero {
+    z-index: 5001;
+}
+
+.headerModalEditarUsuario {
+    background-color: #007b8f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 10px;
+}
+
+.tituloModal {
+    font-size: 20px;
+    padding: 8px;
+}
+
+.textareaObservaciones {
+    resize: none;
+}
+
+.btnGuardarCambios {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #F5AD28;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btnCerrarCambios {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #E64F4F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btnCerrarCambios:hover {
+    background-color: #ff1c1c;
+
+}
+
+.btnGuardarCambios:hover {
+    background-color: #d38900;
+
+}
+
 @media (max-width: 450px) {
     .botonesContainer {
         flex-direction: column;
         width: 100%;
         max-width: 400px;
         gap: 1rem;
+    }
+
+    .tituloModal {
+        font-size: 16px;
     }
 
     .botonFiltrosMobile {
