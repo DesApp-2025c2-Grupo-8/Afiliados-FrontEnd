@@ -60,7 +60,7 @@ const cartillaPrestadores = () => {
 
         const ubicaciones = [...new Set(filtrados.flatMap(p => p.ubicacion.map(u => `${u.partido} - ${u.direccion}`)))]
 
-        console.log(ubicaciones)
+        //console.log(ubicaciones)
         const tipos = [...new Set(filtrados.map(p => p.tipo))]
 
         setUbicacionesDisponibles(ubicaciones)
