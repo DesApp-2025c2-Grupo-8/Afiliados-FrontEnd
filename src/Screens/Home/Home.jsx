@@ -19,7 +19,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect( () => {
-        document.title = 'Medicina Integral'
+        document.title = 'Página principal - Medicina Integral'
         if (!dataAfiliado) {
                     navigate("/login");
                 }
@@ -33,7 +33,6 @@ const Home = () => {
 
 
     useEffect(() => {
-            document.title = 'Consulta de Recetas - Medicina Integral'
             if (!dataAfiliado) {
                         navigate("/login");
                     }
@@ -80,21 +79,23 @@ const Home = () => {
     const ultimaSemana = new Date();
     ultimaSemana.setDate(ultimaSemana.getDate() - 7);
 
-    const cantPendientesUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana ).length +
-        recetas.filter(item => item.estado.toLowerCase() === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
-        reintegros.filter(item => item.estado.toLowerCase() === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
-    
-    const cantAceptadasUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
-        recetas.filter(item => item.estado.toLowerCase() === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
-        reintegros.filter(item => item.estado.toLowerCase() === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
-    
-    const cantRechazadasUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
-        recetas.filter(item => item.estado.toLowerCase() === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
-        reintegros.filter(item => item.estado.toLowerCase() === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+    const normalizar = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-    const cantObservacionUltimaSemana = autorizaciones.filter(item => item.estado.toLowerCase() === 'observación' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
-        recetas.filter(item => item.estado.toLowerCase() === 'observacion' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
-        reintegros.filter(item => item.estado.toLowerCase() === 'observacion' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+    const cantPendientesUltimaSemana = autorizaciones.filter(item => normalizar(item.estado) === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana ).length +
+        recetas.filter(item => normalizar(item.estado) === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => normalizar(item.estado) === 'pendiente' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+    
+    const cantAceptadasUltimaSemana = autorizaciones.filter(item => normalizar(item.estado) === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        recetas.filter(item => normalizar(item.estado) === 'aceptada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => normalizar(item.estado) === 'pago' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+    
+    const cantRechazadasUltimaSemana = autorizaciones.filter(item => normalizar(item.estado) === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        recetas.filter(item => normalizar(item.estado) === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => normalizar(item.estado) === 'rechazada' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
+
+    const cantObservacionUltimaSemana = autorizaciones.filter(item => normalizar(item.estado) === 'observacion' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        recetas.filter(item => normalizar(item.estado) === 'observacion' && new Date(item.fechaDeCarga) >= ultimaSemana).length +
+        reintegros.filter(item => normalizar(item.estado) === 'observacion' && new Date(item.fechaDeCarga) >= ultimaSemana).length;
 
 
     const cardsResumen = [
