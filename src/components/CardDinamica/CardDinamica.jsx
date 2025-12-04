@@ -51,7 +51,9 @@ const CardDinamica = (props) => {
       <Card.Header className={`${styles.cardHeader} ${color}`}>
         {header}
       </Card.Header>
-      <Card.Body>
+      <Card.Body className={styles.cardBodyDinamica}>
+        <div>
+
         {camposCard.map(({ campo, propiedad, esFecha }) => (
           <Card.Text className={styles.cardTexto} key={propiedad}>
             {/* {console.log(data[propiedad])} */}
@@ -64,6 +66,7 @@ const CardDinamica = (props) => {
 
           </Card.Text>
         ))}
+        </div>
 
         {tieneBotonDescarga && (
           <div className={styles.botonBox}>

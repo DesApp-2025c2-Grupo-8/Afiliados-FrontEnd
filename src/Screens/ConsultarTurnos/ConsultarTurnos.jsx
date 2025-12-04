@@ -5,9 +5,10 @@ import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import SearchBarCards from '../../components/SearchBarCards/SearchBarCards';
 import styles from './ConsultarTurnos.module.css';
 import { MdCancel } from 'react-icons/md';
-import { BsClipboard2Plus } from 'react-icons/bs';
+import { FaRegCalendarPlus } from "react-icons/fa6";
 import { FaFilter } from 'react-icons/fa';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
+import { FaRegCalendarMinus } from "react-icons/fa6";
 
 const periodosOpciones = [
   'Último año',
@@ -329,7 +330,7 @@ const ConsultarTurnos = () => {
                 placeholder={"Ingrese un integrante..."}
               />
               <Link className={styles.botonCargarYSolicitar} to={'/solicitar-turno'}>
-                <BsClipboard2Plus />
+                <FaRegCalendarPlus />
                 <span>Solicitar Turno</span>
               </Link>
               <button
@@ -412,6 +413,7 @@ const ConsultarTurnos = () => {
                           className={styles.botonAbrirModal}
                           onClick={() => handleAbrirModal(unTurno)}
                         >
+                          <FaRegCalendarMinus /> 
                           Cancelar Turno
                         </button>) : null
                     }

@@ -1,4 +1,4 @@
-import { BsCalendar4 } from 'react-icons/bs';
+import { FaRegCalendar } from "react-icons/fa6";
 import styles from './CardTurnoProximo.module.css';
 
 const CardTurnoProximo = (props) => {
@@ -10,7 +10,7 @@ const CardTurnoProximo = (props) => {
     return (
         <article className={styles.proximoTurno}>
             <div className={styles.iconoTurno}>
-                <BsCalendar4/>
+                <FaRegCalendar/>
             </div>
             <div className={styles.datosTurno}>
                 <h3>{fechaFormateada} - {props.hora}</h3>

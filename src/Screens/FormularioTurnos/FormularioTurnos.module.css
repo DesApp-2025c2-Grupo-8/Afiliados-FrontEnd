@@ -43,12 +43,15 @@
 }
 
 .fondo {
-    min-height: 90vh;
-    padding-top: 100px;
+    min-height: 100vh;
+    /* padding-top: 100px; */
     width: 100%;
     background-image: url("@assets/images/fondo-FormRecetas.png");
     background-size: cover;
     background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .obligatorio{
@@ -61,7 +64,8 @@
     align-items: center;   
     min-height: 80vh;       
     padding-top: 0;
-    padding-bottom: 2rem;
+    /* padding-bottom: 2rem; */
+    margin: 18px 0px;
 }
 
 .container h4{

@@ -4,7 +4,7 @@ import CardDinamica from '../../components/CardDinamica/CardDinamica.jsx';
 import styles from './ConsultarAutorizaciones.module.css'
 import FiltrosCards from '../../components/FiltrosCards/FiltrosCards';
 import { MdCancel } from 'react-icons/md';
-import { BsClipboard2Plus } from 'react-icons/bs';
+import { PiPulse } from 'react-icons/pi';
 import { useAfiliadoDatos } from '../../context/AfiliadoDatos';
 import { useNavigate } from "react-router-dom";
 import { FaFilter } from 'react-icons/fa';
@@ -328,7 +328,7 @@ const ConsultarAutorizaciones = () => {
                         </button>
 
                         <Link className={styles.botonCargarYSolicitar} to={'/cargar-autorizacion'}>
-                            <BsClipboard2Plus />
+                            <PiPulse />
                             <span>Cargar Autorización</span>
                         </Link>
                     </section>
