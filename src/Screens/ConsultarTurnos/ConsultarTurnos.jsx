@@ -287,10 +287,11 @@ const ConsultarTurnos = () => {
                 method: "PATCH",
                 headers: { 'Content-Type': 'application/json'},
             })
-            await response.json()
             
+            await response.json(); 
             const turnosActualizados = listaTurnos.filter(t => t._id !== id)
             setListaTurnos(turnosActualizados)
+
             setMostrarModal(false)
             setTurnoSeleccionado(null)
         } catch (error) {
