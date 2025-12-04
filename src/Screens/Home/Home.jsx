@@ -50,8 +50,8 @@ const Home = () => {
                 .then(response => response.json())
                 .then(data => {
                     setReintegros(data);
-                    // console.log("reintegros:");
-                    // console.log(data);
+                    console.log("reintegros:");
+                    console.log(data);
                 })
                 .catch(error => console.log(error))
 

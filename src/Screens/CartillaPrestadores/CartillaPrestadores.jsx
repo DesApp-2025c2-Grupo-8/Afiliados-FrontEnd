@@ -31,13 +31,13 @@ const cartillaPrestadores = () => {
         }
 
         fetch('http://localhost:3000/prestadores')
-        .then( response => {
-            if(!response.ok) throw new Error('Error en la obtener los prestadores')
-            return response.json()
-        })
-        .then( data => {
-            setPrestadores(data)
-        }).catch( error => console.error("Error: ", error))
+            .then(response => {
+                if (!response.ok) throw new Error('Error en la obtener los prestadores')
+                return response.json()
+            })
+            .then(data => {
+                setPrestadores(data)
+            }).catch(error => console.error("Error: ", error))
     }, []);
 
     const [prestadores, setPrestadores] = useState([])
@@ -45,6 +45,8 @@ const cartillaPrestadores = () => {
     const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState('')
     const [ubicacionesDisponibles, setUbicacionesDisponibles] = useState([])
     const [tiposDisponibles, setTiposDisponibles] = useState([])
+    const [errorEspecialidad, setErrorEspecialidad] = useState(false)
+    const [ubicacionBusqueda, setUbicacionBusqueda] = useState('')
 
     const [nombre, setNombre] = useState('')
     const [ubicacion, setUbicacion] = useState('')
@@ -57,6 +59,8 @@ const cartillaPrestadores = () => {
         const filtrados = prestadores.filter(p => p.especialidad === especialidad)
 
         const ubicaciones = [...new Set(filtrados.flatMap(p => p.ubicacion.map(u => `${u.partido} - ${u.direccion}`)))]
+
+        console.log(ubicaciones)
         const tipos = [...new Set(filtrados.map(p => p.tipo))]
 
         setUbicacionesDisponibles(ubicaciones)
@@ -65,6 +69,13 @@ const cartillaPrestadores = () => {
 
     const buscarPrestadores = (event) => {
         event.preventDefault()
+
+        if (!especialidadSeleccionada) {
+            setErrorEspecialidad(true)
+            return
+        } else {
+            setErrorEspecialidad(false)
+        }
 
         let resultadosFiltrados = prestadores
 
@@ -84,6 +95,7 @@ const cartillaPrestadores = () => {
             resultadosFiltrados = resultadosFiltrados.filter(p => p.tipo === tipo)
         }
 
+        setUbicacionBusqueda(ubicacion)
         setResultado(resultadosFiltrados)
     }
 
@@ -100,7 +112,9 @@ const cartillaPrestadores = () => {
                         ubicacion={ubicacion}
                         tipo={tipo}
                         especialidadSeleccionada={especialidadSeleccionada}
+                        errorEspecialidad={errorEspecialidad}
 
+                        setErrorEspecialidad={setErrorEspecialidad}
                         setNombre={setNombre}
                         setUbicacion={setUbicacion}
                         setTipoPrestador={setTipoPrestador}
@@ -120,24 +134,30 @@ const cartillaPrestadores = () => {
                 <section className={styles.containerResultadosPrestadores}>
 
                     {resultado.length > 0 ? (
-                        resultado.flatMap((prestador, idxPrestador) =>
-                            prestador.ubicacion.map((ubi, idxUbi) => (
+                        resultado.flatMap((prestador, idxPrestador) => {
+
+                            const ubicacionesFiltradas = ubicacionBusqueda
+                                ? prestador.ubicacion.filter(
+                                    u => `${u.partido} - ${u.direccion}` === ubicacionBusqueda
+                                )
+                                : prestador.ubicacion;
+
+                            return ubicacionesFiltradas.map((ubi, idxUbi) => (
                                 <CardDinamica
                                     {...cardData}
                                     key={`${prestador.nombre}-${idxPrestador}-${idxUbi}`}
-
                                     data={{
                                         ...prestador,
-                                        ubicacion: `${ubi.partido} - ${ubi.direccion}` // ahora solo 1 ubicación por card
+                                        ubicacion: `${ubi.partido} - ${ubi.direccion}`
                                     }}
-
                                     header={prestador.nombre}
                                 />
-                            ))
-                        )
+                            ));
+                        })
                     ) : (
                         <p className={styles.sinResultados}>No se encontraron resultados</p>
                     )}
+
                 </section>
             </div>
         </>

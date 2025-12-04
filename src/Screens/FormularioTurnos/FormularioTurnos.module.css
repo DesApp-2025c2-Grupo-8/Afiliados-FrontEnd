@@ -1,3 +1,47 @@
+.containerTituloSub {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 60px auto 15px;
+}
+
+.tituloResultadosPrestadores {
+  position: relative;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #007b8f;
+  text-align: center;
+  padding-bottom: 10px;
+  width: fit-content;
+  text-align: center;
+}
+
+.tituloResultadosPrestadores::after {
+  content: "";
+  width: 120px;
+  height: 4px;
+  background: #1a8d92;
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
+.sinResultados {
+  background: #ffffff;
+  padding: 14px 30px;
+  border-left: 6px solid #1a8d92;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #007b8f;
+  text-align: center;
+  margin: 40px auto;
+  width: fit-content;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
 .fondo {
     min-height: 90vh;
     padding-top: 100px;
@@ -13,22 +57,29 @@
 
 .container {
     display: flex;
-    flex-direction: column;
     justify-content: center; 
     align-items: center;   
     min-height: 80vh;       
     padding-top: 0;
+    padding-bottom: 2rem;
 }
 
 .container h4{
     margin-bottom: 30px;
 }
 
+.fondo, .container{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+
+
 .card {
     background-color: #FFFFFF;
     padding: 2rem;
     border-radius: 12px;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     height: auto;
     margin:auto;
@@ -55,8 +106,25 @@
 }
 
 .titulo {
-    font-size: 1.9rem;
+    position: relative;
+    font-size: 2rem;
     text-align: center;
+    font-weight: 700;
+    color: #007b8f;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.titulo::after{
+    content: "";
+    width: 120px;
+    height: 4px;
+    background: #1a8d92;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
 }
 
 .cardsContainer {
@@ -88,6 +156,7 @@
     padding: 0;
     margin-bottom: 0.1rem;
     box-shadow: none;
+    max-width: 100%;
 }
 
 .datos {
@@ -155,78 +224,27 @@ textarea {
    width: 100%;
 }
 
-@media (max-width: 900px){
+
+@media (max-width: 480px){
+
     .card{
-        max-width: 500px;
-        padding: 1.5rem;
+        padding: 1.2rem;
+        border-radius: 10px;
     }
 
     .titulo{
-        font-size: 1.6rem;
+        font-size: 1.4rem;
     }
 
-    .cardsContainer{
-        gap: 1rem;
-    }
-
-    .cardResultado{
-        max-width: 380px;
-        margin-left: 12px;
-        margin-right: 12px;
-    }
-}
-
-@media (max-width: 768px){
-    .fondo {
-        padding-top: 70px;
-        background-position: top;
-    }
-
-    .container{
-        padding: 0 0.5rem; 
-    }
-
-    .card{
-        padding: 1.1rem;
-        border-radius: 8px;
-    }
-
-    .botones{
-        gap: 0.8rem;
-        flex-direction: column;
+    select,
+    input,
+    textarea{
+        font-size: 0.95rem;
     }
 
     .botones button{
-        width: 100%;
+        margin: 0;
     }
-
-    .cardsContainer{
-        align-items: center;
-        flex-direction: column;
-        gap: 0.9rem;
-        width: 100%; 
-    }
-
-    .cardResultado{
-        max-width: 350px; 
-        width: 100%;      
-        margin: 0.5rem auto;
-    }
-
-    .modal .datos{
-        font-size: 0.9rem;
-    }
-
-    .modalHeader{
-        text-align: center;
-    }
-
-    .modalTitle{
-        font-size: 1.2rem;
-    }
-}
-
-@media (max-width: 480px){
 
     .cardsContainer{
         width: 100%;
@@ -245,19 +263,18 @@ textarea {
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
-    .cardResultado > div {
-        padding: 1.2rem;        
-        box-sizing: border-box;
-        max-width: 300px;
-    }
-    
-    .cardResultado h5,
-    .cardResultado strong {
-        font-size: 1.1rem;
+    .tituloResultadosPrestadores{
+        font-size: 1.3rem;
     }
 
-    .cardResultado p {
+    .tituloResultadosPrestadores::after{
+        width: 60px;
+    }
+}
+
+@media (max-width: 768px){
+    .sinResultados{
         font-size: 1rem;
-        margin-bottom: 0.4rem;
+        padding: 10px 20px;
     }
 }

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { Form, Modal, Button } from "react-bootstrap"
 import FormGenerico from "../../components/FormGenerico/FormGenerico";
 import styles from './FormAutorizaciones.module.css'
-import usuarios from "../../db/usuarios"
 import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
 
 const FormAutorizaciones = () => {
@@ -12,7 +11,7 @@ const FormAutorizaciones = () => {
         if (!dataAfiliado) {
             navigate("/login");
             }
-
+        filtrarGrupoFamiliar()
         fetch('http://localhost:3000/prestadores')
             .then(response => {
                 if (!response.ok) throw new Error('Error al obtener prestadores');
@@ -25,7 +24,8 @@ const FormAutorizaciones = () => {
             )
     }, []);
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
-    const esTitular = dataAfiliado?.rol === "TITULAR";
+    const esConyuge = dataAfiliado?.rol === "CONYUGE";
+
     const [modalConfirmar, setModalConfirmar] = useState(false)
     const [modalCancelar, setModalCancelar] = useState(false)
     const [nroAutorizacion, setNroAutorizacion] = useState(null)
@@ -36,7 +36,7 @@ const FormAutorizaciones = () => {
     const [ubicaciones, setUbicaciones] = useState([])
     const [direccionDisponible, setDireccionDisponible] = useState("");
     const [ubicacionSeleccionada, setUbicacionSeleccionada] = useState("");
-
+    const [grupoFamiliar, setGrupoFamiliar] = useState([]);
 
     const [data, setData] = useState({
         fechaDeCarga: new Date().toISOString(),
@@ -126,7 +126,7 @@ const FormAutorizaciones = () => {
             const dataToSend = {
                 ...data,
             }
-            console.log(dataToSend)
+            // console.log(dataToSend)
             const response = await fetch('http://localhost:3000/autorizaciones', {
                 method: 'POST',
                 headers: {
@@ -134,7 +134,7 @@ const FormAutorizaciones = () => {
                 },
                 body: JSON.stringify(dataToSend)
             })
-            console.log('HTTP status:', response.status, response.statusText)
+            // console.log('HTTP status:', response.status, response.statusText)
 
             const result = await response.json()
             setNroAutorizacion(result.numeroAutorizacion)
@@ -159,6 +159,21 @@ const FormAutorizaciones = () => {
         navigate("/consultar-autorizaciones")
     }
 
+    const esMayorDeEdad = (unaFechaDeNacimiento) => {
+        const fechaNacimientoFormateada = new Date(unaFechaDeNacimiento);
+        const hoy = new Date();
+        const fechaNacimientoMas18Anios = new Date(fechaNacimientoFormateada.getFullYear() + 18, fechaNacimientoFormateada.getMonth(), fechaNacimientoFormateada.getDate());
+        return hoy >= fechaNacimientoMas18Anios;
+    }
+
+    const filtrarGrupoFamiliar = () => {
+        if (esConyuge) {
+            setGrupoFamiliar(dataAfiliado?.grupoFamiliar.filter(m => m.rol !== 'TITULAR' && !esMayorDeEdad(m.fechaNacimiento)))
+        } else {
+            setGrupoFamiliar(dataAfiliado?.grupoFamiliar.filter(m => !esMayorDeEdad(m.fechaNacimiento)))
+        }
+    }
+
     return (
         <div className={styles.fondo}>
             <section className={styles.formContainer}>
@@ -174,17 +189,17 @@ const FormAutorizaciones = () => {
                         >
                             <option value="">Seleccione el nombre del integrante</option>
                             {
-                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
-                                    }
-                                    {
-                                        dataAfiliado?.grupoFamiliar.map((usuario) =>
-                                            //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
-                                            esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
-                                                ""
-                                        )}
-                                         <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
+                                // console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
+                            }
+                            <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
+                            {
+                                grupoFamiliar.map((usuario) =>
+                                    //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
+                                    <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
+                                )
+                            }
                         </Form.Select>
-                        <span>{errores.includes("integrante should not be empty") ? "Seleccione un Integrante" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("integrante should not be empty") ? "Seleccione un Integrante" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
@@ -205,12 +220,12 @@ const FormAutorizaciones = () => {
                                             p.especialidad
                                         ])
                                     ).values()
-                                ).map((esp, idx) => (
+                                ).slice().sort((a, b) => a.localeCompare(b)).map((esp, idx) => (
                                     <option key={idx} value={esp}>{esp}</option>
                                 ))
                             }
                         </Form.Select>
-                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione una Especialidad" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("especialidad should not be empty") ? "Seleccione una Especialidad" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
@@ -220,16 +235,17 @@ const FormAutorizaciones = () => {
                             value={medicoSeleccionado}
                             onChange={handleMedicoChange}
                             disabled={!especialidadSeleccionada}
-                            required
                         >
                             <option value="">Seleccione un Médico</option>
                             {prestadores
                                 .filter(p => p.especialidad === especialidadSeleccionada)
+                                .slice()
+                                .sort((a, b) => a.nombre.localeCompare(b.nombre))
                                 .map((medico, i) => (
                                     <option key={i} value={medico.nombre}>{medico.nombre}</option>
                                 ))}
                         </Form.Select>
-                        <span>{errores.includes("especialidad should not be empty") ? "Seleccione un Médico" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("medico should not be empty") ? "Seleccione un Médico" : ""}</span>
                     </Form.Group>
 
 
@@ -242,12 +258,12 @@ const FormAutorizaciones = () => {
                             disabled={!medicoSeleccionado}
                             required
                         >
-                            <option value="">Seleccione una ubicación</option>
+                            <option value="">Seleccione un partido</option>
                             {ubicaciones.map((ubi, i) => (
                                 <option key={i} value={ubi.partido}>{ubi.partido}</option>
                             ))}
                         </Form.Select>
-                        <span>{errores.includes("partido should not be empty") ? "Seleccione un Partido" : ""}</span>
+                        <span className={styles.errorCampo}>{errores.includes("partido should not be empty") ? "Seleccione un Partido" : ""}</span>
                     </Form.Group>
 
                     <Form.Group>
