@@ -19,7 +19,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect( () => {
-        document.title = 'Medicina Integral'
+        document.title = "Página principal - Medicina Integral";
         if (!dataAfiliado) {
                     navigate("/login");
                 }
@@ -33,7 +33,6 @@ const Home = () => {
 
 
     useEffect(() => {
-            document.title = 'Consulta de Recetas - Medicina Integral'
             if (!dataAfiliado) {
                         navigate("/login");
                     }

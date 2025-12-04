@@ -7,6 +7,7 @@ import { PiPulse } from 'react-icons/pi';
 import { Link } from "react-router-dom"
 import { FiPlus } from "react-icons/fi";
 import { AiOutlineClose } from 'react-icons/ai';
+import reintegros from '../../../../Afiliados-Backend/src/data/reintegros';
 
 const AtajosSolicitudes = (props) => {
 
@@ -73,6 +74,7 @@ const AtajosSolicitudes = (props) => {
   ];
 
   setEstadoSolicitud(nuevoResumen);
+  console.log(reintegros)
 
     // console.log(tipo + " del " + periodoSeleccionado + " aceptadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("aceptada", periodoSeleccionado, solicitudSeleccionada))
     // console.log(tipo + " del " + periodoSeleccionado + " rechazadas ", obtenerCantidadPorEstadoPeriodoYSolicitud("rechazada", periodoSeleccionado, solicitudSeleccionada))

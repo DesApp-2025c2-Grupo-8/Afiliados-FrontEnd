@@ -12,6 +12,8 @@
 
 
 .loginBox {
+  position: relative;
+  z-index: 2;
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 15px;
@@ -27,6 +29,12 @@
   font-size: 1.8rem;
   color: #333;
   text-align: center;
+}
+
+.errorForm {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .btnIngresar {
