@@ -79,8 +79,10 @@ const cartillaPrestadores = () => {
 
         let resultadosFiltrados = prestadores
 
+        const normalizar = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
         if (nombre) {
-            resultadosFiltrados = resultadosFiltrados.filter(p => p.nombre.toLowerCase().includes(nombre.toLowerCase()))
+            resultadosFiltrados = resultadosFiltrados.filter(p => normalizar(p.nombre).includes(normalizar(nombre)))
         }
 
         if (especialidadSeleccionada) {
