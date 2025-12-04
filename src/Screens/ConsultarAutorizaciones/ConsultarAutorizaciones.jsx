@@ -47,7 +47,7 @@ const ConsultarAutorizaciones = () => {
         fetch('http://localhost:3000/autorizaciones/' + dataAfiliado?.numeroAfiliado)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                // console.log(data)
                 const autorizacionesOrdenadas = [...data].reverse()
                 setlistaAutorizaciones(autorizacionesOrdenadas)
                 setListaAutorizacionesFiltradas(autorizacionesOrdenadas)

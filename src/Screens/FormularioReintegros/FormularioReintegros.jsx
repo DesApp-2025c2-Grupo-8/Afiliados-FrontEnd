@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Form, Col, Row, Modal, Button } from "react-bootstrap";
 import styles from './FormularioReintegros.module.css';
 import { useNavigate, Link } from "react-router-dom";
-// import usuarios from "../../db/usuarios";
 import { useAfiliadoDatos } from "../../context/AfiliadoDatos";
 
 
@@ -19,12 +18,13 @@ const FormularioReintegros = () => {
             .catch(error => console.error('Error:', error))
         if (!dataAfiliado) {
             navigate("/login");
-            }
+        }
+        filtrarGrupoFamiliar()
     }, []);
 
     const { dataAfiliado, setDataAfiliado } = useAfiliadoDatos();
     const numeroAfiliado = dataAfiliado?.numeroAfiliado;
-    const esTitular = dataAfiliado?.rol === "TITULAR";
+    const esConyuge = dataAfiliado?.rol === "CONYUGE";
 
     const [prestadores, setPrestadores] = useState([])
 
@@ -52,6 +52,7 @@ const FormularioReintegros = () => {
     const [nroOrden, setNroOrden] = useState(null)
     const [errores, setErrores] = useState([])
     const [paso, setPaso] = useState(1);
+    const [grupoFamiliar, setGrupoFamiliar] = useState([]);
 
     const navigate = useNavigate()
 
@@ -99,7 +100,7 @@ const FormularioReintegros = () => {
             });
             const result = await response.json();
             setNroOrden(result.numeroOrden);
-            console.log("Resultado:", result);
+            // console.log("Resultado:", result);
             result.error ? setErrores(result.message) : setModalConfirmar(true);
         } catch (error) {
             console.log("Error:", error);
@@ -116,7 +117,7 @@ const FormularioReintegros = () => {
     }
 
     const handleConfirmar = () => {
-        console.log("Enviando...");
+        // console.log("Enviando...");
         setModalConfirmar(false)
         navigate("/consultar-reintegros")
     }
@@ -130,6 +131,20 @@ const FormularioReintegros = () => {
     const ubicacionesDelMedico = prestadores
         .find(p => p.nombre === data.medico)?.ubicacion || [];
 
+    const esMayorDeEdad = (unaFechaDeNacimiento) => {
+        const fechaNacimientoFormateada = new Date(unaFechaDeNacimiento);
+        const hoy = new Date();
+        const fechaNacimientoMas18Anios = new Date(fechaNacimientoFormateada.getFullYear() + 18, fechaNacimientoFormateada.getMonth(), fechaNacimientoFormateada.getDate());
+        return hoy >= fechaNacimientoMas18Anios;
+    }
+
+    const filtrarGrupoFamiliar = () => {
+        if (esConyuge) {
+            setGrupoFamiliar(dataAfiliado?.grupoFamiliar.filter(m => m.rol !== 'TITULAR' && !esMayorDeEdad(m.fechaNacimiento)))
+        } else {
+            setGrupoFamiliar(dataAfiliado?.grupoFamiliar.filter(m => !esMayorDeEdad(m.fechaNacimiento)))
+        }
+    }
 
     return (
         <div className={styles.fondo}>
@@ -150,15 +165,15 @@ const FormularioReintegros = () => {
                                 >
                                     <option value="">Seleccione el nombre del integrante</option>
                                     {
-                                        console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
+                                        // console.log("dataAfiliado.grupoFamiliar", dataAfiliado?.grupoFamiliar)
                                     }
+                                    <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
                                     {
-                                        dataAfiliado?.grupoFamiliar.map((usuario) =>
+                                        grupoFamiliar.map((usuario) =>
                                             //el return tiene que devolver todos los afiliados si el afiliado es titular (incluyendose) si no, solo si mismos
-                                            esTitular ? <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option> :
-                                                ""
-                                        )}
-                                         <option key={dataAfiliado?.numeroAfiliado} value={`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}>{`${dataAfiliado?.nombre} ${dataAfiliado?.apellido}`}</option>
+                                            <option key={usuario.numeroAfiliado} value={`${usuario.nombre} ${usuario.apellido}`}>{`${usuario.nombre} ${usuario.apellido}`}</option>
+                                        )
+                                    }
                                 </Form.Select>
                                 <span className={styles.oblgatorio}>{errores.includes("integrante should not be empty") ? "Seleccione un integrante" : ""}</span>
                             </Form.Group>

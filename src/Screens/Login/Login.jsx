@@ -111,7 +111,7 @@ const Login = () => {
     setDataAfiliado(userData);
     sessionStorage.setItem("afiliadoDatos", JSON.stringify(userData));
 
-    console.log("Usuario logueado:", userData);
+    //console.log("Usuario logueado:", userData);
     navigate("/");
 
   } catch (error) {
@@ -148,7 +148,7 @@ const Login = () => {
                 <Form.Label>Nro. Documento</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="99999999"
+                  placeholder="Ejemplo: 35607542"
                   
                   value={numeroDocumento}
                   onChange={(e) => setNumeroDocumento(e.target.value)}

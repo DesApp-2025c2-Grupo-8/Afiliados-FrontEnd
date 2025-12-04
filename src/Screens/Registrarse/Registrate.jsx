@@ -73,7 +73,9 @@ const Registro = () => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value
-    }, console.log(formData));
+    }
+    //, console.log(formData)
+    );
   };
 
 const handleSubmit = async (e) => {
@@ -180,9 +182,9 @@ const handleSubmit = async (e) => {
 
   const fechaNac = new Date(dataToSend.fechaNacimiento);
   dataToSend.fechaNacimiento = fechaNac.setHours(fechaNac.getHours()+3);
-  console.log("Fecha de Nacimiento ajustada:", dataToSend.fechaNacimiento);
+  //console.log("Fecha de Nacimiento ajustada:", dataToSend.fechaNacimiento);
   // dataToSend.fechaNacimiento = dataToSend.fechaNacimiento;
-  console.log("Datos a enviar:", dataToSend);
+  //console.log("Datos a enviar:", dataToSend);
 
   try {
     const response = await fetch("http://localhost:3000/auth/registro", {
@@ -233,7 +235,7 @@ const handleSubmit = async (e) => {
                 <Form.Label>Nro. Documento</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="99999999"
+                  placeholder="Ejemplo: 35607542"
                   value={formData.numeroDocumento}
                   onChange={handleChange}
                 />
