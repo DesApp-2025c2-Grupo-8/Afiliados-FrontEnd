@@ -91,6 +91,7 @@
 
 .botonCargarYSolicitar:hover {
     color: #000000;
+    background-color: rgb(240, 240, 240);
 }
 
 .botonLimpiarFiltrosContainer {

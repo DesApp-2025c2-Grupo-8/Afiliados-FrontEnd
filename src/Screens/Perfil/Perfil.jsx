@@ -26,6 +26,7 @@ const Perfil = () => {
     const [errorTelefonoNumber, setErrorTelefonoNumber] = useState(false);
     const [errorDireccion, setErrorDireccion] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
+    const [grupoFamiliar, setGrupoFamiliar] = useState([])
 
     const handleEditarUsuario = () => {
         setErrorEditar(false);
@@ -59,33 +60,15 @@ const Perfil = () => {
             return;
         }
 
-        const fetchUsuario = async () => {
-            try {
-                const res = await fetch(`http://localhost:3000/users/numeroAfiliado/${nroAfiliado}`);
-                const data = await res.json();
+        const grupoFamiliar = sessionStorage.getItem("afiliadoDatos")
+        const grupoFamiliarObj = JSON.parse(grupoFamiliar)
 
-                const grupoFamiliarIds = data?.grupoFamiliar || [];
-                const grupoCompleto = [];
+        setDataAfiliado(grupoFamiliarObj);
 
-                for (const id of grupoFamiliarIds) {
-                    const r = await fetch(`http://localhost:3000/afiliados/numeroAfiliado/${id}`);
-                    if (r.ok) grupoCompleto.push(await r.json());
-                }
-
-                const userData = { ...data, grupoFamiliar: grupoCompleto };
-
-                setDataAfiliado(userData);
-                sessionStorage.setItem("afiliadoDatos", JSON.stringify(userData));
-
-            } catch (e) { console.log(e); }
-        };
-
-        fetchUsuario();
+        setGrupoFamiliar(dataAfiliado?.grupoFamiliar)
 
     }, []);
 
-
-    const grupoFamiliar = dataAfiliado?.grupoFamiliar || [];
     const edad = Math.floor((new Date() - new Date(dataAfiliado.fechaNacimiento)) / (365.25 * 24 * 60 * 60 * 1000));
 
     const handleSubmit = async (e) => {
@@ -97,9 +80,6 @@ const Perfil = () => {
             email: email.trim()
         };
 
-        // console.log(body)
-
-        // console.log(dataAfiliado)
 
         if (email.trim() === "" || telefono.trim() === "" || direccion.trim() === "") {
             setErrorEditar(true);
@@ -148,13 +128,22 @@ const Perfil = () => {
                 body: JSON.stringify(body)
             });
             const data = await response.json();
-            // console.log("Usuario actualizado:", data);
-            const copiaAfiliado = { ...dataAfiliado, ...data };
-            sessionStorage.setItem("afiliadoDatos", JSON.stringify(copiaAfiliado));
-            // copiaAfiliado.telefono = data.telefono;
-            // copiaAfiliado.direccion = data.direccion;
-            // copiaAfiliado.email = data.email;
-            setDataAfiliado(copiaAfiliado);
+
+            const grupoFamiliar = sessionStorage.getItem("afiliadoDatos")
+            const grupoFamiliarObj = JSON.parse(grupoFamiliar)
+            grupoFamiliarObj.direccion = data.direccion
+            grupoFamiliarObj.telefono = data.telefono
+            grupoFamiliarObj.email = data.email
+
+            const grupoFamiliarStr = JSON.stringify(grupoFamiliarObj)
+
+            sessionStorage.setItem("afiliadoDatos", grupoFamiliarStr)
+
+            setDataAfiliado(grupoFamiliarObj);
+
+            setGrupoFamiliar(dataAfiliado?.grupoFamiliar)
+
+            // setDataAfiliado(copiaAfiliado);
             setMostrarModalEditarUsuario(false);
             setMostrarModalCambiosExitosos(true);
         } catch (error) {
@@ -261,8 +250,8 @@ const Perfil = () => {
                         </article>
                     </div>
                     <div className={styles.btnUsuario}>
-                        <button className={styles.btnCerrarSesion} onClick={handleCerrarSesion}><MdLogout style={{margin: "4px"}} /> Cerrar Sesión</button>
-                        <button className={styles.btnEditar} onClick={handleEditarUsuario}><FaEdit style={{margin: "4px"}} /> Editar Perfil</button>
+                        <button className={styles.btnCerrarSesion} onClick={handleCerrarSesion}><MdLogout style={{ margin: "4px" }} /> Cerrar Sesión</button>
+                        <button className={styles.btnEditar} onClick={handleEditarUsuario}><FaEdit style={{ margin: "4px" }} /> Editar Perfil</button>
                     </div>
                 </section>
                 <section className={styles.seccionGrupoFamiliar + " " + (grupoFamiliar.length < 1 ? styles.sinGrupoFamiliar : "")}>
@@ -284,8 +273,8 @@ const Perfil = () => {
 
                     </div>
                 </section>
-                    <button className={styles.btnEditarMobile} onClick={handleEditarUsuario}><FaEdit styles={{margin: "4px"}}/> Editar Perfil</button>
-                    <button className={styles.btnCerrarSesionMobile} onClick={handleCerrarSesion}><MdLogout styles={{margin: "4px"}} /> Cerrar Sesión</button>
+                <button className={styles.btnEditarMobile} onClick={handleEditarUsuario}><FaEdit styles={{ margin: "4px" }} /> Editar Perfil</button>
+                <button className={styles.btnCerrarSesionMobile} onClick={handleCerrarSesion}><MdLogout styles={{ margin: "4px" }} /> Cerrar Sesión</button>
 
             </div>
 

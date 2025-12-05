@@ -7,6 +7,25 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   margin: 18px 0px;
+  /* margin: 0px 1rem; */
+}
+.botonCancelar {
+    background-color: #E64F4F;
+    border: none
+}
+
+.botonSiguiente{
+    background-color: #24979B;
+    /* background-color: black; */
+    border: none
+}
+
+.botonCancelar:hover {
+    background-color: rgb(185, 86, 86);
+}
+
+.botonSiguiente:hover {
+    background-color: #24979bae;
 }
 
 .fondo {
@@ -19,7 +38,7 @@
   background-image: url("@assets/images/fondo-FormRecetas.png");
   background-size: cover;
   background-position: center;
-  /* padding: 100px 1rem 2rem; */
+  padding: 0px 1rem;
   box-sizing: border-box;
 }
 
@@ -97,12 +116,14 @@ label {
 
 @media (max-width: 360px) {
   .fondo {
-    padding-top: 40px !important;
+    /* padding-top: 40px !important; */
   }
 
   .titulo{
     font-size: 1.5rem;
   }
+
+  
 
   .formContainer select {
     background-size: 12px;
@@ -117,9 +138,15 @@ label {
     }
 }
 
+@media (max-width: 480px) {
+  .formContainer{
+    padding: 1rem;
+  }
+}
+
 @media (max-width: 480px) and (min-width: 361px) {
   .fondo {
-    padding-top: 120px !important;
+    /* padding-top: 120px !important; */
   }
 
   .titulo{
@@ -131,7 +158,7 @@ label {
 
 @media (max-width: 600px) and (min-width: 481px) {
   .fondo {
-    padding-top: 100px !important;
+    /* padding-top: 100px !important; */
   }
 
   .titulo{

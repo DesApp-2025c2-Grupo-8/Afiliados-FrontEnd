@@ -24,6 +24,17 @@
   text-align: left;
 }
 
+
+.formPrestadores button.botonSiguiente{
+    background-color: #24979B;
+    border: none
+}
+
+
+.formPrestadores button.botonSiguiente:hover {
+    background-color: #24979bae;
+}
+
 .formPrestadores .form-control,
 .formPrestadores .form-select {
   border-radius: 8px;

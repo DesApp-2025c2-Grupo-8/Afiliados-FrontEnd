@@ -255,8 +255,8 @@ const FormularioReintegros = () => {
                                 />
                             </Form.Group>
                             <div className={styles.botones}>
-                                <Button type="button" onClick={cancelar} style={{backgroundColor: '#E64F4F', border: 'none'}}>Cancelar</Button>
-                                <Button type="submit" style={{ backgroundColor: '#24979B', border: 'none' }}>Siguiente</Button>
+                                <Button type="button" onClick={cancelar} className={styles.botonCancelar}>Cancelar</Button>
+                                <Button type="submit" className={styles.botonSiguiente}>Siguiente</Button>
                             </div>
                         </Form>
                     )}
@@ -341,7 +341,7 @@ const FormularioReintegros = () => {
 
                                 <div className={styles.botones}>
                                     <Button variant="secondary" onClick={() => setPaso(1)}>Volver</Button>
-                                    <Button type="submit" style={{ backgroundColor: '#24979B', border: 'none' }}>Finalizar</Button>
+                                    <Button type="submit" className={styles.botonSiguiente}>Finalizar</Button>
                                 </div>
                             </Form>
                         </>
@@ -363,8 +363,8 @@ const FormularioReintegros = () => {
                         ¿Estas seguro que deseas cancelar la solicitud del reintegro?
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => setModalCancelar(false)} style={{ backgroundColor: '#24979B', border: 'none' }}>Volver</Button>
-                        <Button onClick={handleCancelar} style={{ backgroundColor: '#E64F4F', border: 'none' }}>Continuar</Button>
+                        <Button onClick={() => setModalCancelar(false)} className={styles.botonSiguiente}>Volver</Button>
+                        <Button onClick={handleCancelar} className={styles.botonCancelar}>Continuar</Button>
 
                     </Modal.Footer>
                 </Modal>

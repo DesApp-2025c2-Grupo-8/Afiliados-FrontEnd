@@ -10,12 +10,30 @@
     justify-content: center;
 }
 
+.botonCancelar {
+    background-color: #E64F4F;
+    border: none
+}
+
+.botonSiguiente{
+    background-color: #24979B;
+    /* background-color: black; */
+    border: none
+}
+
+.botonCancelar:hover {
+    background-color: rgb(185, 86, 86);
+}
+
+.botonSiguiente:hover {
+    background-color: #24979bae;
+}
+
 .oblgatorio {
     color: #E64F4F;
 }
 
-.fondo,
-.container {
+.fondo{
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -115,8 +133,7 @@ button {
 
 @media (max-width: 480px) {
     .card {
-        padding: 1.2rem;
-        /* Reduce más el padding en mobile */
+        padding: 1rem;
         border-radius: 10px;
     }
 

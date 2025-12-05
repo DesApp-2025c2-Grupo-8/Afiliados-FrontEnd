@@ -23,8 +23,7 @@
     margin: 18px 0px;
 }
 
-.fondo,
-.container {
+.fondo {
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -91,6 +90,25 @@ button {
     font-weight: bold;
 }
 
+button.botonCancelar {
+    background-color: #E64F4F;
+    border: none
+}
+
+button.botonSiguiente{
+    background-color: #24979B;
+    /* background-color: black; */
+    border: none
+}
+
+button.botonCancelar:hover {
+    background-color: rgb(185, 86, 86);
+}
+
+button.botonSiguiente:hover {
+    background-color: #24979bae;
+}
+
 @media (max-width: 768px) {
     .card {
         padding: 1.5rem;
@@ -103,7 +121,7 @@ button {
 
 @media (max-width: 480px) {
     .card {
-        padding: 1.2rem;
+        padding: 1rem;
         border-radius: 10px;
     }
 
@@ -132,11 +150,11 @@ button {
     }
 
     .container select {
-    background-size: 12px;
-    background-position: right 0.8rem center;
-  }
+        background-size: 12px;
+        background-position: right 0.8rem center;
+    }
 
-  option{
+    option {
         width: 100%;
         max-width: 280px;
         min-width: 200px;

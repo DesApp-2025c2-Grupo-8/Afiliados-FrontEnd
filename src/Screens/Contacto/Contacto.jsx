@@ -61,7 +61,7 @@ const Contacto = () => {
                   </Form.Group>
 
                   <Button
-                    variant="info"
+                    // variant="info"
                     type="submit"
                     className={`${styles.btnEnviar} w-100 mt-3`}
                   >

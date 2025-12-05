@@ -522,6 +522,7 @@ const FormularioTurnos = () => {
                             <Button
                                 variant="success"
                                 onClick={handleConfirmarTurno}
+                                className={styles.botonSiguiente}
                                 disabled={!turnoSeleccionado.fechaSeleccionada || !turnoSeleccionado.horaSeleccionada}
                             > Confirmar Turno
                             </Button>
@@ -546,8 +547,8 @@ const FormularioTurnos = () => {
             <Modal className={styles.modal} show={modalCancelar} onHide={() => setModalCancelar(false)} centered>
                 <Modal.Body>¿Estás seguro que deseas cancelar la solicitud del turno?</Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => setModalCancelar(false)} style={{ backgroundColor: '#24979B', border: 'none' }}>Volver</Button>
-                    <Button onClick={handleCancelar} style={{ backgroundColor: '#E64F4F', border: 'none' }}>Continuar</Button>
+                    <Button onClick={() => setModalCancelar(false)}className={styles.botonSiguiente}>Volver</Button>
+                    <Button onClick={handleCancelar} className={styles.botonCancelar}>Continuar</Button>
                 </Modal.Footer>
             </Modal>
         </div>

@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import styles from './FormGenerico.module.css'
 
 function FormGenerico({
   children,
@@ -12,8 +13,8 @@ function FormGenerico({
       {children}
 
       <div className="d-flex justify-content-center gap-3 mt-3">
-        <Button type="button" onClick={cancelar} style={{backgroundColor: '#E64F4F', border: 'none'}}>Cancelar</Button>
-        <Button type="button" onClick={confirmar} style={{backgroundColor: '#24979B', border: 'none'}}>Confirmar</Button>
+        <Button type="button" onClick={cancelar} className={styles.botonCancelar}>Cancelar</Button>
+        <Button type="button" onClick={confirmar} className={styles.botonSiguiente}>Confirmar</Button>
       </div>
     </Form>
   )

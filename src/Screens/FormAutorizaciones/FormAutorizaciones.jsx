@@ -304,8 +304,8 @@ const FormAutorizaciones = () => {
                     ¿Estas seguro que deseas cancelar la carga de la autorización?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => setModalCancelar(false)} style={{ backgroundColor: '#24979B', border: 'none' }}>Volver</Button>
-                    <Button onClick={handleCancelar} style={{ backgroundColor: '#E64F4F', border: 'none' }}>Continuar</Button>
+                    <Button onClick={() => setModalCancelar(false)} className={styles.botonSiguiente}>Volver</Button>
+                    <Button onClick={handleCancelar} className={styles.botonCancelar}>Continuar</Button>
 
                 </Modal.Footer>
             </Modal>
