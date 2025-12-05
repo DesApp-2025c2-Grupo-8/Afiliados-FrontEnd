@@ -90,7 +90,8 @@ const ConsultarTurnos = () => {
       default:
         return new Date(0).toISOString().slice(0, 10);
     }
-
+    // console.log(listaTurnos)
+    // console.log("a?")
     return fecha.toISOString().slice(0, 10);
   }, []);
 
@@ -219,6 +220,7 @@ const ConsultarTurnos = () => {
             if (!response.ok) return [];
 
             const data = await response.json();
+            console.log(data)
 
             const dataLimpia = data.map((turno) => {
               let lugarDeAtencionString = 'N/D';
@@ -244,6 +246,15 @@ const ConsultarTurnos = () => {
           // Si es titular, también traer los turnos del grupo familiar
           if (esTitular && dataAfiliado?.grupoFamiliar?.length > 0) {
             const promesasGrupo = dataAfiliado.grupoFamiliar.map((afiliado) =>
+              obtenerTurnosAfiliado(afiliado.numeroAfiliado)
+            );
+
+            const resultadosGrupo = await Promise.all(promesasGrupo);
+            resultadosGrupo.forEach((turnos) => {
+              turnosTotales.push(...turnos);
+            });
+          } else if(dataAfiliado.rol == "CONYUGE"){
+            const promesasGrupo = dataAfiliado.grupoFamiliar.filter(afiliado => afiliado.rol !== "TITULAR").map((afiliado) =>
               obtenerTurnosAfiliado(afiliado.numeroAfiliado)
             );
 
